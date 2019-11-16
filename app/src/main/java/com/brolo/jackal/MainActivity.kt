@@ -1,7 +1,7 @@
 package com.brolo.jackal
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
 import com.brolo.jackal.ui.main.MainFragment
 
 class MainActivity : AppCompatActivity() {
@@ -17,5 +17,4 @@ class MainActivity : AppCompatActivity() {
 
         supportActionBar?.subtitle = "Track your siege stats"
     }
-
 }

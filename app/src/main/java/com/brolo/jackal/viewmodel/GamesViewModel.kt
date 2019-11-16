@@ -19,5 +19,4 @@ class GamesViewModel : ViewModel() {
 
         getGamesListObservable().value = dupGamesList
     }
-
 }

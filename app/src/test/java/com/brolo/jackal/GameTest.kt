@@ -28,5 +28,4 @@ class GameTest {
 
         assert(inProgressGame.didWin == null)
     }
-
 }

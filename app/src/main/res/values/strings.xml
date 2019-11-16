@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">Jackal</string>
     <string name="total_games">You recorded %1$d games!</string>
+    <string name="add_game">Add Game</string>
 </resources>

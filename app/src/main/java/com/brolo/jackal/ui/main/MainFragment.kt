@@ -32,6 +32,7 @@ class MainFragment : Fragment() {
         viewModel = ViewModelProviders.of(this).get(GamesViewModel::class.java)
 
         observeGamesViewModel(viewModel)
+        setupLogGameClick()
     }
 
     private fun observeGamesViewModel(viewModel: GamesViewModel) {
@@ -40,6 +41,14 @@ class MainFragment : Fragment() {
         }
 
         viewModel.getGamesListObservable().observe(this, gameObserver)
+    }
+
+    private fun setupLogGameClick() {
+        logGame.setOnClickListener {
+            val game = Game(1, "attack", null)
+
+            viewModel.addGame(game)
+        }
     }
 
 }

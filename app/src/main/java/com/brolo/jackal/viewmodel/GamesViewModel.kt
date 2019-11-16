@@ -1,22 +1,29 @@
 package com.brolo.jackal.viewmodel
 
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
+import android.app.Application
+import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.viewModelScope
 import com.brolo.jackal.mdoel.Game
+import com.brolo.jackal.repository.GameDatabase
 import com.brolo.jackal.repository.GamesRepository
+import kotlinx.coroutines.launch
 
-class GamesViewModel : ViewModel() {
+class GamesViewModel(application: Application) : AndroidViewModel(application) {
 
-    private val gamesListObservable = GamesRepository().getGames()
+    private val repository: GamesRepository
 
-    fun getGamesListObservable(): MutableLiveData<List<Game>> {
-        return gamesListObservable
+    val allGames: LiveData<List<Game>>
+
+    init {
+        val gamesDao = GameDatabase.getDatabase(application).gameDao()
+        repository = GamesRepository(gamesDao)
+        allGames = repository.games
     }
 
-    fun addGame(game: Game) {
-        val dupGamesList = gamesListObservable.value?.toMutableList() ?: arrayListOf()
-        dupGamesList.add(game)
-
-        getGamesListObservable().value = dupGamesList
+    fun insert(game: Game) {
+        viewModelScope.launch {
+            repository.insert(game)
+        }
     }
 }

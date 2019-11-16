@@ -41,14 +41,17 @@ class MainFragment : Fragment() {
             message.text = resources.getQuantityString(R.plurals.total_games, it.size, it.size)
         }
 
-        viewModel.getGamesListObservable().observe(this, gameObserver)
+        viewModel.allGames.observe(this, gameObserver)
+
+//        viewModel.getGamesListObservable().observe(this, gameObserver)
     }
 
     private fun setupLogGameClick() {
         logGame.setOnClickListener {
-            val game = Game(1, "attack", null)
+            val game = Game(0, "attack", null)
+            viewModel.insert(game)
 
-            viewModel.addGame(game)
+//            viewModel.addGame(game)
         }
     }
 }

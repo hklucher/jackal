@@ -1,14 +1,13 @@
 package com.brolo.jackal.repository
 
-import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.LiveData
 import com.brolo.jackal.mdoel.Game
 
-class GamesRepository {
-    fun getGames(): MutableLiveData<List<Game>> {
-        val data = MutableLiveData<List<Game>>()
+class GamesRepository(private val gameDao: GameDao) {
 
-        // TODO: Set actual games here, just loading empty list for right now.
+    val games: LiveData<List<Game>> = gameDao.getAll()
 
-        return data
+    suspend fun insert(game: Game) {
+        gameDao.insert(game)
     }
 }

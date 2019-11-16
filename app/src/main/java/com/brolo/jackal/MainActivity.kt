@@ -14,7 +14,5 @@ class MainActivity : AppCompatActivity() {
                     .replace(R.id.container, MainFragment.newInstance())
                     .commitNow()
         }
-
-        supportActionBar?.subtitle = "Track your siege stats"
     }
 }

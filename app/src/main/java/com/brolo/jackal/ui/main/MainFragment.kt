@@ -37,7 +37,7 @@ class MainFragment : Fragment() {
 
     private fun observeGamesViewModel(viewModel: GamesViewModel) {
         val gameObserver = Observer<List<Game>> {
-            message.text = getString(R.string.total_games, it.size)
+            message.text = resources.getQuantityString(R.plurals.total_games, it.size, it.size)
         }
 
         viewModel.getGamesListObservable().observe(this, gameObserver)

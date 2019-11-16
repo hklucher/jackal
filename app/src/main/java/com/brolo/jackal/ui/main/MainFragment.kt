@@ -42,16 +42,12 @@ class MainFragment : Fragment() {
         }
 
         viewModel.allGames.observe(this, gameObserver)
-
-//        viewModel.getGamesListObservable().observe(this, gameObserver)
     }
 
     private fun setupLogGameClick() {
         logGame.setOnClickListener {
             val game = Game(0, "attack", null)
             viewModel.insert(game)
-
-//            viewModel.addGame(game)
         }
     }
 }

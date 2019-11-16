@@ -46,8 +46,13 @@ class MainFragment : Fragment() {
 
     private fun setupLogGameClick() {
         logGame.setOnClickListener {
-            val game = Game(0, "attack", null)
-            viewModel.insert(game)
+            val fm = fragmentManager
+
+            if (fm != null) {
+                LogGameDialogFragment().show(fm, "log_game_dialog")
+            }
+//            val game = Game(0, "attack", null)
+//            viewModel.insert(game)
         }
     }
 }

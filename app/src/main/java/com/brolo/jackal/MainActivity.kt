@@ -4,8 +4,9 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
-import com.brolo.jackal.mdoel.Game
+import com.brolo.jackal.model.Game
 import com.brolo.jackal.ui.main.LogGameDialogFragment
+import com.brolo.jackal.ui.main.PieChartFragment
 import com.brolo.jackal.viewmodel.GamesViewModel
 import kotlinx.android.synthetic.main.main_activity.logGame
 import kotlinx.android.synthetic.main.main_activity.message
@@ -18,6 +19,10 @@ class MainActivity : AppCompatActivity(R.layout.main_activity),
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         viewModel = ViewModelProviders.of(this).get(GamesViewModel::class.java)
+
+        supportFragmentManager.beginTransaction()
+            .add(R.id.chart_fragment_container, PieChartFragment.newInstance())
+            .commit()
 
         observeGamesViewModel(viewModel)
 

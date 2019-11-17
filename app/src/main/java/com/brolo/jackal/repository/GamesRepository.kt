@@ -1,7 +1,7 @@
 package com.brolo.jackal.repository
 
 import androidx.lifecycle.LiveData
-import com.brolo.jackal.mdoel.Game
+import com.brolo.jackal.model.Game
 
 class GamesRepository(private val gameDao: GameDao) {
 

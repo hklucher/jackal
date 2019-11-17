@@ -7,7 +7,7 @@ import android.os.Bundle
 import android.widget.RadioGroup
 import androidx.fragment.app.DialogFragment
 import com.brolo.jackal.R
-import com.brolo.jackal.mdoel.Game
+import com.brolo.jackal.model.Game
 import java.lang.ClassCastException
 import java.lang.IllegalStateException
 

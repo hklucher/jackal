@@ -1,6 +1,6 @@
 package com.brolo.jackal
 
-import com.brolo.jackal.mdoel.Game
+import com.brolo.jackal.model.Game
 import org.junit.Test
 
 class GameTest {

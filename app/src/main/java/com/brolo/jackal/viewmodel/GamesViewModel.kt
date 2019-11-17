@@ -4,7 +4,7 @@ import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.viewModelScope
-import com.brolo.jackal.mdoel.Game
+import com.brolo.jackal.model.Game
 import com.brolo.jackal.repository.GameDatabase
 import com.brolo.jackal.repository.GamesRepository
 import kotlinx.coroutines.launch

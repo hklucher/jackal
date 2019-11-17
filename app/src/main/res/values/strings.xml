@@ -1,6 +1,12 @@
 <resources>
     <string name="app_name">Jackal</string>
     <string name="add_game">Add Game</string>
+    <string name="log_game">Log a Game</string>
+    <string name="create">Create</string>
+    <string name="cancel">Cancel</string>
+    <string name="attack">Attack</string>
+    <string name="defense">Defense</string>
+    <string name="starting_team">Starting Team</string>
 
     <plurals name="total_games">
         <item quantity="one">You have recorded %d games</item>

@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="?dialogPreferredPadding">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="24dp"
+        android:text="@string/log_game"
+        android:textColor="@android:color/black"
+        android:textSize="24sp"
+        app:fontFamily="@font/roboto_black"
+        android:paddingBottom="8dp"
+        android:background="@drawable/bottom_border"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/starting_team"
+        app:fontFamily="@font/roboto_black"
+        android:textSize="16sp"/>
+
+    <RadioGroup
+        android:id="@+id/team_radio_group"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:checkedButton="@id/radio_attack">
+
+        <com.google.android.material.radiobutton.MaterialRadioButton
+            android:id="@+id/radio_attack"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/attack"
+            app:fontFamily="@font/roboto"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"/>
+        <com.google.android.material.radiobutton.MaterialRadioButton
+            android:id="@+id/radio_defense"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/defense"
+            app:fontFamily="@font/roboto"
+            android:layout_marginBottom="8dp"/>
+    </RadioGroup>
+
+</LinearLayout>

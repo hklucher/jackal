@@ -23,9 +23,26 @@ class GameTest {
     }
 
     @Test
+    fun attributes_startingTeamHasSetter() {
+        game.startingTeam = Game.TeamDefense
+
+        assert(game.startingTeam == Game.TeamDefense)
+    }
+
+    @Test
     fun attributes_didWinIsNullable() {
         val inProgressGame = Game(2, "defense", null)
 
         assert(inProgressGame.didWin == null)
+    }
+
+    @Test
+    fun teamConstants_AttackReturnsCorrectString() {
+        assert(Game.TeamAttack == "attack")
+    }
+
+    @Test
+    fun teamConstants_DefenseReturnsCorrectString() {
+        assert(Game.TeamDefense == "defense")
     }
 }

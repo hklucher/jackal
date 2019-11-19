@@ -12,6 +12,7 @@ import androidx.lifecycle.ViewModelProviders
 import com.brolo.jackal.R
 import com.brolo.jackal.model.Game
 import com.brolo.jackal.viewmodel.GamesViewModel
+import com.github.mikephil.charting.animation.Easing
 import com.github.mikephil.charting.data.PieData
 import com.github.mikephil.charting.data.PieDataSet
 import com.github.mikephil.charting.data.PieEntry
@@ -58,6 +59,7 @@ class PieChartFragment : Fragment() {
         val allGames = viewModel.allGames.value
 
         allGames?.let {
+            // TOOD: Move percentage caluclations to a utils class
             val defenseGames = it.filter { game -> game.startingTeam == Game.TeamDefense }
             val attackGames = it.filter { game -> game.startingTeam == Game.TeamAttack }
             val defPercentage = (defenseGames.size.toFloat() / allGames.size.toFloat()) * 100
@@ -75,9 +77,12 @@ class PieChartFragment : Fragment() {
             )
             dataSet.setDrawValues(false)
 
+            pie_chart.animateX(500, Easing.Linear)
+            pie_chart.animateY(500, Easing.Linear)
             pie_chart.holeRadius = 0.0f
             pie_chart.transparentCircleRadius = 0.0f
             pie_chart.data = pieChartData
+            pie_chart.description.isEnabled = false
             pie_chart.invalidate()
         }
     }

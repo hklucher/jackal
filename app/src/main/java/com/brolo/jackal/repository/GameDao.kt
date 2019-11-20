@@ -6,7 +6,7 @@ import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
-import com.brolo.jackal.mdoel.Game
+import com.brolo.jackal.model.Game
 
 @Dao
 interface GameDao {

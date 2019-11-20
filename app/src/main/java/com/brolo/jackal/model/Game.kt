@@ -1,4 +1,4 @@
-package com.brolo.jackal.mdoel
+package com.brolo.jackal.model
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity

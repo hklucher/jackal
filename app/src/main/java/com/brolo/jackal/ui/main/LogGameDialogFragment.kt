@@ -6,14 +6,20 @@ import android.content.Context
 import android.os.Bundle
 import android.widget.RadioGroup
 import androidx.fragment.app.DialogFragment
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProviders
 import com.brolo.jackal.R
 import com.brolo.jackal.model.Game
+import com.brolo.jackal.model.Map
+import com.brolo.jackal.viewmodel.MapsViewModel
 import java.lang.ClassCastException
 import java.lang.IllegalStateException
 
 class LogGameDialogFragment : DialogFragment() {
 
     private lateinit var listener: LogGameDialogFragmentListener
+
+    private lateinit var mapsViewModel: MapsViewModel
 
     interface LogGameDialogFragmentListener {
         fun onGameCreated(game: Game)
@@ -39,11 +45,22 @@ class LogGameDialogFragment : DialogFragment() {
     override fun onAttach(context: Context) {
         super.onAttach(context)
 
+        mapsViewModel = ViewModelProviders.of(this).get(MapsViewModel::class.java)
+        observeMapsViewModel(mapsViewModel)
+
         try {
             listener = context as LogGameDialogFragmentListener
         } catch (e: ClassCastException) {
             throw ClassCastException("$context must implement LogGameDialogFragmentListener")
         }
+    }
+
+    private fun observeMapsViewModel(viewModel: MapsViewModel) {
+        val mapObserver = Observer<List<Map>> {
+            // TODO: Populate dropdown
+        }
+
+        viewModel.allMaps.observe(this, mapObserver)
     }
 
     private fun createGameFromForm(): Game {

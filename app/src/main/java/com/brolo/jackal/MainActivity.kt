@@ -8,8 +8,8 @@ import com.brolo.jackal.model.Game
 import com.brolo.jackal.ui.main.LogGameDialogFragment
 import com.brolo.jackal.ui.main.PieChartFragment
 import com.brolo.jackal.viewmodel.GamesViewModel
-import kotlinx.android.synthetic.main.main_activity.logGame
-import kotlinx.android.synthetic.main.main_activity.message
+import com.google.android.material.snackbar.Snackbar
+import kotlinx.android.synthetic.main.main_activity.*
 
 class MainActivity : AppCompatActivity(R.layout.main_activity),
     LogGameDialogFragment.LogGameDialogFragmentListener {
@@ -49,5 +49,7 @@ class MainActivity : AppCompatActivity(R.layout.main_activity),
 
     private fun insertGame(game: Game) {
         viewModel.insert(game)
+
+        Snackbar.make(main, R.string.game_logged, Snackbar.LENGTH_LONG).show()
     }
 }

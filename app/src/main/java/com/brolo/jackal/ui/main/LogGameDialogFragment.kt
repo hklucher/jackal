@@ -74,7 +74,7 @@ class LogGameDialogFragment : DialogFragment() {
             if (currentContext != null) {
                 val adapter = ArrayAdapter(
                     currentContext,
-                    android.R.layout.simple_spinner_item,
+                    R.layout.map_spinner_item,
                     mapNames
                 )
 

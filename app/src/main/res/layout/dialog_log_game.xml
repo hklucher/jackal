@@ -39,6 +39,7 @@
             app:fontFamily="@font/roboto"
             android:layout_marginTop="8dp"
             android:layout_marginBottom="8dp"/>
+
         <com.google.android.material.radiobutton.MaterialRadioButton
             android:id="@+id/radio_defense"
             android:layout_width="wrap_content"
@@ -47,5 +48,32 @@
             app:fontFamily="@font/roboto"
             android:layout_marginBottom="8dp"/>
     </RadioGroup>
+
+    <Spinner
+        android:id="@+id/map_spinner"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="24dp"
+        android:gravity="end"
+        android:orientation="horizontal">
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/cancel_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="@style/Widget.MaterialComponents.Button.TextButton"
+            android:text="@string/cancel"/>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/log_game_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="@style/Widget.Jackal.Button"
+            android:text="@string/create"/>
+    </LinearLayout>
 
 </LinearLayout>

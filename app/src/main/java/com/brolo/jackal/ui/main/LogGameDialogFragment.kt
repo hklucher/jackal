@@ -1,9 +1,9 @@
 package com.brolo.jackal.ui.main
 
-import android.app.AlertDialog
-import android.app.Dialog
 import android.content.Context
 import android.os.Bundle
+import android.view.*
+import android.widget.ArrayAdapter
 import android.widget.RadioGroup
 import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.Observer
@@ -12,8 +12,8 @@ import com.brolo.jackal.R
 import com.brolo.jackal.model.Game
 import com.brolo.jackal.model.Map
 import com.brolo.jackal.viewmodel.MapsViewModel
+import kotlinx.android.synthetic.main.dialog_log_game.*
 import java.lang.ClassCastException
-import java.lang.IllegalStateException
 
 class LogGameDialogFragment : DialogFragment() {
 
@@ -25,21 +25,32 @@ class LogGameDialogFragment : DialogFragment() {
         fun onGameCreated(game: Game)
     }
 
-    override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-        return activity?.let {
-            val builder = AlertDialog.Builder(it)
-            val layout = activity?.layoutInflater?.inflate(R.layout.dialog_log_game, null)
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        return inflater.inflate(R.layout.dialog_log_game, container)
+    }
 
-            builder.setView(layout)
-                .setPositiveButton(R.string.create) { _, _ ->
-                    val game = createGameFromForm()
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
 
-                    listener.onGameCreated(game)
-                }
-                .setNegativeButton(R.string.cancel) { _, _ -> dialog?.cancel() }
+        setupButtons()
+    }
 
-            builder.create()
-        } ?: throw IllegalStateException("Activity cannot be null")
+    override fun onResume() {
+        super.onResume()
+
+        val params = dialog?.window?.attributes
+
+        //  Set the layout params programatically to make dialog take up full width of parent
+        params?.let {
+            it.width = WindowManager.LayoutParams.MATCH_PARENT
+            it.height = WindowManager.LayoutParams.WRAP_CONTENT
+
+            dialog?.window?.attributes = params
+        }
     }
 
     override fun onAttach(context: Context) {
@@ -57,10 +68,35 @@ class LogGameDialogFragment : DialogFragment() {
 
     private fun observeMapsViewModel(viewModel: MapsViewModel) {
         val mapObserver = Observer<List<Map>> {
-            // TODO: Populate dropdown
+            val mapNames = it.map { map -> map.name }
+            val currentContext = context
+
+            if (currentContext != null) {
+                val adapter = ArrayAdapter(
+                    currentContext,
+                    android.R.layout.simple_spinner_item,
+                    mapNames
+                )
+
+                map_spinner.adapter = adapter
+            }
         }
 
         viewModel.allMaps.observe(this, mapObserver)
+    }
+
+    private fun setupButtons() {
+        log_game_btn.setOnClickListener {
+            val game = createGameFromForm()
+
+            listener.onGameCreated(game)
+
+            dialog?.dismiss()
+        }
+
+        cancel_btn.setOnClickListener {
+            dialog?.dismiss()
+        }
     }
 
     private fun createGameFromForm(): Game {

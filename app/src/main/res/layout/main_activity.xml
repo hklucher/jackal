@@ -40,6 +40,8 @@
         android:layout_gravity="bottom|right"
         android:src="@drawable/ic_log"
         android:layout_marginBottom="24dp"
+        app:backgroundTint="@color/colorAccent"
+        android:layout_marginEnd="24dp"
         android:layout_marginRight="24dp"
         android:contentDescription="@string/add_game" />
 

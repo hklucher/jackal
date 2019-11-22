@@ -5,7 +5,7 @@ import org.junit.Test
 
 class GameTest {
 
-    private val game = Game(1, "attack", false)
+    private val game = Game(1, "attack", false, 1)
 
     @Test
     fun attributes_hasIdReader() {
@@ -31,7 +31,7 @@ class GameTest {
 
     @Test
     fun attributes_didWinIsNullable() {
-        val inProgressGame = Game(2, "defense", null)
+        val inProgressGame = Game(2, "defense", null, 1)
 
         assert(inProgressGame.didWin == null)
     }

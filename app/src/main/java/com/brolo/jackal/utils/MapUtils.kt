@@ -3,6 +3,7 @@ package com.brolo.jackal.utils
 import com.brolo.jackal.model.Map
 
 class MapUtils {
+
     companion object {
         val ALL_MAPS = listOf(
             Map(0, "Bank"),
@@ -17,5 +18,9 @@ class MapUtils {
             Map(0, "Outback"),
             Map(0, "Villa")
         )
+
+        fun getIdByName(mapName: String, maps: List<Map>): Int? {
+            return maps.find { it.name == mapName }?.id
+        }
     }
 }

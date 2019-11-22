@@ -109,6 +109,7 @@ class LogGameDialogFragment : DialogFragment() {
                 Game.TeamDefense
             }
 
-        return Game(0, startingTeam, null)
+        // TODO: find the ID of the map by the selected value and set here
+        return Game(0, startingTeam, null, 1)
     }
 }

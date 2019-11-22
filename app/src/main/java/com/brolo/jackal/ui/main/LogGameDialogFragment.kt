@@ -2,7 +2,10 @@ package com.brolo.jackal.ui.main
 
 import android.content.Context
 import android.os.Bundle
-import android.view.*
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import android.view.WindowManager
 import android.widget.ArrayAdapter
 import android.widget.RadioGroup
 import androidx.fragment.app.DialogFragment
@@ -11,9 +14,12 @@ import androidx.lifecycle.ViewModelProviders
 import com.brolo.jackal.R
 import com.brolo.jackal.model.Game
 import com.brolo.jackal.model.Map
+import com.brolo.jackal.utils.MapUtils
 import com.brolo.jackal.viewmodel.MapsViewModel
-import kotlinx.android.synthetic.main.dialog_log_game.*
 import java.lang.ClassCastException
+import kotlinx.android.synthetic.main.dialog_log_game.cancel_btn
+import kotlinx.android.synthetic.main.dialog_log_game.log_game_btn
+import kotlinx.android.synthetic.main.dialog_log_game.map_spinner
 
 class LogGameDialogFragment : DialogFragment() {
 
@@ -109,7 +115,16 @@ class LogGameDialogFragment : DialogFragment() {
                 Game.TeamDefense
             }
 
-        // TODO: find the ID of the map by the selected value and set here
-        return Game(0, startingTeam, null, 1)
+        val game = Game(0, startingTeam, null, null)
+        val allMaps = mapsViewModel.allMaps.value
+
+        if (allMaps != null) {
+            val mapName = map_spinner.selectedItem.toString()
+            val mapId = MapUtils.getIdByName(mapName, allMaps)
+
+            game.mapId = mapId
+        }
+
+        return game
     }
 }

@@ -9,6 +9,8 @@
     <string name="starting_team">Starting Team</string>
     <string name="attack_vs_defense_stat">Your breakdown of starting sides</string>
     <string name="game_logged">Game successfully logged!</string>
+    <string name="starting_side">Starting Side</string>
+    <string name="maps">Maps</string>
 
     <plurals name="total_games">
         <item quantity="one">You have recorded %d games</item>

@@ -27,6 +27,7 @@ class MainActivity : AppCompatActivity(R.layout.main_activity),
         observeGamesViewModel(viewModel)
 
         setupLogGameClick()
+        setupFilterChips()
     }
 
     override fun onGameCreated(game: Game) {
@@ -51,5 +52,9 @@ class MainActivity : AppCompatActivity(R.layout.main_activity),
         viewModel.insert(game)
 
         Snackbar.make(main, R.string.game_logged, Snackbar.LENGTH_LONG).show()
+    }
+
+    private fun setupFilterChips() {
+//        chip_start_side.chipBackgroundColor = ContextCompat.getColor(this, R.color.colorAccent)
     }
 }

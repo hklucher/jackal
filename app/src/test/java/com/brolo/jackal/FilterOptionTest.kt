@@ -5,7 +5,7 @@ import org.junit.Test
 
 class FilterOptionTest {
 
-    private val filterOption = FilterOption("pie_chart", "Pie Chart")
+    private val filterOption = FilterOption("pie_chart", "Pie Chart", false)
 
     @Test
     fun attributes_hasValueReader() {
@@ -15,5 +15,17 @@ class FilterOptionTest {
     @Test
     fun attributes_hasLabelReader() {
         assert(filterOption.label == "Pie Chart")
+    }
+
+    @Test
+    fun attributes_hasIsSelectedReader() {
+        assert(!filterOption.isSelected)
+    }
+
+    @Test
+    fun attributes_hasIsSelectedSetter() {
+        filterOption.isSelected = true
+
+        assert(filterOption.isSelected)
     }
 }

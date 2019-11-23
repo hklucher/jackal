@@ -1,12 +1,16 @@
 package com.brolo.jackal
 
 import android.os.Bundle
+import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
+import com.brolo.jackal.model.FilterOption
 import com.brolo.jackal.model.Game
 import com.brolo.jackal.ui.main.LogGameDialogFragment
 import com.brolo.jackal.ui.main.PieChartFragment
+import com.brolo.jackal.viewmodel.FilterOptionsViewModel
 import com.brolo.jackal.viewmodel.GamesViewModel
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.main_activity.*
@@ -15,16 +19,19 @@ class MainActivity : AppCompatActivity(R.layout.main_activity),
     LogGameDialogFragment.LogGameDialogFragmentListener {
 
     private lateinit var viewModel: GamesViewModel
+    private lateinit var filterOptionsViewModel: FilterOptionsViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         viewModel = ViewModelProviders.of(this).get(GamesViewModel::class.java)
+        filterOptionsViewModel = ViewModelProviders.of(this).get(FilterOptionsViewModel::class.java)
 
         supportFragmentManager.beginTransaction()
             .add(R.id.chart_fragment_container, PieChartFragment.newInstance())
             .commit()
 
         observeGamesViewModel(viewModel)
+        observeFilterOptionsViewModel(filterOptionsViewModel)
 
         setupLogGameClick()
         setupFilterChips()
@@ -40,6 +47,14 @@ class MainActivity : AppCompatActivity(R.layout.main_activity),
         }
 
         viewModel.allGames.observe(this, gameObserver)
+    }
+
+    private fun observeFilterOptionsViewModel(viewModel: FilterOptionsViewModel) {
+        val filterObserver = Observer<List<FilterOption>> {
+            Log.d("MainActivity", "Changed")
+        }
+
+        viewModel.allFilterOptions.observe(this, filterObserver)
     }
 
     private fun setupLogGameClick() {

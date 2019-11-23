@@ -1,5 +1,6 @@
 package com.brolo.jackal
 
+import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
@@ -9,7 +10,9 @@ import androidx.lifecycle.ViewModelProviders
 import com.brolo.jackal.model.FilterOption
 import com.brolo.jackal.model.Game
 import com.brolo.jackal.ui.main.LogGameDialogFragment
+import com.brolo.jackal.ui.main.MapStatsFragment
 import com.brolo.jackal.ui.main.PieChartFragment
+import com.brolo.jackal.utils.FilterOptionUtils
 import com.brolo.jackal.viewmodel.FilterOptionsViewModel
 import com.brolo.jackal.viewmodel.GamesViewModel
 import com.google.android.material.snackbar.Snackbar
@@ -19,19 +22,16 @@ class MainActivity : AppCompatActivity(R.layout.main_activity),
     LogGameDialogFragment.LogGameDialogFragmentListener {
 
     private lateinit var viewModel: GamesViewModel
-    private lateinit var filterOptionsViewModel: FilterOptionsViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         viewModel = ViewModelProviders.of(this).get(GamesViewModel::class.java)
-        filterOptionsViewModel = ViewModelProviders.of(this).get(FilterOptionsViewModel::class.java)
 
         supportFragmentManager.beginTransaction()
             .add(R.id.chart_fragment_container, PieChartFragment.newInstance())
             .commit()
 
         observeGamesViewModel(viewModel)
-        observeFilterOptionsViewModel(filterOptionsViewModel)
 
         setupLogGameClick()
         setupFilterChips()
@@ -49,14 +49,6 @@ class MainActivity : AppCompatActivity(R.layout.main_activity),
         viewModel.allGames.observe(this, gameObserver)
     }
 
-    private fun observeFilterOptionsViewModel(viewModel: FilterOptionsViewModel) {
-        val filterObserver = Observer<List<FilterOption>> {
-            Log.d("MainActivity", "Changed")
-        }
-
-        viewModel.allFilterOptions.observe(this, filterObserver)
-    }
-
     private fun setupLogGameClick() {
         logGame.setOnClickListener {
             LogGameDialogFragment().show(supportFragmentManager, "log_game_dialog")
@@ -70,6 +62,21 @@ class MainActivity : AppCompatActivity(R.layout.main_activity),
     }
 
     private fun setupFilterChips() {
-//        chip_start_side.chipBackgroundColor = ContextCompat.getColor(this, R.color.colorAccent)
+        chip_group.setOnCheckedChangeListener { _, checkedId ->
+            setChartFragment(checkedId)
+        }
+    }
+
+    private fun setChartFragment(checkedId: Int) {
+        when (checkedId) {
+            R.id.chip_start_side ->
+                supportFragmentManager.beginTransaction()
+                    .replace(R.id.chart_fragment_container, PieChartFragment.newInstance())
+                    .commit()
+            R.id.chip_maps ->
+                supportFragmentManager.beginTransaction()
+                    .replace(R.id.chart_fragment_container, MapStatsFragment.newInstance())
+                    .commit()
+        }
     }
 }

@@ -32,6 +32,7 @@
             app:layout_constraintRight_toRightOf="parent"/>
 
         <com.google.android.material.chip.ChipGroup
+            android:id="@+id/chip_group"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingLeft="24dp"
@@ -43,6 +44,7 @@
                 style="@style/Widget.MaterialComponents.Chip.Filter"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:checked="true"
                 android:text="@string/starting_side" />
 
             <com.google.android.material.chip.Chip

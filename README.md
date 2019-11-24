@@ -6,3 +6,6 @@
 ### Why have you done this?
 - Jackal is just a personal project used get more familiar with Android development using Kotlin and Jetpack components (Room, ViewModel, LiveData, MVVM Architecture, etc.). I figured why not build something that I could use myself.
 
+### TODOS
+- [ ] Refactor Chart fragments to inherit from one common `ChartFragment` class
+

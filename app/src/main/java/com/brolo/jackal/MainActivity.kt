@@ -1,19 +1,13 @@
 package com.brolo.jackal
 
-import android.graphics.Color
 import android.os.Bundle
-import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
-import com.brolo.jackal.model.FilterOption
 import com.brolo.jackal.model.Game
 import com.brolo.jackal.ui.main.LogGameDialogFragment
 import com.brolo.jackal.ui.main.MapStatsFragment
 import com.brolo.jackal.ui.main.PieChartFragment
-import com.brolo.jackal.utils.FilterOptionUtils
-import com.brolo.jackal.viewmodel.FilterOptionsViewModel
 import com.brolo.jackal.viewmodel.GamesViewModel
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.main_activity.*

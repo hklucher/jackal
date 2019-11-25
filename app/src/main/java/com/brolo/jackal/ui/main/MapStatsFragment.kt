@@ -12,8 +12,10 @@ import androidx.lifecycle.ViewModelProviders
 import com.brolo.jackal.R
 import com.brolo.jackal.model.Game
 import com.brolo.jackal.model.Map
+import com.brolo.jackal.utils.BarChartXAxisFormatter
 import com.brolo.jackal.viewmodel.GamesViewModel
 import com.brolo.jackal.viewmodel.MapsViewModel
+import com.github.mikephil.charting.charts.BarChart
 import com.github.mikephil.charting.data.BarData
 import com.github.mikephil.charting.data.BarDataSet
 import com.github.mikephil.charting.data.BarEntry
@@ -96,6 +98,16 @@ class MapStatsFragment : Fragment() {
 
         val data = BarData(set)
         data.barWidth = 0.9f
+
+        mapsViewModel.allMaps.value?.let {
+            val formatter = BarChartXAxisFormatter(it)
+            maps_bar_chart.xAxis.valueFormatter = formatter
+
+            maps_bar_chart.xAxis.labelCount = it.size
+        }
+
+        maps_bar_chart.setVisibleXRangeMaximum(6.0f)
+        maps_bar_chart.xAxis.isGranularityEnabled = true
         maps_bar_chart.data = data
         maps_bar_chart.setFitBars(true)
         maps_bar_chart.invalidate()

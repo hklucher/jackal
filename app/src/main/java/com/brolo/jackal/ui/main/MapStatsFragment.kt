@@ -29,7 +29,9 @@ class MapStatsFragment : Fragment() {
     private val gameObserver = Observer<List<Game>> { setupChart() }
 
     private val mapsObserver = Observer<List<Map>> {
-        setupChart()
+        if (it.isNotEmpty()) {
+            setupChart()
+        }
     }
 
 //    private val allMapsColors = listOf(
@@ -67,8 +69,8 @@ class MapStatsFragment : Fragment() {
             gamesViewModel = ViewModelProviders.of(it).get(GamesViewModel::class.java)
             mapsViewModel = ViewModelProviders.of(it).get(MapsViewModel::class.java)
 
-//            gamesViewModel.allGames.observe(it, gameObserver)
-            mapsViewModel.allMaps.observe(it, mapsObserver)
+            gamesViewModel.allGames.observe(viewLifecycleOwner, gameObserver)
+            mapsViewModel.allMaps.observe(viewLifecycleOwner, mapsObserver)
         }
     }
 
@@ -86,9 +88,8 @@ class MapStatsFragment : Fragment() {
         val currentContext = context
 
         val set = BarDataSet(entries, "Maps Played")
-//        set.setDrawValues(false)
+        set.setDrawValues(false)
 
-        // TODO: Better colors
         if (currentContext != null) {
             set.colors = arrayListOf(
                 ContextCompat.getColor(currentContext, R.color.md_red_A700),
@@ -102,24 +103,23 @@ class MapStatsFragment : Fragment() {
         val data = BarData(set)
         data.barWidth = 0.9f
 
-
-        maps_bar_chart.invalidate()
-        maps_bar_chart.data = data
-        // TODO: Need to figure out why labels disappeared
-        // TODO: Consolidate to whats on line 76
         mapsViewModel.allMaps.value?.let {
             val formatter = BarChartXAxisFormatter(it)
-            maps_bar_chart.xAxis.valueFormatter = formatter
 
-            maps_bar_chart.xAxis.labelCount = it.size
+            maps_bar_chart.xAxis.valueFormatter = formatter
         }
 
-        maps_bar_chart.setVisibleXRangeMaximum(6.0f)
+        maps_bar_chart.axisLeft.granularity = 1f
+        maps_bar_chart.axisRight.setDrawGridLines(false)
+        maps_bar_chart.axisLeft.setDrawGridLines(false)
+        maps_bar_chart.axisRight.setDrawLabels(false)
         maps_bar_chart.xAxis.isGranularityEnabled = true
         maps_bar_chart.xAxis.setDrawGridLines(false)
-//        maps_bar_chart.xAxis.isEnabled = false
-//        maps_bar_chart.setDrawValueAboveBar(false)
+        maps_bar_chart.setDrawValueAboveBar(false)
         maps_bar_chart.setFitBars(true)
-//        maps_bar_chart.invalidate()
+        maps_bar_chart.data = data
+        maps_bar_chart.refreshDrawableState()
+        maps_bar_chart.invalidate()
+        maps_bar_chart.setVisibleXRange(0.0f, 6.0f)
     }
 }

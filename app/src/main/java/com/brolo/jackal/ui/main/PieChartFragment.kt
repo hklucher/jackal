@@ -1,6 +1,5 @@
 package com.brolo.jackal.ui.main
 
-import android.content.Context
 import android.graphics.Color
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -22,6 +21,10 @@ class PieChartFragment : Fragment() {
 
     private lateinit var viewModel: GamesViewModel
 
+    private val gameObserver = Observer<List<Game>> {
+        setupChart()
+    }
+
     companion object {
         fun newInstance(): PieChartFragment {
             return PieChartFragment()
@@ -36,17 +39,18 @@ class PieChartFragment : Fragment() {
         return inflater.inflate(R.layout.fragment_pie_chart, container, false)
     }
 
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
 
         observeGamesViewModel()
     }
 
-    private fun observeGamesViewModel() {
-        val gameObserver = Observer<List<Game>> {
-            setupChart()
-        }
+    override fun onDestroy() {
+        super.onDestroy()
+        viewModel.allGames.removeObserver(gameObserver)
+    }
 
+    private fun observeGamesViewModel() {
         activity?.let {
             viewModel = ViewModelProviders.of(it).get(GamesViewModel::class.java)
             viewModel.allGames.observe(it, gameObserver)
@@ -59,31 +63,35 @@ class PieChartFragment : Fragment() {
         val allGames = viewModel.allGames.value
 
         allGames?.let {
-            // TOOD: Move percentage caluclations to a utils class
-            val defenseGames = it.filter { game -> game.startingTeam == Game.TeamDefense }
-            val attackGames = it.filter { game -> game.startingTeam == Game.TeamAttack }
-            val defPercentage = (defenseGames.size.toFloat() / allGames.size.toFloat()) * 100
-            val atkPercentage = (attackGames.size.toFloat() / allGames.size.toFloat()) * 100
+            val pieChart = pie_chart
 
-            entries.add(PieEntry(defPercentage, "Defense"))
-            entries.add(PieEntry(atkPercentage, "Attack"))
+            if (pieChart != null) {
+                // TOOD: Move percentage caluclations to a utils class
+                val defenseGames = it.filter { game -> game.startingTeam == Game.TeamDefense }
+                val attackGames = it.filter { game -> game.startingTeam == Game.TeamAttack }
+                val defPercentage = (defenseGames.size.toFloat() / allGames.size.toFloat()) * 100
+                val atkPercentage = (attackGames.size.toFloat() / allGames.size.toFloat()) * 100
 
-            val dataSet = PieDataSet(entries, "")
-            val pieChartData = PieData(dataSet)
+                entries.add(PieEntry(defPercentage, "Defense"))
+                entries.add(PieEntry(atkPercentage, "Attack"))
 
-            dataSet.setColors(
-                Color.parseColor("#ff6f00"),
-                Color.parseColor("#1976d2")
-            )
-            dataSet.setDrawValues(false)
+                val dataSet = PieDataSet(entries, "")
+                val pieChartData = PieData(dataSet)
 
-            pie_chart.animateX(500, Easing.Linear)
-            pie_chart.animateY(500, Easing.Linear)
-            pie_chart.holeRadius = 0.0f
-            pie_chart.transparentCircleRadius = 0.0f
-            pie_chart.data = pieChartData
-            pie_chart.description.isEnabled = false
-            pie_chart.invalidate()
+                dataSet.setColors(
+                    Color.parseColor("#ff6f00"),
+                    Color.parseColor("#1976d2")
+                )
+                dataSet.setDrawValues(false)
+
+                pie_chart.animateX(500, Easing.Linear)
+                pie_chart.animateY(500, Easing.Linear)
+                pie_chart.holeRadius = 0.0f
+                pie_chart.transparentCircleRadius = 0.0f
+                pie_chart.data = pieChartData
+                pie_chart.description.isEnabled = false
+                pie_chart.invalidate()
+            }
         }
     }
 }

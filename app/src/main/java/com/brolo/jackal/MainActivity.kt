@@ -6,6 +6,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.brolo.jackal.model.Game
 import com.brolo.jackal.ui.main.LogGameDialogFragment
+import com.brolo.jackal.ui.main.MapStatsFragment
 import com.brolo.jackal.ui.main.PieChartFragment
 import com.brolo.jackal.viewmodel.GamesViewModel
 import com.google.android.material.snackbar.Snackbar
@@ -27,6 +28,7 @@ class MainActivity : AppCompatActivity(R.layout.main_activity),
         observeGamesViewModel(viewModel)
 
         setupLogGameClick()
+        setupFilterChips()
     }
 
     override fun onGameCreated(game: Game) {
@@ -51,5 +53,24 @@ class MainActivity : AppCompatActivity(R.layout.main_activity),
         viewModel.insert(game)
 
         Snackbar.make(main, R.string.game_logged, Snackbar.LENGTH_LONG).show()
+    }
+
+    private fun setupFilterChips() {
+        chip_group.setOnCheckedChangeListener { _, checkedId ->
+            setChartFragment(checkedId)
+        }
+    }
+
+    private fun setChartFragment(checkedId: Int) {
+        when (checkedId) {
+            R.id.chip_start_side ->
+                supportFragmentManager.beginTransaction()
+                    .replace(R.id.chart_fragment_container, PieChartFragment.newInstance())
+                    .commit()
+            R.id.chip_maps ->
+                supportFragmentManager.beginTransaction()
+                    .replace(R.id.chart_fragment_container, MapStatsFragment.newInstance())
+                    .commit()
+        }
     }
 }

@@ -1,6 +1,5 @@
 package com.brolo.jackal.ui.main
 
-import android.graphics.Color
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -15,7 +14,6 @@ import com.brolo.jackal.model.Map
 import com.brolo.jackal.utils.BarChartXAxisFormatter
 import com.brolo.jackal.viewmodel.GamesViewModel
 import com.brolo.jackal.viewmodel.MapsViewModel
-import com.github.mikephil.charting.charts.BarChart
 import com.github.mikephil.charting.data.BarData
 import com.github.mikephil.charting.data.BarDataSet
 import com.github.mikephil.charting.data.BarEntry
@@ -33,9 +31,6 @@ class MapStatsFragment : Fragment() {
             setupChart()
         }
     }
-
-//    private val allMapsColors = listOf(
-//    )
 
     companion object {
         fun newInstance(): MapStatsFragment {
@@ -86,8 +81,10 @@ class MapStatsFragment : Fragment() {
         }
 
         val currentContext = context
-
         val set = BarDataSet(entries, "Maps Played")
+        val data = BarData(set)
+
+        data.barWidth = 0.9f
         set.setDrawValues(false)
 
         if (currentContext != null) {
@@ -100,18 +97,16 @@ class MapStatsFragment : Fragment() {
             )
         }
 
-        val data = BarData(set)
-        data.barWidth = 0.9f
-
         mapsViewModel.allMaps.value?.let {
             val formatter = BarChartXAxisFormatter(it)
 
             maps_bar_chart.xAxis.valueFormatter = formatter
         }
 
+        maps_bar_chart.description.isEnabled = false
         maps_bar_chart.axisLeft.granularity = 1f
-        maps_bar_chart.axisRight.setDrawGridLines(false)
         maps_bar_chart.axisLeft.setDrawGridLines(false)
+        maps_bar_chart.axisRight.setDrawGridLines(false)
         maps_bar_chart.axisRight.setDrawLabels(false)
         maps_bar_chart.xAxis.isGranularityEnabled = true
         maps_bar_chart.xAxis.setDrawGridLines(false)

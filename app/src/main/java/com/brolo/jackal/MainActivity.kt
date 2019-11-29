@@ -4,7 +4,10 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.brolo.jackal.model.Game
+import com.brolo.jackal.ui.main.GameAdapter
 import com.brolo.jackal.ui.main.LogGameDialogFragment
 import com.brolo.jackal.ui.main.MapStatsFragment
 import com.brolo.jackal.ui.main.PieChartFragment
@@ -16,6 +19,9 @@ class MainActivity : AppCompatActivity(R.layout.main_activity),
     LogGameDialogFragment.LogGameDialogFragmentListener {
 
     private lateinit var viewModel: GamesViewModel
+    private lateinit var recyclerView: RecyclerView
+    private lateinit var viewAdapter: RecyclerView.Adapter<*>
+    private lateinit var viewManager: RecyclerView.LayoutManager
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -38,9 +44,22 @@ class MainActivity : AppCompatActivity(R.layout.main_activity),
     private fun observeGamesViewModel(viewModel: GamesViewModel) {
         val gameObserver = Observer<List<Game>> {
             message.text = resources.getQuantityString(R.plurals.total_games, it.size, it.size)
+
+            setupRecyclerView(it)
         }
 
         viewModel.allGames.observe(this, gameObserver)
+    }
+
+    private fun setupRecyclerView(games: List<Game>) {
+        viewManager = LinearLayoutManager(this)
+        viewAdapter = GameAdapter(games)
+
+        recyclerView = game_recycler_view.apply {
+            setHasFixedSize(true)
+            layoutManager = viewManager
+            adapter = viewAdapter
+        }
     }
 
     private fun setupLogGameClick() {

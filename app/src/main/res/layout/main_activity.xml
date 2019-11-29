@@ -56,6 +56,11 @@
 
         </com.google.android.material.chip.ChipGroup>
 
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/game_recycler_view"
+            android:layout_width="match_parent"
+            android:layout_height="300dp" />
+$
     </LinearLayout>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton

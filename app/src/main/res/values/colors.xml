@@ -3,6 +3,8 @@
     <color name="colorPrimary">#263238</color>
     <color name="colorPrimaryDark">#000a12</color>
     <color name="colorAccent">#673ab7</color>
+    <color name="colorGreyBackground">#f3f3f3</color>
+    <color name="colorYellowOrange">#ffae42</color>
 
     <!--  Chart Colors   -->
     <color name="colorMaterialBlue">#1976d2</color>

@@ -26,4 +26,10 @@ class GamesViewModel(application: Application) : AndroidViewModel(application) {
             repository.insert(game)
         }
     }
+
+    fun delete(game: Game) {
+        viewModelScope.launch {
+            repository.delete(game)
+        }
+    }
 }

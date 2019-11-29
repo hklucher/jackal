@@ -52,7 +52,21 @@ class MainActivity : AppCompatActivity(R.layout.main_activity),
     private fun insertGame(game: Game) {
         viewModel.insert(game)
 
-        Snackbar.make(main, R.string.game_logged, Snackbar.LENGTH_LONG).show()
+        showGameAddedSnackbar()
+    }
+
+    private fun showGameAddedSnackbar() {
+        Snackbar.make(main, R.string.game_logged, Snackbar.LENGTH_LONG).also {
+            it.setAction(R.string.undo) {
+                val lastGame = viewModel.allGames.value?.last()
+
+                if (lastGame != null) {
+                    viewModel.delete(lastGame)
+                }
+            }
+
+            it.show()
+        }
     }
 
     private fun setupFilterChips() {

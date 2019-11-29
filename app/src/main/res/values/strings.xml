@@ -11,6 +11,7 @@
     <string name="game_logged">Game successfully logged!</string>
     <string name="starting_side">Starting Side</string>
     <string name="maps">Maps</string>
+    <string name="undo">Undo</string>
 
     <plurals name="total_games">
         <item quantity="one">You have recorded %d games</item>

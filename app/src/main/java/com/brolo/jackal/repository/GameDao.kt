@@ -17,5 +17,5 @@ interface GameDao {
     suspend fun insert(game: Game)
 
     @Delete
-    fun delete(game: Game)
+    suspend fun delete(game: Game)
 }

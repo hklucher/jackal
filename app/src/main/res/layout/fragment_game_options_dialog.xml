@@ -4,8 +4,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:padding="24dp">
+    android:layout_height="match_parent">
 
     <TextView
         android:layout_width="wrap_content"
@@ -13,15 +12,19 @@
         android:text="@string/manage_game"
         app:fontFamily="@font/roboto_black"
         android:textColor="@android:color/black"
-        android:textSize="18sp" />
+        android:textSize="18sp"
+        android:layout_margin="16dp"/>
 
     <LinearLayout
+        android:id="@+id/edit_game_row"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:gravity="center_vertical"
-        android:paddingTop="16dp"
-        android:paddingBottom="16dp">
+        android:padding="16dp"
+        android:clickable="true"
+        android:focusable="true"
+        android:background="?attr/selectableItemBackground" >
 
         <ImageView
             android:layout_width="wrap_content"
@@ -36,17 +39,22 @@
             android:layout_height="wrap_content"
             android:text="@string/record_game_result"
             android:textColor="@android:color/black"
+            android:textSize="16sp"
             app:fontFamily="@font/roboto" />
 
     </LinearLayout>
 
     <LinearLayout
+        android:id="@+id/delete_game_row"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:padding="16dp"
         android:orientation="horizontal"
         android:gravity="center_vertical"
         android:paddingTop="16dp"
-        android:paddingBottom="16dp">
+        android:clickable="true"
+        android:focusable="true"
+        android:background="?attr/selectableItemBackground" >
 
         <ImageView
             android:layout_width="wrap_content"
@@ -61,6 +69,8 @@
             android:layout_height="wrap_content"
             android:text="@string/delete_game"
             android:textColor="@android:color/black"
+            android:textSize="16sp"
+            app:fontFamily="@font/roboto" />
             app:fontFamily="@font/roboto" />
 
     </LinearLayout>

@@ -2,6 +2,7 @@ package com.brolo.jackal
 
 import android.os.Bundle
 import android.util.Log
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
@@ -17,7 +18,8 @@ import kotlinx.android.synthetic.main.main_activity.*
 
 class MainActivity : AppCompatActivity(R.layout.main_activity),
     LogGameDialogFragment.LogGameDialogFragmentListener,
-    GameAdapter.OnGameClickListener {
+    GameAdapter.OnGameClickListener,
+    GameOptionsDialogFragment.GameOptionsListener {
 
     private lateinit var viewModel: GamesViewModel
     private lateinit var mapsViewModel: MapsViewModel
@@ -62,10 +64,29 @@ class MainActivity : AppCompatActivity(R.layout.main_activity),
         insertGame(game)
     }
 
-    override fun onGameClick(position: Int) {
-        val gameOptionsFragment = GameOptionsDialogFragment.newInstance()
+    override fun onGameDeleted(gameId: Int) {
+        viewModel.allGames.value?.let {
+            val game = it.find { game -> game.id == gameId }
 
-        gameOptionsFragment.show(supportFragmentManager, "game_options_fragment")
+            if (game != null) {
+                viewModel.delete(game)
+
+                Toast.makeText(applicationContext, R.string.game_deleted, Toast.LENGTH_SHORT).show()
+            }
+        }
+    }
+
+    override fun onRecordGameResult(game: Game) {
+        // TODO: Implement
+    }
+
+    override fun onGameClick(position: Int) {
+        viewModel.allGames.value?.let {
+            val game = it[position]
+            val gameOptionsFragment = GameOptionsDialogFragment.newInstance(game.id)
+
+            gameOptionsFragment.show(supportFragmentManager, "game_options_fragment")
+        }
     }
 
     private fun observeGamesViewModel(gamesViewModel: GamesViewModel) {

@@ -26,6 +26,24 @@ class MainActivity : AppCompatActivity(R.layout.main_activity),
     private lateinit var viewAdapter: RecyclerView.Adapter<*>
     private lateinit var viewManager: RecyclerView.LayoutManager
 
+    private val gameObserver = Observer<List<Game>> {
+        message.text = resources.getQuantityString(R.plurals.total_games, it.size, it.size)
+
+        val allMaps = mapsViewModel.allMaps.value
+
+        if (allMaps != null) {
+            setupRecyclerView(it, allMaps)
+        }
+    }
+
+    private val mapsObserver = Observer<List<Map>> {
+        val allGames = viewModel.allGames.value
+
+        if (allGames != null) {
+            setupRecyclerView(allGames, it)
+        }
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         viewModel = ViewModelProviders.of(this).get(GamesViewModel::class.java)
@@ -45,28 +63,8 @@ class MainActivity : AppCompatActivity(R.layout.main_activity),
         insertGame(game)
     }
 
-    private fun observeGamesViewModel(viewModel: GamesViewModel) {
-        //  TODO: Move these to outer scope
-        // TODO: Rename viewModel to gamesViewModel
-        val gameObserver = Observer<List<Game>> {
-            message.text = resources.getQuantityString(R.plurals.total_games, it.size, it.size)
-
-            val allMaps = mapsViewModel.allMaps.value
-
-            if (allMaps != null) {
-                setupRecyclerView(it, allMaps)
-            }
-        }
-
-        val mapsObserver = Observer<List<Map>> {
-            val allGames = viewModel.allGames.value
-
-            if (allGames != null) {
-                setupRecyclerView(allGames, it)
-            }
-        }
-
-        viewModel.allGames.observe(this, gameObserver)
+    private fun observeGamesViewModel(gamesViewModel: GamesViewModel) {
+        gamesViewModel.allGames.observe(this, gameObserver)
         mapsViewModel.allMaps.observe(this, mapsObserver)
     }
 

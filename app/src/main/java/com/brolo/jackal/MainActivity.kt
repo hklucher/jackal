@@ -80,6 +80,7 @@ class MainActivity : AppCompatActivity(R.layout.main_activity),
             setHasFixedSize(true)
             layoutManager = viewManager
             adapter = viewAdapter
+            isNestedScrollingEnabled = false
         }
     }
 

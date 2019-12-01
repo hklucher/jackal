@@ -31,6 +31,7 @@ class GameAdapter(
 
         holder.cardView.findViewById<TextView>(R.id.game_title).text = mapName
         holder.cardView.findViewById<TextView>(R.id.game_side).text = teamText
+        // TODO: Update this text when we have feature built to mark games as won/loss
         holder.cardView.findViewById<TextView>(R.id.game_status).text = "In Progress"
     }
 

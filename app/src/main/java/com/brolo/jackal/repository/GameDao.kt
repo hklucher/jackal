@@ -10,7 +10,8 @@ import com.brolo.jackal.model.Game
 
 @Dao
 interface GameDao {
-    @Query("SELECT * FROM game")
+    // TODO: sort by createdAt instead of id when we add that field
+    @Query("SELECT * FROM game ORDER BY id DESC")
     fun getAll(): LiveData<List<Game>>
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)

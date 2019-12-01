@@ -12,6 +12,7 @@
     <string name="starting_side">Starting Side</string>
     <string name="maps">Maps</string>
     <string name="undo">Undo</string>
+    <string name="game_actionsheet">Game Action Sheet</string>
 
     <plurals name="total_games">
         <item quantity="one">You have recorded %d games</item>

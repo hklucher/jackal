@@ -8,6 +8,13 @@ import com.brolo.jackal.R
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 
 class GameOptionsDialogFragment : BottomSheetDialogFragment() {
+
+    companion object {
+        fun newInstance(): GameOptionsDialogFragment {
+            return GameOptionsDialogFragment()
+        }
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,

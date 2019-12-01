@@ -13,6 +13,9 @@
     <string name="maps">Maps</string>
     <string name="undo">Undo</string>
     <string name="game_actionsheet">Game Action Sheet</string>
+    <string name="record_game_result">Record game result</string>
+    <string name="delete_game">Delete game</string>
+    <string name="manage_game">Manage Game</string>
 
     <plurals name="total_games">
         <item quantity="one">You have recorded %d games</item>

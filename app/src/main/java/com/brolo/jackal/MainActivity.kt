@@ -9,10 +9,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.brolo.jackal.model.Game
 import com.brolo.jackal.model.Map
-import com.brolo.jackal.ui.main.GameAdapter
-import com.brolo.jackal.ui.main.LogGameDialogFragment
-import com.brolo.jackal.ui.main.MapStatsFragment
-import com.brolo.jackal.ui.main.PieChartFragment
+import com.brolo.jackal.ui.main.*
 import com.brolo.jackal.viewmodel.GamesViewModel
 import com.brolo.jackal.viewmodel.MapsViewModel
 import com.google.android.material.snackbar.Snackbar
@@ -66,6 +63,9 @@ class MainActivity : AppCompatActivity(R.layout.main_activity),
     }
 
     override fun onGameClick(position: Int) {
+        val gameOptionsFragment = GameOptionsDialogFragment.newInstance()
+
+        gameOptionsFragment.show(supportFragmentManager, "game_options_fragment")
     }
 
     private fun observeGamesViewModel(gamesViewModel: GamesViewModel) {

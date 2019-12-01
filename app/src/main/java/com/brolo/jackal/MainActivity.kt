@@ -71,10 +71,8 @@ class MainActivity : AppCompatActivity(R.layout.main_activity),
     }
 
     private fun setupRecyclerView(games: List<Game>, maps: List<Map>) {
-        // TODO: Limit results to 20, don't use reverse, instead ensure database sorts for us
-        // when we have createdAt fields
         viewManager = LinearLayoutManager(this)
-        viewAdapter = GameAdapter(games.reversed(), maps)
+        viewAdapter = GameAdapter(games.take(20), maps)
 
         recyclerView = game_recycler_view.apply {
             setHasFixedSize(true)

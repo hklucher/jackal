@@ -1,6 +1,7 @@
 package com.brolo.jackal
 
 import android.os.Bundle
+import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
@@ -18,7 +19,8 @@ import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.main_activity.*
 
 class MainActivity : AppCompatActivity(R.layout.main_activity),
-    LogGameDialogFragment.LogGameDialogFragmentListener {
+    LogGameDialogFragment.LogGameDialogFragmentListener,
+    GameAdapter.OnGameClickListener {
 
     private lateinit var viewModel: GamesViewModel
     private lateinit var mapsViewModel: MapsViewModel
@@ -63,6 +65,9 @@ class MainActivity : AppCompatActivity(R.layout.main_activity),
         insertGame(game)
     }
 
+    override fun onGameClick(position: Int) {
+    }
+
     private fun observeGamesViewModel(gamesViewModel: GamesViewModel) {
         gamesViewModel.allGames.observe(this, gameObserver)
         mapsViewModel.allMaps.observe(this, mapsObserver)
@@ -70,7 +75,7 @@ class MainActivity : AppCompatActivity(R.layout.main_activity),
 
     private fun setupRecyclerView(games: List<Game>, maps: List<Map>) {
         viewManager = LinearLayoutManager(this)
-        viewAdapter = GameAdapter(games.take(20), maps)
+        viewAdapter = GameAdapter(games.take(20), maps, this)
 
         recyclerView = game_recycler_view.apply {
             setHasFixedSize(true)

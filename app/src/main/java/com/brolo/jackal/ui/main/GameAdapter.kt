@@ -9,13 +9,19 @@ import com.brolo.jackal.R
 import com.brolo.jackal.model.Game
 import com.brolo.jackal.model.Map
 import com.brolo.jackal.utils.GameUtils
+import kotlinx.android.synthetic.main.game_card.view.*
 
 class GameAdapter(
     private val games: List<Game>,
-    private val maps: List<Map>
+    private val maps: List<Map>,
+    private val clickListener: OnGameClickListener
 ) : RecyclerView.Adapter<GameAdapter.ViewHolder>() {
 
     class ViewHolder(val cardView: CardView) : RecyclerView.ViewHolder(cardView)
+
+    interface OnGameClickListener {
+        fun onGameClick(position: Int)
+    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val cardView = LayoutInflater.from(parent.context)
@@ -33,6 +39,9 @@ class GameAdapter(
         holder.cardView.findViewById<TextView>(R.id.game_side).text = teamText
         // TODO: Update this text when we have feature built to mark games as won/loss
         holder.cardView.findViewById<TextView>(R.id.game_status).text = "In Progress"
+        holder.cardView.game_more_btn.setOnClickListener {
+            clickListener.onGameClick(position)
+        }
     }
 
     override fun getItemCount(): Int {

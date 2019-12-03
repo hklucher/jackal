@@ -5,12 +5,10 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.annotation.IntegerRes
 import com.brolo.jackal.R
-import com.brolo.jackal.model.Game
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
-import kotlinx.android.synthetic.main.fragment_game_options_dialog.*
 import java.lang.ClassCastException
+import kotlinx.android.synthetic.main.fragment_game_options_dialog.*
 
 class GameOptionsDialogFragment : BottomSheetDialogFragment() {
 
@@ -59,7 +57,7 @@ class GameOptionsDialogFragment : BottomSheetDialogFragment() {
         }
     }
 
-   private fun setupClickListeners() {
+    private fun setupClickListeners() {
         delete_game_row.setOnClickListener {
             val gameId = arguments?.getInt(ARG_GAME_ID)
 
@@ -70,14 +68,14 @@ class GameOptionsDialogFragment : BottomSheetDialogFragment() {
             }
         }
 
-       edit_game_row.setOnClickListener {
-           val gameId = arguments?.getInt(ARG_GAME_ID)
+        edit_game_row.setOnClickListener {
+            val gameId = arguments?.getInt(ARG_GAME_ID)
 
-           dialog?.dismiss()
+            dialog?.dismiss()
 
-           if (gameId != null) {
-               listener.onRecordGameResult(gameId)
-           }
-       }
-   }
+            if (gameId != null) {
+                listener.onRecordGameResult(gameId)
+            }
+        }
+    }
 }

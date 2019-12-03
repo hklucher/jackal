@@ -6,6 +6,7 @@ import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
+import androidx.room.Update
 import com.brolo.jackal.model.Game
 
 @Dao
@@ -19,4 +20,7 @@ interface GameDao {
 
     @Delete
     suspend fun delete(game: Game)
+
+    @Update
+    suspend fun update(vararg games: Game)
 }

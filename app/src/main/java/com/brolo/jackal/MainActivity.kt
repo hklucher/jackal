@@ -1,6 +1,9 @@
 package com.brolo.jackal
 
+import android.app.Activity
+import android.content.Intent
 import android.os.Bundle
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
@@ -9,6 +12,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.brolo.jackal.model.Game
 import com.brolo.jackal.model.Map
 import com.brolo.jackal.ui.main.GameAdapter
+import com.brolo.jackal.ui.main.GameEditActivity
+import com.brolo.jackal.ui.main.GameOptionsDialogFragment
 import com.brolo.jackal.ui.main.LogGameDialogFragment
 import com.brolo.jackal.ui.main.MapStatsFragment
 import com.brolo.jackal.ui.main.PieChartFragment
@@ -18,13 +23,21 @@ import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.main_activity.*
 
 class MainActivity : AppCompatActivity(R.layout.main_activity),
-    LogGameDialogFragment.LogGameDialogFragmentListener {
+    LogGameDialogFragment.LogGameDialogFragmentListener,
+    GameAdapter.OnGameClickListener,
+    GameOptionsDialogFragment.GameOptionsListener {
 
     private lateinit var viewModel: GamesViewModel
     private lateinit var mapsViewModel: MapsViewModel
     private lateinit var recyclerView: RecyclerView
     private lateinit var viewAdapter: RecyclerView.Adapter<*>
     private lateinit var viewManager: RecyclerView.LayoutManager
+
+    companion object {
+        const val EDIT_GAME_REQUEST = 1
+        const val RESULT_GAME_ID = "RESULT_GAME_ID"
+        const val RESULT_ARG_DID_WIN = "RESULT_ARG_DID_WIN"
+    }
 
     private val gameObserver = Observer<List<Game>> {
         message.text = resources.getQuantityString(R.plurals.total_games, it.size, it.size)
@@ -59,8 +72,61 @@ class MainActivity : AppCompatActivity(R.layout.main_activity),
         setupFilterChips()
     }
 
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+
+        if (requestCode == EDIT_GAME_REQUEST) {
+            if (resultCode == Activity.RESULT_OK) {
+                val gameId = data?.extras?.getInt(RESULT_GAME_ID)
+                val game = viewModel.allGames.value?.find { g -> g.id == gameId }
+                game?.didWin = data?.extras?.getBoolean(RESULT_ARG_DID_WIN)
+
+                if (game != null) {
+                    updateGame(game)
+                }
+            }
+        }
+    }
+
     override fun onGameCreated(game: Game) {
         insertGame(game)
+    }
+
+    override fun onGameDeleted(gameId: Int) {
+        viewModel.allGames.value?.let {
+            val game = it.find { game -> game.id == gameId }
+
+            if (game != null) {
+                viewModel.delete(game)
+
+                Toast.makeText(applicationContext, R.string.game_deleted, Toast.LENGTH_SHORT).show()
+            }
+        }
+    }
+
+    override fun onRecordGameResult(gameId: Int) {
+        viewModel.allGames.value?.let {
+            val game = it.find { game -> game.id == gameId }
+
+            if (game != null) {
+                val intent = GameEditActivity.newIntent(this, game)
+
+                startActivityForResult(intent, EDIT_GAME_REQUEST)
+            }
+        }
+    }
+
+    override fun onGameClick(position: Int) {
+        viewModel.allGames.value?.let {
+            val game = it[position]
+            val gameOptionsFragment = GameOptionsDialogFragment.newInstance(game.id)
+
+            gameOptionsFragment.show(supportFragmentManager, "game_options_fragment")
+        }
+    }
+
+    private fun updateGame(game: Game) {
+        viewModel.update(game)
     }
 
     private fun observeGamesViewModel(gamesViewModel: GamesViewModel) {
@@ -70,7 +136,7 @@ class MainActivity : AppCompatActivity(R.layout.main_activity),
 
     private fun setupRecyclerView(games: List<Game>, maps: List<Map>) {
         viewManager = LinearLayoutManager(this)
-        viewAdapter = GameAdapter(games.take(20), maps)
+        viewAdapter = GameAdapter(games.take(20), maps, this)
 
         recyclerView = game_recycler_view.apply {
             setHasFixedSize(true)

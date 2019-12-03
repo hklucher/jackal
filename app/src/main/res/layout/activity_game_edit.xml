@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/did_win_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:fontFamily="@font/roboto_black"
+        android:text="@string/did_you_win"
+        android:textColor="@android:color/black"
+        android:layout_marginTop="24dp"
+        android:layout_marginLeft="24dp"
+        android:textSize="18dp" />
+
+    <RadioGroup
+        android:id="@+id/edit_game_radio_group"
+        app:layout_constraintTop_toBottomOf="@id/did_win_label"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="24dp"
+        android:layout_marginStart="24dp">
+
+        <androidx.appcompat.widget.AppCompatRadioButton
+            android:id="@+id/radio_btn_won"
+            android:text="@string/yes"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <androidx.appcompat.widget.AppCompatRadioButton
+            android:id="@+id/radio_btn_loss"
+            android:text="@string/no"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </RadioGroup>
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/submit_btn"
+        app:layout_constraintTop_toBottomOf="@id/edit_game_radio_group"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/save"
+        style="@style/Widget.Jackal.Button"
+        android:layout_marginLeft="24dp" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

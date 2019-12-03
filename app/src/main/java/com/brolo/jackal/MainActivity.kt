@@ -1,5 +1,7 @@
 package com.brolo.jackal
 
+import android.app.Activity
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
@@ -26,6 +28,12 @@ class MainActivity : AppCompatActivity(R.layout.main_activity),
     private lateinit var recyclerView: RecyclerView
     private lateinit var viewAdapter: RecyclerView.Adapter<*>
     private lateinit var viewManager: RecyclerView.LayoutManager
+
+    companion object {
+        const val EDIT_GAME_REQUEST = 1
+        const val RESULT_GAME_ID = "RESULT_GAME_ID"
+        const val RESULT_ARG_DID_WIN = "RESULT_ARG_DID_WIN"
+    }
 
     private val gameObserver = Observer<List<Game>> {
         message.text = resources.getQuantityString(R.plurals.total_games, it.size, it.size)
@@ -60,6 +68,22 @@ class MainActivity : AppCompatActivity(R.layout.main_activity),
         setupFilterChips()
     }
 
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+
+        if (requestCode == EDIT_GAME_REQUEST) {
+            if (resultCode == Activity.RESULT_OK) {
+                val gameId = data?.extras?.getInt(RESULT_GAME_ID)
+                val game = viewModel.allGames.value?.find { g -> g.id == gameId }
+                game?.didWin = data?.extras?.getBoolean(RESULT_ARG_DID_WIN)
+
+                if (game != null) {
+                    updateGame(game)
+                }
+            }
+        }
+    }
+
     override fun onGameCreated(game: Game) {
         insertGame(game)
     }
@@ -83,8 +107,7 @@ class MainActivity : AppCompatActivity(R.layout.main_activity),
             if (game != null) {
                 val intent = GameEditActivity.newIntent(this, game)
 
-                // TODO: use startActivityFoResult instead
-                startActivity(intent)
+                startActivityForResult(intent, EDIT_GAME_REQUEST)
             }
         }
     }
@@ -96,6 +119,10 @@ class MainActivity : AppCompatActivity(R.layout.main_activity),
 
             gameOptionsFragment.show(supportFragmentManager, "game_options_fragment")
         }
+    }
+
+    private fun updateGame(game: Game) {
+        viewModel.update(game)
     }
 
     private fun observeGamesViewModel(gamesViewModel: GamesViewModel) {

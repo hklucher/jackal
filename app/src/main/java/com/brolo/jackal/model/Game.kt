@@ -11,7 +11,7 @@ import java.io.Serializable
 data class Game(
     @PrimaryKey(autoGenerate = true) val id: Int = 0,
     @ColumnInfo(name = "starting_team") var startingTeam: String,
-    @ColumnInfo(name = "did_win") val didWin: Boolean?,
+    @ColumnInfo(name = "did_win") var didWin: Boolean?,
     @ColumnInfo(name = "map_id") var mapId: Int?
 ) : Serializable {
     companion object {

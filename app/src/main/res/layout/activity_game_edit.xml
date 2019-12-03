@@ -29,11 +29,13 @@
         android:layout_marginStart="24dp">
 
         <androidx.appcompat.widget.AppCompatRadioButton
+            android:id="@+id/radio_btn_won"
             android:text="@string/yes"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
 
         <androidx.appcompat.widget.AppCompatRadioButton
+            android:id="@+id/radio_btn_loss"
             android:text="@string/no"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />

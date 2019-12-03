@@ -1,5 +1,6 @@
 package com.brolo.jackal.ui.main
 
+import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.TextView
@@ -37,14 +38,24 @@ class GameAdapter(
 
         holder.cardView.findViewById<TextView>(R.id.game_title).text = mapName
         holder.cardView.findViewById<TextView>(R.id.game_side).text = teamText
-        // TODO: Update this text when we have feature built to mark games as won/loss
-        holder.cardView.findViewById<TextView>(R.id.game_status).text = "In Progress"
+        holder.cardView.findViewById<TextView>(R.id.game_status).text = GameUtils.getGameStatus(game)
         holder.cardView.game_more_btn.setOnClickListener {
             clickListener.onGameClick(position)
         }
+
+        setStatusTextStyle(holder, game.didWin)
     }
 
     override fun getItemCount(): Int {
         return games.size
+    }
+
+    private fun setStatusTextStyle(holder: ViewHolder, didWin: Boolean?) {
+        val textView = holder.cardView.findViewById<TextView>(R.id.game_status)
+
+        when (didWin) {
+            true -> textView.setTextColor(Color.parseColor("#4BB543"))
+            false -> textView.setTextColor(Color.parseColor("#A63232"))
+        }
     }
 }

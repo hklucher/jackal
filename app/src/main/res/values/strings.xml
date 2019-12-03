@@ -17,6 +17,10 @@
     <string name="delete_game">Delete game</string>
     <string name="manage_game">Manage Game</string>
     <string name="game_deleted">Game Deleted</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
+    <string name="did_you_win">Did you win? (Be honest)</string>
+    <string name="save">Save</string>
 
     <plurals name="total_games">
         <item quantity="one">You have recorded %d games</item>

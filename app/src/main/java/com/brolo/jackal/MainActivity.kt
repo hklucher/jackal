@@ -76,8 +76,17 @@ class MainActivity : AppCompatActivity(R.layout.main_activity),
         }
     }
 
-    override fun onRecordGameResult(game: Game) {
-        // TODO: Implement
+    override fun onRecordGameResult(gameId: Int) {
+        viewModel.allGames.value?.let {
+            val game = it.find { game -> game.id == gameId }
+
+            if (game != null) {
+                val intent = GameEditActivity.newIntent(this, game)
+
+                // TODO: use startActivityFoResult instead
+                startActivity(intent)
+            }
+        }
     }
 
     override fun onGameClick(position: Int) {

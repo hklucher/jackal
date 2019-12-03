@@ -32,7 +32,7 @@ class GameOptionsDialogFragment : BottomSheetDialogFragment() {
 
     interface GameOptionsListener {
         fun onGameDeleted(gameId: Int)
-        fun onRecordGameResult(game: Game)
+        fun onRecordGameResult(gameId: Int)
     }
 
     override fun onCreateView(
@@ -59,7 +59,7 @@ class GameOptionsDialogFragment : BottomSheetDialogFragment() {
         }
     }
 
-    private fun setupClickListeners() {
+   private fun setupClickListeners() {
         delete_game_row.setOnClickListener {
             val gameId = arguments?.getInt(ARG_GAME_ID)
 
@@ -69,5 +69,15 @@ class GameOptionsDialogFragment : BottomSheetDialogFragment() {
                 listener.onGameDeleted(gameId)
             }
         }
-    }
+
+       edit_game_row.setOnClickListener {
+           val gameId = arguments?.getInt(ARG_GAME_ID)
+
+           dialog?.dismiss()
+
+           if (gameId != null) {
+               listener.onRecordGameResult(gameId)
+           }
+       }
+   }
 }

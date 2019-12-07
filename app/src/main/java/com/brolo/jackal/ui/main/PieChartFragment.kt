@@ -22,7 +22,7 @@ class PieChartFragment : Fragment() {
     private lateinit var viewModel: GamesViewModel
 
     private val gameObserver = Observer<List<Game>> {
-        setupChart()
+        setupMainCardContent()
     }
 
     companion object {
@@ -43,6 +43,7 @@ class PieChartFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         observeGamesViewModel()
+        setupMainCardContent()
     }
 
     override fun onDestroy() {
@@ -57,41 +58,61 @@ class PieChartFragment : Fragment() {
         }
     }
 
-    private fun setupChart() {
-        val entries = mutableListOf<PieEntry>()
-
+    private fun setupMainCardContent() {
         val allGames = viewModel.allGames.value
 
-        allGames?.let {
-            val pieChart = pie_chart
+        if (allGames != null && allGames.isNotEmpty()) {
+            this.setupChart(allGames)
+        } else if (allGames == null) {
+            this.setupLoadingState()
+        } else {
+            this.setupEmptyState()
+        }
+    }
 
-            if (pieChart != null) {
-                // TOOD: Move percentage caluclations to a utils class
-                val defenseGames = it.filter { game -> game.startingTeam == Game.TeamDefense }
-                val attackGames = it.filter { game -> game.startingTeam == Game.TeamAttack }
-                val defPercentage = (defenseGames.size.toFloat() / allGames.size.toFloat()) * 100
-                val atkPercentage = (attackGames.size.toFloat() / allGames.size.toFloat()) * 100
+    private fun setupLoadingState() {
+        loading_container.visibility = View.VISIBLE
+    }
 
-                entries.add(PieEntry(defPercentage, "Defense"))
-                entries.add(PieEntry(atkPercentage, "Attack"))
+    private fun setupEmptyState() {
+        loading_container.visibility = View.GONE
+        empty_data_container.visibility = View.VISIBLE
+    }
 
-                val dataSet = PieDataSet(entries, "")
-                val pieChartData = PieData(dataSet)
+    private fun setupChart(allGames: List<Game>) {
+        val entries = mutableListOf<PieEntry>()
 
-                dataSet.setColors(
-                    Color.parseColor("#ff6f00"),
-                    Color.parseColor("#1976d2")
-                )
-                dataSet.setDrawValues(false)
+        val pieChart = pie_chart
 
-                pie_chart.animateX(500, Easing.Linear)
-                pie_chart.animateY(500, Easing.Linear)
-                pie_chart.holeRadius = 0.0f
-                pie_chart.transparentCircleRadius = 0.0f
-                pie_chart.data = pieChartData
-                pie_chart.description.isEnabled = false
-                pie_chart.invalidate()
-            }
+        if (pieChart != null) {
+            loading_container.visibility = View.GONE
+            empty_data_container.visibility = View.GONE
+            pieChart.visibility = View.VISIBLE
+            // TOOD: Move percentage caluclations to a utils class
+            val defenseGames = allGames.filter { game -> game.startingTeam == Game.TeamDefense }
+            val attackGames = allGames.filter { game -> game.startingTeam == Game.TeamAttack }
+            val defPercentage = (defenseGames.size.toFloat() / allGames.size.toFloat()) * 100
+            val atkPercentage = (attackGames.size.toFloat() / allGames.size.toFloat()) * 100
+
+            entries.add(PieEntry(defPercentage, "Defense"))
+            entries.add(PieEntry(atkPercentage, "Attack"))
+
+            val dataSet = PieDataSet(entries, "")
+            val pieChartData = PieData(dataSet)
+
+            dataSet.setColors(
+                Color.parseColor("#ff6f00"),
+                Color.parseColor("#1976d2")
+            )
+            dataSet.setDrawValues(false)
+
+            pie_chart.animateX(500, Easing.Linear)
+            pie_chart.animateY(500, Easing.Linear)
+            pie_chart.holeRadius = 0.0f
+            pie_chart.transparentCircleRadius = 0.0f
+            pie_chart.data = pieChartData
+            pie_chart.description.isEnabled = false
+            pie_chart.invalidate()
         }
     }
 }

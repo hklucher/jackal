@@ -14,6 +14,7 @@ import com.brolo.jackal.model.Map
 import com.brolo.jackal.utils.BarChartXAxisFormatter
 import com.brolo.jackal.viewmodel.GamesViewModel
 import com.brolo.jackal.viewmodel.MapsViewModel
+import com.github.mikephil.charting.animation.Easing
 import com.github.mikephil.charting.data.BarData
 import com.github.mikephil.charting.data.BarDataSet
 import com.github.mikephil.charting.data.BarEntry
@@ -140,6 +141,7 @@ class MapStatsFragment : Fragment() {
             maps_bar_chart.axisRight.setDrawLabels(false)
             maps_bar_chart.xAxis.isGranularityEnabled = true
             maps_bar_chart.xAxis.setDrawGridLines(false)
+            maps_bar_chart.animateY(500, Easing.Linear)
             maps_bar_chart.setDrawValueAboveBar(false)
             maps_bar_chart.setFitBars(true)
             maps_bar_chart.data = data

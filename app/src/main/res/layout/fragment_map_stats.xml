@@ -7,7 +7,6 @@
     android:layout_height="match_parent"
     android:layout_margin="24dp">
 
-
     <LinearLayout
         android:id="@+id/loading_container"
         android:layout_width="match_parent"
@@ -56,12 +55,13 @@
         android:id="@+id/chart_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:paddingTop="18dp"
         android:visibility="gone">
 
         <com.github.mikephil.charting.charts.BarChart
             android:id="@+id/maps_bar_chart"
             android:layout_width="match_parent"
-            android:layout_height="300dp" />
+            android:layout_height="275dp" />
 
     </LinearLayout>
 

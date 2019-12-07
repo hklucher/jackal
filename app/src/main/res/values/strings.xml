@@ -22,6 +22,7 @@
     <string name="did_you_win">Did you win? (Be honest)</string>
     <string name="save">Save</string>
     <string name="no_data_available">No data available yet.\nLog some games to get started!</string>
+    <string name="most_played_map">Your most played map: %s</string>
 
     <plurals name="total_games">
         <item quantity="one">You have recorded %d games</item>

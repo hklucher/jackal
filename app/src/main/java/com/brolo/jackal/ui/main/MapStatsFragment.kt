@@ -12,6 +12,7 @@ import com.brolo.jackal.R
 import com.brolo.jackal.model.Game
 import com.brolo.jackal.model.Map
 import com.brolo.jackal.utils.BarChartXAxisFormatter
+import com.brolo.jackal.utils.MapUtils
 import com.brolo.jackal.viewmodel.GamesViewModel
 import com.brolo.jackal.viewmodel.MapsViewModel
 import com.github.mikephil.charting.animation.Easing
@@ -68,10 +69,29 @@ class MapStatsFragment : Fragment() {
 
         if (allMaps != null && allGames !== null && allGames.isNotEmpty()) {
             setupChart()
+            setupNotableMapsText(allGames, allMaps)
         } else if (allMaps == null || allGames == null) {
             setupLoadingState()
         } else {
             setupEmptyState()
+        }
+    }
+
+    private fun observeGamesViewModel() {
+        activity?.let {
+            gamesViewModel = ViewModelProviders.of(it).get(GamesViewModel::class.java)
+            mapsViewModel = ViewModelProviders.of(it).get(MapsViewModel::class.java)
+
+            gamesViewModel.allGames.observe(viewLifecycleOwner, gameObserver)
+            mapsViewModel.allMaps.observe(viewLifecycleOwner, mapsObserver)
+        }
+    }
+
+    private fun setupNotableMapsText(allGames: List<Game>, allMaps: List<Map>) {
+        val mostPlayedMap = MapUtils.getMostPlayedMap(allGames, allMaps)
+
+        if (mostPlayedMap != null) {
+            most_played_map_txt.text = getString(R.string.most_played_map, mostPlayedMap.name)
         }
     }
 
@@ -83,16 +103,6 @@ class MapStatsFragment : Fragment() {
         loading_container.visibility = View.GONE
         chart_container.visibility = View.GONE
         maps_empty_data_container.visibility = View.VISIBLE
-    }
-
-    private fun observeGamesViewModel() {
-        activity?.let {
-            gamesViewModel = ViewModelProviders.of(it).get(GamesViewModel::class.java)
-            mapsViewModel = ViewModelProviders.of(it).get(MapsViewModel::class.java)
-
-            gamesViewModel.allGames.observe(viewLifecycleOwner, gameObserver)
-            mapsViewModel.allMaps.observe(viewLifecycleOwner, mapsObserver)
-        }
     }
 
     private fun setupChart() {

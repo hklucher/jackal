@@ -11,11 +11,15 @@ class GamesRepository(private val gameDao: GameDao) {
         gameDao.insert(game)
     }
 
+    suspend fun update(game: Game) {
+        gameDao.update(game)
+    }
+
     suspend fun delete(game: Game) {
         gameDao.delete(game)
     }
 
-    suspend fun update(game: Game) {
-        gameDao.update(game)
+    suspend fun deleteAll() {
+        gameDao.deleteAll()
     }
 }

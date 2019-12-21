@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/option_export_csv"
+        android:title="@string/option_export_as_csv"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/option_delete_all_games"
+        android:title="@string/delete_all_games"
+        app:showAsAction="never" />
+</menu>

@@ -17,7 +17,8 @@ class MapUtils {
             Map(0, "Kanal"),
             Map(0, "Oregon"),
             Map(0, "Outback"),
-            Map(0, "Villa")
+            Map(0, "Villa"),
+            Map(0, "Theme Park")
         )
 
         fun getMapById(mapId: Int, maps: List<Map>): Map? {
@@ -33,7 +34,7 @@ class MapUtils {
         }
 
         fun getMostPlayedMap(games: List<Game>, allMaps: List<Map>): Map? {
-           val mostPlayedMapId = games.groupBy { it.mapId }.maxBy { it.value.size }?.value?.first()?.mapId
+            val mostPlayedMapId = games.groupBy { it.mapId }.maxBy { it.value.size }?.value?.first()?.mapId
 
             if (mostPlayedMapId != null) {
                 return getMapById(mostPlayedMapId, allMaps)

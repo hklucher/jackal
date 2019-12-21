@@ -3,6 +3,8 @@ package com.brolo.jackal
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
+import android.view.Menu
+import android.view.MenuItem
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
@@ -19,6 +21,7 @@ import com.brolo.jackal.ui.main.MapStatsFragment
 import com.brolo.jackal.ui.main.PieChartFragment
 import com.brolo.jackal.viewmodel.GamesViewModel
 import com.brolo.jackal.viewmodel.MapsViewModel
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.main_activity.*
 
@@ -125,6 +128,21 @@ class MainActivity : AppCompatActivity(R.layout.main_activity),
         }
     }
 
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.game_options_menu, menu)
+
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            R.id.option_export_csv -> writeCSVFile()
+            R.id.option_delete_all_games -> confirmAndDeleteAllGameData()
+        }
+
+        return super.onOptionsItemSelected(item)
+    }
+
     private fun updateGame(game: Game) {
         viewModel.update(game)
     }
@@ -189,5 +207,26 @@ class MainActivity : AppCompatActivity(R.layout.main_activity),
                     .replace(R.id.chart_fragment_container, MapStatsFragment.newInstance())
                     .commit()
         }
+    }
+
+    private fun writeCSVFile() {
+        Toast.makeText(this, "Not Implemented yet, try again later!", Toast.LENGTH_LONG)
+            .show()
+    }
+
+    private fun confirmAndDeleteAllGameData() {
+        val builder = MaterialAlertDialogBuilder(this)
+
+        builder.setTitle(R.string.delete_all_games)
+        builder.setMessage(R.string.confirm_delete_all_games)
+        builder.setPositiveButton("DELETE EVERYTHING") { dialog, which ->
+            viewModel.deleteAll()
+        }
+
+        builder.setNegativeButton("CANCEL") { dialog, which ->
+            dialog.dismiss()
+        }
+
+        builder.create().show()
     }
 }

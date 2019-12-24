@@ -13,12 +13,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.brolo.jackal.model.Game
 import com.brolo.jackal.model.Map
-import com.brolo.jackal.ui.main.GameAdapter
-import com.brolo.jackal.ui.main.GameEditActivity
-import com.brolo.jackal.ui.main.GameOptionsDialogFragment
-import com.brolo.jackal.ui.main.LogGameDialogFragment
-import com.brolo.jackal.ui.main.MapStatsFragment
-import com.brolo.jackal.ui.main.PieChartFragment
+import com.brolo.jackal.ui.main.*
 import com.brolo.jackal.viewmodel.GamesViewModel
 import com.brolo.jackal.viewmodel.MapsViewModel
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
@@ -210,6 +205,13 @@ class MainActivity : AppCompatActivity(R.layout.main_activity),
                     setCustomAnimations(R.anim.enter_from_left, R.anim.exit_to_right,
                                         R.anim.enter_from_right, R.anim.exit_to_left)
                     replace(R.id.chart_fragment_container, MapStatsFragment.newInstance())
+                    commit()
+                }
+            R.id.chip_win_loss ->
+                supportFragmentManager.beginTransaction().apply {
+                    setCustomAnimations(R.anim.enter_from_left, R.anim.exit_to_right,
+                        R.anim.enter_from_right, R.anim.exit_to_left)
+                    replace(R.id.chart_fragment_container, WinLossFragment.newInstance())
                     commit()
                 }
         }

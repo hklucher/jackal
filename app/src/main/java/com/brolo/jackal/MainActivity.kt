@@ -199,13 +199,19 @@ class MainActivity : AppCompatActivity(R.layout.main_activity),
     private fun setChartFragment(checkedId: Int) {
         when (checkedId) {
             R.id.chip_start_side ->
-                supportFragmentManager.beginTransaction()
-                    .replace(R.id.chart_fragment_container, PieChartFragment.newInstance())
-                    .commit()
+                supportFragmentManager.beginTransaction().apply {
+                    setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_left,
+                                        R.anim.enter_from_left, R.anim.exit_to_right)
+                    replace(R.id.chart_fragment_container, PieChartFragment.newInstance())
+                    commit()
+                }
             R.id.chip_maps ->
-                supportFragmentManager.beginTransaction()
-                    .replace(R.id.chart_fragment_container, MapStatsFragment.newInstance())
-                    .commit()
+                supportFragmentManager.beginTransaction().apply {
+                    setCustomAnimations(R.anim.enter_from_left, R.anim.exit_to_right,
+                                        R.anim.enter_from_right, R.anim.exit_to_left)
+                    replace(R.id.chart_fragment_container, MapStatsFragment.newInstance())
+                    commit()
+                }
         }
     }
 

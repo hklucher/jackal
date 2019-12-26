@@ -85,4 +85,3 @@ class WinLossFragment : Fragment() {
         }
     }
 }
-

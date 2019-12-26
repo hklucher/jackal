@@ -13,7 +13,13 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.brolo.jackal.model.Game
 import com.brolo.jackal.model.Map
-import com.brolo.jackal.ui.main.*
+import com.brolo.jackal.ui.main.GameAdapter
+import com.brolo.jackal.ui.main.GameEditActivity
+import com.brolo.jackal.ui.main.GameOptionsDialogFragment
+import com.brolo.jackal.ui.main.LogGameDialogFragment
+import com.brolo.jackal.ui.main.MapStatsFragment
+import com.brolo.jackal.ui.main.PieChartFragment
+import com.brolo.jackal.ui.main.WinLossFragment
 import com.brolo.jackal.viewmodel.GamesViewModel
 import com.brolo.jackal.viewmodel.MapsViewModel
 import com.google.android.material.dialog.MaterialAlertDialogBuilder

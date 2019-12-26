@@ -83,7 +83,6 @@ class WinLossFragment : Fragment() {
             pieChart.description.isEnabled = false
             pieChart.invalidate()
         }
-//        val pieChart =
     }
 }
 

@@ -195,22 +195,22 @@ class MainActivity : AppCompatActivity(R.layout.main_activity),
         when (checkedId) {
             R.id.chip_start_side ->
                 supportFragmentManager.beginTransaction().apply {
-                    setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_left,
-                                        R.anim.enter_from_left, R.anim.exit_to_right)
+                    setCustomAnimations(android.R.anim.fade_in, android.R.anim.fade_out,
+                                        android.R.anim.fade_in, android.R.anim.fade_out)
                     replace(R.id.chart_fragment_container, PieChartFragment.newInstance())
                     commit()
                 }
             R.id.chip_maps ->
                 supportFragmentManager.beginTransaction().apply {
-                    setCustomAnimations(R.anim.enter_from_left, R.anim.exit_to_right,
-                                        R.anim.enter_from_right, R.anim.exit_to_left)
+                    setCustomAnimations(android.R.anim.fade_in, android.R.anim.fade_out,
+                                        android.R.anim.fade_in, android.R.anim.fade_out)
                     replace(R.id.chart_fragment_container, MapStatsFragment.newInstance())
                     commit()
                 }
             R.id.chip_win_loss ->
                 supportFragmentManager.beginTransaction().apply {
-                    setCustomAnimations(R.anim.enter_from_left, R.anim.exit_to_right,
-                        R.anim.enter_from_right, R.anim.exit_to_left)
+                    setCustomAnimations(android.R.anim.fade_in, android.R.anim.fade_out,
+                                        android.R.anim.fade_in, android.R.anim.fade_out)
                     replace(R.id.chart_fragment_container, WinLossFragment.newInstance())
                     commit()
                 }

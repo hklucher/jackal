@@ -29,6 +29,8 @@
     <string name="confirm_delete_all_games">
         Are you sure you want to delete all of your recorded game data?\nThis action cannot be undone.
     </string>
+    <string name="win_loss">Win / Loss</string>
+    <string name="win_loss_percentage">Your win loss percentages</string>
 
     <plurals name="total_games">
         <item quantity="one">You have recorded %d games</item>

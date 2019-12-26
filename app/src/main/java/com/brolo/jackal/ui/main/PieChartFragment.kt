@@ -10,6 +10,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.brolo.jackal.R
 import com.brolo.jackal.model.Game
+import com.brolo.jackal.utils.CalcUtils
 import com.brolo.jackal.viewmodel.GamesViewModel
 import com.github.mikephil.charting.animation.Easing
 import com.github.mikephil.charting.data.PieData
@@ -88,11 +89,10 @@ class PieChartFragment : Fragment() {
             loading_container.visibility = View.GONE
             empty_data_container.visibility = View.GONE
             pieChart.visibility = View.VISIBLE
-            // TOOD: Move percentage caluclations to a utils class
             val defenseGames = allGames.filter { game -> game.startingTeam == Game.TeamDefense }
             val attackGames = allGames.filter { game -> game.startingTeam == Game.TeamAttack }
-            val defPercentage = (defenseGames.size.toFloat() / allGames.size.toFloat()) * 100
-            val atkPercentage = (attackGames.size.toFloat() / allGames.size.toFloat()) * 100
+            val defPercentage = CalcUtils.percentage(defenseGames, allGames)
+            val atkPercentage = CalcUtils.percentage(attackGames, allGames)
 
             entries.add(PieEntry(defPercentage, "Defense"))
             entries.add(PieEntry(atkPercentage, "Attack"))

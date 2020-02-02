@@ -31,6 +31,10 @@
     </string>
     <string name="win_loss">Win / Loss</string>
     <string name="win_loss_percentage">Your win loss percentages</string>
+    <string name="email_placeholder">Email</string>
+    <string name="password_placeholder">Password</string>
+    <string name="login">Login</string>
+    <string name="sign_in">Sign In</string>
 
     <plurals name="total_games">
         <item quantity="one">You have recorded %d games</item>

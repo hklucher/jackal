@@ -6,6 +6,9 @@
     <color name="colorGreyBackground">#f3f3f3</color>
     <color name="colorYellowOrange">#ffae42</color>
 
+    <color name="darkSurface">#121212</color>
+    <color name="darkElevation">#1F1B24</color>
+
     <!--  Chart Colors   -->
     <color name="colorMaterialBlue">#1976d2</color>
     <color name="colorMaterialOrange">#ff6f00</color>

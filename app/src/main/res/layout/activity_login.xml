@@ -10,6 +10,19 @@
     android:paddingRight="24dp">
 
     <TextView
+        android:id="@+id/title"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:fontFamily="@font/roboto_black"
+        android:textSize="38sp"
+        android:layout_marginTop="48dp"
+        android:textColor="@android:color/white"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="24dp"
+        android:text="@string/app_name" />
+
+    <TextView
         app:layout_constraintBottom_toTopOf="@id/login_field_email"
         app:layout_constraintLeft_toLeftOf="parent"
         app:fontFamily="@font/roboto_black"
@@ -18,7 +31,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="24dp"
-        android:text="@string/login"/>
+        android:text="@string/login" />
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/login_field_email"
@@ -35,6 +48,7 @@
         android:hint="@string/email_placeholder">
 
         <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/login_field_email_input"
             android:background="@color/darkElevation"
             android:layout_width="match_parent"
             android:layout_height="60dp"
@@ -58,6 +72,7 @@
         android:hint="@string/password_placeholder">
 
         <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/login_field_password_input"
             android:background="@color/darkElevation"
             android:layout_width="match_parent"
             android:layout_height="60dp"
@@ -66,6 +81,7 @@
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.button.MaterialButton
+        android:id="@+id/btn_submit"
         app:layout_constraintTop_toBottomOf="@id/login_field_password"
         app:layout_constraintLeft_toLeftOf="parent"
         android:layout_marginTop="24dp"
@@ -73,6 +89,5 @@
         style="@style/Widget.Jackal.Button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>

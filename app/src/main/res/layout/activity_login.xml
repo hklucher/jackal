@@ -9,6 +9,15 @@
     android:paddingLeft="24dp"
     android:paddingRight="24dp">
 
+    <ProgressBar
+        android:id="@+id/auth_check_progress"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent" />
+
     <TextView
         android:id="@+id/title"
         app:layout_constraintTop_toTopOf="parent"
@@ -22,72 +31,12 @@
         android:layout_marginBottom="24dp"
         android:text="@string/app_name" />
 
-    <TextView
-        app:layout_constraintBottom_toTopOf="@id/login_field_email"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:fontFamily="@font/roboto_black"
-        android:textSize="24sp"
-        android:textColor="@android:color/white"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="24dp"
-        android:text="@string/login" />
-
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/login_field_email"
-        app:layout_constraintTop_toTopOf="parent"
+    <FrameLayout
+        app:layout_constraintTop_toBottomOf="@id/title"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:id="@+id/login_fragment_container"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textColorHint="@android:color/white"
-        style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox"
-        app:boxStrokeColor="@color/colorAccent"
-        app:hintTextColor="@color/colorAccent"
-        android:hint="@string/email_placeholder">
-
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/login_field_email_input"
-            android:background="@color/darkElevation"
-            android:layout_width="match_parent"
-            android:layout_height="60dp"
-            android:textColor="@android:color/white" />
-
-    </com.google.android.material.textfield.TextInputLayout>
-
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/login_field_password"
-        app:layout_constraintTop_toBottomOf="@id/login_field_email"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        android:layout_marginTop="18dp"
-        android:layout_marginBottom="18dp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textColorHint="@android:color/white"
-        style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox"
-        app:boxStrokeColor="@color/colorAccent"
-        app:hintTextColor="@color/colorAccent"
-        android:hint="@string/password_placeholder">
-
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/login_field_password_input"
-            android:background="@color/darkElevation"
-            android:layout_width="match_parent"
-            android:layout_height="60dp"
-            android:textColor="@android:color/white" />
-
-    </com.google.android.material.textfield.TextInputLayout>
-
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/btn_submit"
-        app:layout_constraintTop_toBottomOf="@id/login_field_password"
-        app:layout_constraintLeft_toLeftOf="parent"
-        android:layout_marginTop="24dp"
-        android:text="@string/sign_in"
-        style="@style/Widget.Jackal.Button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_height="450dp" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

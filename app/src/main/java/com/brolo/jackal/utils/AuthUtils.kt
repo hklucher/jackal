@@ -16,7 +16,7 @@ class AuthUtils {
                 Context.MODE_PRIVATE
             )
 
-            with (sharedPref.edit()) {
+            with(sharedPref.edit()) {
                 putString(JWT_KEY, token)
                 commit()
             }
@@ -37,7 +37,7 @@ class AuthUtils {
                 Context.MODE_PRIVATE
             )
 
-            with (sharedPref.edit()) {
+            with(sharedPref.edit()) {
                 putInt(USER_ID_KEY, id)
                 commit()
             }
@@ -52,8 +52,6 @@ class AuthUtils {
             return sharedPref.getInt(USER_ID_KEY, 0)
         }
 
-        private fun getAuthFileName(): String {
-            return "${BuildConfig.APPLICATION_ID}.${AUTH_FILE_NAME}"
-        }
+        private fun getAuthFileName() = "${BuildConfig.APPLICATION_ID}.$AUTH_FILE_NAME"
     }
 }

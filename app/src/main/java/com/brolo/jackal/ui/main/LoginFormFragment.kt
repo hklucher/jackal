@@ -9,8 +9,8 @@ import androidx.fragment.app.Fragment
 import com.brolo.jackal.R
 import com.brolo.jackal.model.LoginRequest
 import com.brolo.jackal.model.LoginUser
-import kotlinx.android.synthetic.main.fragment_login_form.*
 import java.lang.ClassCastException
+import kotlinx.android.synthetic.main.fragment_login_form.*
 
 class LoginFormFragment : Fragment() {
     private lateinit var listener: LoginEventsListener
@@ -56,7 +56,6 @@ class LoginFormFragment : Fragment() {
 
         return LoginRequest(loginUser)
     }
-
 
     private fun setupSubmitButton() {
         btn_submit.setOnClickListener {

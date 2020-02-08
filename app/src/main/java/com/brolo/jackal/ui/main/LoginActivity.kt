@@ -1,16 +1,12 @@
 package com.brolo.jackal.ui.main
 
-import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.util.AttributeSet
-import android.util.Log
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import com.brolo.jackal.MainActivity
 import com.brolo.jackal.R
 import com.brolo.jackal.model.LoginRequest
-import com.brolo.jackal.model.LoginUser
 import com.brolo.jackal.model.User
 import com.brolo.jackal.network.ApiDataService
 import com.brolo.jackal.network.ApiInstance
@@ -63,7 +59,7 @@ class LoginActivity : AppCompatActivity(), LoginFormFragment.LoginEventsListener
 
         if (existingToken != null && userId != 0) {
             fetchUsersProfile(userId)
-        }  else {
+        } else {
             auth_check_progress.visibility = View.GONE
 
             supportFragmentManager.beginTransaction()

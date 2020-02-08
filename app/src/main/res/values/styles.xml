@@ -9,6 +9,11 @@
 
     </style>
 
+    <style name="NoActionBar" parent="@android:style/Theme.Holo.Light">
+        <item name = "android:windowActionBar">false</item>
+        <item name = "android:windowNoTitle">true</item>
+    </style>
+
     <style name="Widget.Jackal.Button" parent="Widget.MaterialComponents.Button">
         <item name="backgroundTint">@color/colorAccent</item>
     </style>

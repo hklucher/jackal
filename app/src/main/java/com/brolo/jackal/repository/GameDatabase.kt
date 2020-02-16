@@ -27,25 +27,32 @@ abstract class GameDatabase : RoomDatabase() {
             }
 
             synchronized(this) {
-                val populateMapsCallback = object : RoomDatabase.Callback() {
-                    override fun onCreate(db: SupportSQLiteDatabase) {
-                        super.onCreate(db)
+//                val populateMapsCallback = object : RoomDatabase.Callback() {
+//                    override fun onCreate(db: SupportSQLiteDatabase) {
+//                        super.onCreate(db)
+//
+//                        MapUtils.ALL_MAPS.forEach { map ->
+//                            db.execSQL(
+//                                "INSERT INTO map (name) VALUES ('${map.name}')"
+//                            )
+//                        }
+//                    }
+//                }
+//
+//                val instance = Room.databaseBuilder(
+//                    context.applicationContext,
+//                    GameDatabase::class.java,
+//                    "game_database"
+//                ).addCallback(populateMapsCallback).build()
 
-                        MapUtils.ALL_MAPS.forEach { map ->
-                            db.execSQL(
-                                "INSERT INTO map (name) VALUES ('${map.name}')"
-                            )
-                        }
-                    }
-                }
+            val instance = Room.databaseBuilder(
+                context.applicationContext,
+                GameDatabase::class.java,
+                "game_database"
+            ).build()
 
-                val instance = Room.databaseBuilder(
-                    context.applicationContext,
-                    GameDatabase::class.java,
-                    "game_database"
-                ).addCallback(populateMapsCallback).build()
 
-                INSTANCE = instance
+            INSTANCE = instance
 
                 return instance
             }

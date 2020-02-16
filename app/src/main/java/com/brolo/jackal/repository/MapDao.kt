@@ -13,6 +13,9 @@ interface MapDao {
     @Query("SELECT * FROM map")
     fun getAll(): LiveData<List<Map>>
 
-    @Insert(onConflict = OnConflictStrategy.IGNORE)
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(game: Game)
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertMany(vararg maps: Map)
 }

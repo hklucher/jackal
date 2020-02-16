@@ -1,7 +1,7 @@
 package com.brolo.jackal.network
 
-import com.brolo.jackal.model.LoginRequest
-import com.brolo.jackal.model.User
+import com.brolo.jackal.model.*
+import com.brolo.jackal.model.Map
 import retrofit2.Call
 import retrofit2.http.Body
 import retrofit2.http.GET
@@ -14,6 +14,14 @@ interface ApiDataService {
     fun login(@Body body: LoginRequest): Call<User>
 
     // Fetch User's profile
-    @GET("/users/{id}")
+    @GET("/api/v1/users/{id}")
     fun getUser(@Path("id") id: Int): Call<User>
+
+    // Fetch a list of the user's games
+    @GET("/api/v1/games")
+    fun getGames(): Call<GamesListResponse>
+
+    // Fetch all maps
+    @GET("/api/v1/maps")
+    fun getAllMaps(): Call<MapResponse>
 }

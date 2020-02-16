@@ -2,14 +2,16 @@ package com.brolo.jackal.ui.main
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import com.brolo.jackal.MainActivity
 import com.brolo.jackal.R
-import com.brolo.jackal.model.LoginRequest
-import com.brolo.jackal.model.User
+import com.brolo.jackal.model.*
+import com.brolo.jackal.model.Map
 import com.brolo.jackal.network.ApiDataService
 import com.brolo.jackal.network.ApiInstance
+import com.brolo.jackal.repository.GameDatabase
 import com.brolo.jackal.utils.AuthUtils
 import kotlinx.android.synthetic.main.activity_login.*
 import retrofit2.Call
@@ -58,6 +60,7 @@ class LoginActivity : AppCompatActivity(), LoginFormFragment.LoginEventsListener
         val userId = AuthUtils.getUserId(this)
 
         if (existingToken != null && userId != 0) {
+            ApiInstance.setAuthUtility(existingToken)
             fetchUsersProfile(userId)
         } else {
             auth_check_progress.visibility = View.GONE
@@ -75,10 +78,36 @@ class LoginActivity : AppCompatActivity(), LoginFormFragment.LoginEventsListener
         response.enqueue(object : Callback<User> {
             override fun onResponse(call: Call<User>, response: Response<User>) {
                 // TODO: Do something with the current user
-                proceedToMainApp()
+//                proceedToMainApp()
+                fetchAndSaveMaps()
             }
 
             override fun onFailure(call: Call<User>, t: Throwable) {}
+        })
+    }
+
+    private fun fetchAndSaveMaps() {
+        val service = ApiInstance.getInstance().create(ApiDataService::class.java)
+        val request = service.getAllMaps()
+
+        request.enqueue(object : Callback<MapResponse> {
+            override fun onResponse(call: Call<MapResponse>, response: Response<MapResponse>) {
+                val maps = response.body()?.getMaps()
+
+                if (maps != null) {
+                    val mapsDao = GameDatabase.getDatabase(application).mapDao()
+
+                    suspend {
+                        mapsDao.insertMany(*maps.toTypedArray())
+                    }
+                }
+
+                proceedToMainApp()
+            }
+
+            override fun onFailure(call: Call<MapResponse>, t: Throwable) {
+                Log.d(TAG, "Response!")
+            }
         })
     }
 

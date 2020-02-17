@@ -93,7 +93,7 @@ class MainActivity : AppCompatActivity(R.layout.main_activity),
     }
 
     override fun onGameCreated(game: Game) {
-        insertGame(game)
+//        insertGame(game)
     }
 
     override fun onGameDeleted(gameId: Int) {

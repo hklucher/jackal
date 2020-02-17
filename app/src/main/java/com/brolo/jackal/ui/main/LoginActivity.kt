@@ -14,6 +14,8 @@ import com.brolo.jackal.network.ApiInstance
 import com.brolo.jackal.repository.GameDatabase
 import com.brolo.jackal.utils.AuthUtils
 import kotlinx.android.synthetic.main.activity_login.*
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -77,8 +79,6 @@ class LoginActivity : AppCompatActivity(), LoginFormFragment.LoginEventsListener
 
         response.enqueue(object : Callback<User> {
             override fun onResponse(call: Call<User>, response: Response<User>) {
-                // TODO: Do something with the current user
-//                proceedToMainApp()
                 fetchAndSaveMaps()
             }
 
@@ -94,21 +94,24 @@ class LoginActivity : AppCompatActivity(), LoginFormFragment.LoginEventsListener
             override fun onResponse(call: Call<MapResponse>, response: Response<MapResponse>) {
                 val maps = response.body()?.getMaps()
 
-                if (maps != null) {
-                    val mapsDao = GameDatabase.getDatabase(application).mapDao()
-
-                    suspend {
-                        mapsDao.insertMany(*maps.toTypedArray())
-                    }
-                }
-
-                proceedToMainApp()
+                insertMaps(maps)
             }
 
             override fun onFailure(call: Call<MapResponse>, t: Throwable) {
                 Log.d(TAG, "Response!")
             }
         })
+    }
+
+    private fun insertMaps(maps: List<Map>?) {
+        if (maps != null) {
+            val mapsDao = GameDatabase.getDatabase(application).mapDao()
+
+            GlobalScope.launch {
+                mapsDao.insertMany(*maps.toTypedArray())
+                proceedToMainApp()
+            }
+        }
     }
 
     private fun proceedToMainApp() {

@@ -2,6 +2,7 @@ package com.brolo.jackal.ui.main
 
 import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,13 +14,21 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.brolo.jackal.R
 import com.brolo.jackal.model.Game
+import com.brolo.jackal.model.GameResponse
 import com.brolo.jackal.model.Map
+import com.brolo.jackal.network.ApiDataService
+import com.brolo.jackal.network.ApiInstance
+import com.brolo.jackal.repository.GamesRepository
 import com.brolo.jackal.utils.MapUtils
 import com.brolo.jackal.viewmodel.MapsViewModel
+import com.google.android.material.tabs.TabLayout
 import java.lang.ClassCastException
 import kotlinx.android.synthetic.main.dialog_log_game.cancel_btn
 import kotlinx.android.synthetic.main.dialog_log_game.log_game_btn
 import kotlinx.android.synthetic.main.dialog_log_game.map_spinner
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 class LogGameDialogFragment : DialogFragment() {
 
@@ -95,7 +104,22 @@ class LogGameDialogFragment : DialogFragment() {
         log_game_btn.setOnClickListener {
             val game = createGameFromForm()
 
-            listener.onGameCreated(game)
+            val apiInstance = ApiInstance.getInstance().create(ApiDataService::class.java)
+            val request = apiInstance.postGame(game)
+
+            request.enqueue(object : Callback<GameResponse> {
+                override fun onResponse(call: Call<GameResponse>, response: Response<GameResponse>) {
+                    if (response.isSuccessful) {
+                        Log.d("LogGameDialogFragment", "done")
+
+                        listener.onGameCreated(game)
+                    }
+                }
+
+                override fun onFailure(call: Call<GameResponse>, t: Throwable) {
+                    Log.d("LogGameDialogFragment", "failed")
+                }
+            })
 
             dialog?.dismiss()
         }

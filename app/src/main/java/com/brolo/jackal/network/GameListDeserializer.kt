@@ -1,6 +1,5 @@
 package com.brolo.jackal.network
 
-import android.util.Log
 import com.brolo.jackal.model.Game
 import com.brolo.jackal.model.GameListResponse
 import com.google.gson.JsonDeserializationContext

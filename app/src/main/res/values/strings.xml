@@ -41,6 +41,10 @@
     <string name="title_team_stats">Starting Teams</string>
     <string name="title_win_loss">Wins and Losses</string>
     <string name="title_maps">Maps</string>
+    <string name="win_loss_overall">
+        Your overall win/loss
+    </string>
+
     <plurals name="total_games">
         <item quantity="one">You have recorded %d games</item>
         <item quantity="other">You have recorded %d games</item>

@@ -7,7 +7,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 class ApiInstance {
     companion object {
         lateinit var retrofit: Retrofit
-        private const val BASE_URL = "https://6146b5b5.ngrok.io"
+        private const val BASE_URL = "https://ebb9c980.ngrok.io"
 
         fun getInstance(): Retrofit {
             if (!this::retrofit.isInitialized) {

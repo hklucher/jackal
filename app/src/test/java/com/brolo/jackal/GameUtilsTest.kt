@@ -13,21 +13,21 @@ class GameUtilsTest {
     private val wonGame = Game(
         0,
         "attack",
-        true,
+        "won",
         allMaps.first().id
     )
 
     private val lostGame = Game(
         0,
         "defense",
-        false,
+        "lost",
         allMaps.first().id
     )
 
     private val inProgressGame = Game(
         0,
         "attack",
-        null,
+        "inProgress",
         allMaps.first().id
     )
 

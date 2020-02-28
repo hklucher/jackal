@@ -4,7 +4,6 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
-import com.brolo.jackal.MainActivity
 import com.brolo.jackal.R
 import com.brolo.jackal.model.LoginRequest
 import com.brolo.jackal.model.User
@@ -49,6 +48,7 @@ class LoginActivity : AppCompatActivity(), LoginFormFragment.LoginEventsListener
             }
 
             override fun onFailure(call: Call<User>, t: Throwable) {
+                TODO("Implement login errors")
             }
         })
     }
@@ -58,6 +58,9 @@ class LoginActivity : AppCompatActivity(), LoginFormFragment.LoginEventsListener
         val userId = AuthUtils.getUserId(this)
 
         if (existingToken != null && userId != 0) {
+            // Set the auth header on all requests on our api singleton
+            ApiInstance.setAuthUtility(existingToken)
+
             fetchUsersProfile(userId)
         } else {
             auth_check_progress.visibility = View.GONE
@@ -83,7 +86,7 @@ class LoginActivity : AppCompatActivity(), LoginFormFragment.LoginEventsListener
     }
 
     private fun proceedToMainApp() {
-        val intent = Intent(this, MainActivity::class.java).also {
+        val intent = Intent(this, DashboardActivity::class.java).also {
             it.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
         }
 

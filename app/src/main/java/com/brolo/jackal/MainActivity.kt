@@ -83,7 +83,7 @@ class MainActivity : AppCompatActivity(R.layout.main_activity),
             if (resultCode == Activity.RESULT_OK) {
                 val gameId = data?.extras?.getInt(RESULT_GAME_ID)
                 val game = viewModel.allGames.value?.find { g -> g.id == gameId }
-                game?.didWin = data?.extras?.getBoolean(RESULT_ARG_DID_WIN)
+//                game?.didWin = data?.extras?.getBoolean(RESULT_ARG_DID_WIN)
 
                 if (game != null) {
                     updateGame(game)
@@ -233,11 +233,11 @@ class MainActivity : AppCompatActivity(R.layout.main_activity),
 
         builder.setTitle(R.string.delete_all_games)
         builder.setMessage(R.string.confirm_delete_all_games)
-        builder.setPositiveButton("DELETE EVERYTHING") { dialog, which ->
+        builder.setPositiveButton("DELETE EVERYTHING") { _, _ ->
             viewModel.deleteAll()
         }
 
-        builder.setNegativeButton("CANCEL") { dialog, which ->
+        builder.setNegativeButton("CANCEL") { dialog, _ ->
             dialog.dismiss()
         }
 

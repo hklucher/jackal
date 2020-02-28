@@ -43,7 +43,7 @@ class GameAdapter(
             clickListener.onGameClick(position)
         }
 
-        setStatusTextStyle(holder, game.didWin)
+//        setStatusTextStyle(holder, game.didWin)
     }
 
     override fun getItemCount(): Int {

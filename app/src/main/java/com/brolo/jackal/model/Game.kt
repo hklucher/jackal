@@ -18,4 +18,8 @@ data class Game(
         const val TeamAttack = "attack"
         const val TeamDefense = "defense"
     }
+
+    fun didWin(): Boolean = status == "won"
+
+    fun didLose(): Boolean = status == "lost"
 }

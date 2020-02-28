@@ -31,7 +31,7 @@ class GameListDeserializer : JsonDeserializer<GameListResponse> {
                 val startingTeam = attributes.get("startingTeam").asString
                 val mapId = attributes.get("mapId").asInt
 
-                games.add(Game(id, status, startingTeam, mapId))
+                games.add(Game(id, startingTeam, status, mapId))
             }
         }
 

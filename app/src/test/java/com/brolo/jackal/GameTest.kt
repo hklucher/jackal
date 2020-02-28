@@ -45,4 +45,46 @@ class GameTest {
     fun teamConstants_DefenseReturnsCorrectString() {
         assert(Game.TeamDefense == "defense")
     }
+
+    @Test
+    fun didWin_returnsTrueWhenStatusIsWon() {
+        game.status = "won"
+
+        assert(game.didWin())
+    }
+
+    @Test
+    fun didWin_returnsFalseWhenStatusIsInProgress() {
+        game.status = "in_progress"
+
+        assert(!game.didWin())
+    }
+
+    @Test
+    fun didWin_returnsFalseWhenStatusIsLost() {
+        game.status = "lost"
+
+        assert(!game.didWin())
+    }
+
+    @Test
+    fun didLose_returnsTrueWhenStatusIsLost() {
+        game.status = "lost"
+
+        assert(game.didLose())
+    }
+
+    @Test
+    fun didLose_returnsFalseWhenStatusIsWon() {
+        game.status = "won"
+
+        assert(!game.didLose())
+    }
+
+    @Test
+    fun didLose_returnsFalseWhenStatusIsInProgress() {
+        game.status = "in_progress"
+
+        assert(!game.didLose())
+    }
 }

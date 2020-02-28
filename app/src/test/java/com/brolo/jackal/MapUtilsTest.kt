@@ -13,9 +13,9 @@ class MapUtilsTest {
     private val maps = listOf(outback, villa)
 
     private val playedGames = listOf(
-        Game(1, "attack", false, outback.id),
-        Game(2, "defense", false, outback.id),
-        Game(3, "attack", true, villa.id)
+        Game(1, "attack", "in_progress", outback.id),
+        Game(2, "defense", "lost", outback.id),
+        Game(3, "attack", "won", villa.id)
     )
 
     @Test

@@ -13,8 +13,7 @@
     <string name="maps">Maps</string>
     <string name="undo">Undo</string>
     <string name="game_actionsheet">Game Action Sheet</string>
-    <string name="record_game_result">Record game result</string>
-    <string name="delete_game">Delete game</string>
+    <string name="record_game_result">Record game result</string> <string name="delete_game">Delete game</string>
     <string name="manage_game">Manage Game</string>
     <string name="game_deleted">Game Deleted</string>
     <string name="yes">Yes</string>
@@ -39,7 +38,9 @@
     <string name="welcome_message">
         Welcome to Jackal!\nAn application designed to track all of your gameplay stats in Rainbow Six Siege.
     </string>
-
+    <string name="title_team_stats">Starting Teams</string>
+    <string name="title_win_loss">Wins and Losses</string>
+    <string name="title_maps">Maps</string>
     <plurals name="total_games">
         <item quantity="one">You have recorded %d games</item>
         <item quantity="other">You have recorded %d games</item>

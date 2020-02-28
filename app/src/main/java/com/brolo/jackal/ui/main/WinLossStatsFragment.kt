@@ -22,4 +22,3 @@ class WinLossStatsFragment : Fragment() {
         return inflater.inflate(R.layout.fragment_win_loss_stats, container, false)
     }
 }
-

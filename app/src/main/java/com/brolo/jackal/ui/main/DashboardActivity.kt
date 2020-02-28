@@ -9,7 +9,9 @@ import com.brolo.jackal.R
 import kotlinx.android.synthetic.main.activity_dashboard.*
 
 // Pager Adapter for Dashboard tabs.
-class DashboardPagerAdapter(fm: FragmentManager) : FragmentStatePagerAdapter(fm) {
+class DashboardPagerAdapter(fm: FragmentManager) : FragmentStatePagerAdapter(
+    fm, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT
+) {
     override fun getCount(): Int = 3
 
     override fun getPageTitle(position: Int): CharSequence? {

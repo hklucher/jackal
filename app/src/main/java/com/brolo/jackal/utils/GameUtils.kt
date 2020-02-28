@@ -18,11 +18,12 @@ class GameUtils {
         }
 
         fun getGameStatus(game: Game): String {
-            return when (game.didWin) {
-                true -> "Victory"
-                false -> "Loss"
-                else -> "In Progress"
-            }
+            return game.status
+//            return when (game.didWin) {
+//                true -> "Victory"
+//                false -> "Loss"
+//                else -> "In Progress"
+//            }
         }
     }
 }

@@ -115,7 +115,7 @@ class LogGameDialogFragment : DialogFragment() {
                 Game.TeamDefense
             }
 
-        val game = Game(0, startingTeam, null, null)
+        val game = Game(0, startingTeam, "in_progress", null)
         val allMaps = mapsViewModel.allMaps.value
 
         if (allMaps != null) {

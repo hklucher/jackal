@@ -23,7 +23,7 @@ class WinLossFragment : Fragment() {
     private lateinit var gamesViewModel: GamesViewModel
 
     private val gameObserver = Observer<List<Game>> {
-        setupChart(it)
+//        setupChart(it)
     }
 
     companion object {
@@ -58,30 +58,31 @@ class WinLossFragment : Fragment() {
         val pieChart = win_loss_pie_chart
 
         if (pieChart != null) {
-            val wonGames = allGames.filter { game -> game.didWin == true }
-            val lostGames = allGames.filter { game -> game.didWin == false }
-            val wonPercentage = CalcUtils.percentage(wonGames, allGames)
-            val lossPercentage = CalcUtils.percentage(lostGames, allGames)
-
-            entries.add(PieEntry(wonPercentage, "Victory"))
-            entries.add(PieEntry(lossPercentage, "Loss"))
-
-            val dataSet = PieDataSet(entries, "")
-            val pieChartData = PieData(dataSet)
-
-            dataSet.setColors(
-                Color.parseColor("#ff6f00"),
-                Color.parseColor("#1976d2")
-            )
-            dataSet.setDrawValues(false)
-
-            pieChart.animateX(500, Easing.Linear)
-            pieChart.animateY(500, Easing.Linear)
-            pieChart.holeRadius = 0.0f
-            pieChart.transparentCircleRadius = 0.0f
-            pieChart.data = pieChartData
-            pieChart.description.isEnabled = false
-            pieChart.invalidate()
+            TODO("Re-implement")
+//            val wonGames = allGames.filter { game -> game.didWin == true }
+//            val lostGames = allGames.filter { game -> game.didWin == false }
+//            val wonPercentage = CalcUtils.percentage(wonGames, allGames)
+//            val lossPercentage = CalcUtils.percentage(lostGames, allGames)
+//
+//            entries.add(PieEntry(wonPercentage, "Victory"))
+//            entries.add(PieEntry(lossPercentage, "Loss"))
+//
+//            val dataSet = PieDataSet(entries, "")
+//            val pieChartData = PieData(dataSet)
+//
+//            dataSet.setColors(
+//                Color.parseColor("#ff6f00"),
+//                Color.parseColor("#1976d2")
+//            )
+//            dataSet.setDrawValues(false)
+//
+//            pieChart.animateX(500, Easing.Linear)
+//            pieChart.animateY(500, Easing.Linear)
+//            pieChart.holeRadius = 0.0f
+//            pieChart.transparentCircleRadius = 0.0f
+//            pieChart.data = pieChartData
+//            pieChart.description.isEnabled = false
+//            pieChart.invalidate()
         }
     }
 }

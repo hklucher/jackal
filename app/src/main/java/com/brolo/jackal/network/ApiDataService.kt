@@ -16,4 +16,7 @@ interface ApiDataService {
     // Fetch User's profile
     @GET("/users/{id}")
     fun getUser(@Path("id") id: Int): Call<User>
+
+//    @GET("/api/v1/games")
+//    fun getLoggedGames(): Call<>
 }

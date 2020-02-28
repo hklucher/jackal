@@ -5,6 +5,8 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.viewModelScope
 import com.brolo.jackal.model.Game
+import com.brolo.jackal.network.ApiDataService
+import com.brolo.jackal.network.ApiInstance
 import com.brolo.jackal.repository.GameDatabase
 import com.brolo.jackal.repository.GamesRepository
 import kotlinx.coroutines.launch
@@ -44,4 +46,9 @@ class GamesViewModel(application: Application) : AndroidViewModel(application) {
             repository.deleteAll()
         }
     }
+
+//    private fun populateGamesFromApi() {
+////        val apiInstance = ApiInstance.getInstance().create(ApiDataService::class.java)
+////        val response = apiInstance.
+//    }
 }

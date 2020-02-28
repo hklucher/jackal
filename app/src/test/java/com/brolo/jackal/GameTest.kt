@@ -87,4 +87,25 @@ class GameTest {
 
         assert(!game.didLose())
     }
+
+    @Test
+    fun isComplete_returnsFalseWhenStatusIsInProgress() {
+        game.status = "in_progress"
+
+        assert(!game.isComplete())
+    }
+
+    @Test
+    fun isComplete_returnsTrueWhenStatusWon() {
+        game.status = "won"
+
+        assert(game.isComplete())
+    }
+
+    @Test
+    fun isComplete_returnsTrueWhenStatusLost() {
+        game.status = "lost"
+
+        assert(game.isComplete())
+    }
 }

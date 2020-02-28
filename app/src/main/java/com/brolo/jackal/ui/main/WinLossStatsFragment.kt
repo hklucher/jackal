@@ -62,16 +62,17 @@ class WinLossStatsFragment : Fragment() {
         val allGames = viewModel.allGames.value
 
         if (pieChart != null && allGames != null) {
-            val wonGames = allGames.filter { it.didWin() }
-            val lostGames = allGames.filter { it.didLose() }
+            val completedGames = allGames.filter { it.isComplete() }
+            val wonGames = completedGames.filter { it.didWin() }
+            val lostGames = completedGames.filter { it.didLose() }
 
-            val wonPercentage = CalcUtils.percentage(wonGames, allGames)
-            val lostPercentage = CalcUtils.percentage(lostGames, allGames)
+            val wonPercentage = CalcUtils.percentage(wonGames, completedGames)
+            val lostPercentage = CalcUtils.percentage(lostGames, completedGames)
 
             // Add entry for won games
-            entries.add(PieEntry(wonPercentage, "Won"))
+            entries.add(PieEntry(wonPercentage, "${wonPercentage.toInt()}% Won"))
             // Add entry for lost games
-            entries.add(PieEntry(lostPercentage, "Lost"))
+            entries.add(PieEntry(lostPercentage, "${lostPercentage.toInt()}% Lost"))
 
             val dataSet = PieDataSet(entries, "")
             val pieChartData = PieData(dataSet)

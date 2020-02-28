@@ -23,6 +23,8 @@
         app:layout_constraintTop_toBottomOf="@id/header_win_loss"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
+        android:layout_marginRight="14dp"
+        android:layout_marginLeft="14dp"
         android:layout_width="match_parent"
         android:layout_height="300dp" />
 

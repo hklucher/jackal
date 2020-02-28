@@ -22,4 +22,6 @@ data class Game(
     fun didWin(): Boolean = status == "won"
 
     fun didLose(): Boolean = status == "lost"
+
+    fun isComplete(): Boolean = status != "in_progress"
 }

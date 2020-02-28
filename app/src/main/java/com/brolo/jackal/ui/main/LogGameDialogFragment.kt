@@ -13,8 +13,7 @@ import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.brolo.jackal.R
-import com.brolo.jackal.model.Game
-import com.brolo.jackal.model.GameResponse
+import com.brolo.jackal.model.*
 import com.brolo.jackal.model.Map
 import com.brolo.jackal.network.ApiDataService
 import com.brolo.jackal.network.ApiInstance
@@ -103,12 +102,15 @@ class LogGameDialogFragment : DialogFragment() {
     private fun setupButtons() {
         log_game_btn.setOnClickListener {
             val game = createGameFromForm()
+            val body = GamePostBody(game.mapId, "in_progress", game.startingTeam)
 
             val apiInstance = ApiInstance.getInstance().create(ApiDataService::class.java)
-            val request = apiInstance.postGame(game)
+            val request = apiInstance.postGame(GamePostRequest(body))
 
             request.enqueue(object : Callback<GameResponse> {
                 override fun onResponse(call: Call<GameResponse>, response: Response<GameResponse>) {
+                    //  TODO: Need to figure out deserialization, then figure out how to add to view model
+                    //  without db
                     if (response.isSuccessful) {
                         Log.d("LogGameDialogFragment", "done")
 
@@ -139,7 +141,7 @@ class LogGameDialogFragment : DialogFragment() {
                 Game.TeamDefense
             }
 
-        val game = Game(0, startingTeam, null, null)
+        val game = Game(0, startingTeam, null, 0)
         val allMaps = mapsViewModel.allMaps.value
 
         if (allMaps != null) {

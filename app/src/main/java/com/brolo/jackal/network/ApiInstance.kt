@@ -1,6 +1,7 @@
 package com.brolo.jackal.network
 
 import com.brolo.jackal.model.Game
+import com.google.gson.FieldNamingPolicy
 import com.google.gson.GsonBuilder
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
@@ -23,7 +24,9 @@ class ApiInstance {
 
         fun setAuthUtility(authToken: String): Retrofit {
             val httpClient = OkHttpClient.Builder()
-            val gsonBuilder = GsonBuilder()
+//            val gsonBuilder = GsonBuilder().setFieldNamingPolicy(
+//                FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES
+//            )
             val deserializer = GamesListDeserializer()
 //            gsonBuilder.registerTypeAdapter(Game::class.java, deserializer)
 //            val customGson = gsonBuilder.create()
@@ -31,6 +34,7 @@ class ApiInstance {
             val gson = GsonBuilder()
                         .registerTypeAdapter(Map::class.java, MapDeserializer())
                         .registerTypeAdapter(Game::class.java, GamesListDeserializer())
+                        .setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES)
                         .create()
 
             httpClient.addInterceptor { chain ->

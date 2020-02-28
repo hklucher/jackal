@@ -26,5 +26,5 @@ interface ApiDataService {
     fun getAllMaps(): Call<MapResponse>
 
     @POST("/api/v1/games")
-    fun postGame(@Body game: Game): Call<GameResponse>
+    fun postGame(@Body game: GamePostRequest): Call<GameResponse>
 }

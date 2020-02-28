@@ -1,5 +1,6 @@
 package com.brolo.jackal.network
 
+import com.brolo.jackal.model.GameListResponse
 import com.brolo.jackal.model.LoginRequest
 import com.brolo.jackal.model.User
 import retrofit2.Call
@@ -17,6 +18,6 @@ interface ApiDataService {
     @GET("/users/{id}")
     fun getUser(@Path("id") id: Int): Call<User>
 
-//    @GET("/api/v1/games")
-//    fun getLoggedGames(): Call<>
+    @GET("/api/v1/games")
+    fun getLoggedGames(): Call<GameListResponse>
 }

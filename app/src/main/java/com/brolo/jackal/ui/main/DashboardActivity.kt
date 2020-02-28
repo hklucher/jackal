@@ -1,40 +1,29 @@
 package com.brolo.jackal.ui.main
 
 import android.os.Bundle
+import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
-import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentManager
-import androidx.fragment.app.FragmentStatePagerAdapter
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProviders
 import com.brolo.jackal.R
+import com.brolo.jackal.model.Game
+import com.brolo.jackal.viewmodel.GamesViewModel
 import kotlinx.android.synthetic.main.activity_dashboard.*
 
-// Pager Adapter for Dashboard tabs.
-class DashboardPagerAdapter(fm: FragmentManager) : FragmentStatePagerAdapter(
-    fm, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT
-) {
-    override fun getCount(): Int = 3
-
-    override fun getPageTitle(position: Int): CharSequence? {
-        return when (position) {
-            0 -> "Win / Loss"
-            1 -> "Starting Teams"
-            2 -> "Maps"
-            else -> null
-        }
-    }
-
-    override fun getItem(position: Int): Fragment {
-        return when (position) {
-            0 -> WinLossStatsFragment.getInstance()
-            1 -> TeamStatsFragment.getInstance()
-            2 -> MapsPlayedStatsFragment.getInstance()
-            // Default to MapsPlayedStatsFragment if we get an index we don't recognize
-            else -> MapsPlayedStatsFragment.getInstance()
-        }
-    }
-}
-
 class DashboardActivity : AppCompatActivity(R.layout.activity_dashboard) {
+
+    private lateinit var viewModel: GamesViewModel
+
+    companion object {
+        @Suppress("unused")
+        val TAG = DashboardActivity::class.java.simpleName
+    }
+
+    private val loggedGamesObserver = Observer<List<Game>> {
+        Log.d(TAG, "loggedGamesObserver updated!")
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -44,5 +33,13 @@ class DashboardActivity : AppCompatActivity(R.layout.activity_dashboard) {
         viewPager.adapter = adapter
 
         dashboard_tab_layout.setupWithViewPager(viewPager)
+
+        viewModel = ViewModelProviders.of(this).get(GamesViewModel::class.java)
+
+        observeGamesViewModel(viewModel)
+    }
+
+    private fun observeGamesViewModel(gamesViewModel: GamesViewModel) {
+        gamesViewModel.allGames.observe(this, loggedGamesObserver)
     }
 }

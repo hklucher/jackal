@@ -58,6 +58,9 @@ class LoginActivity : AppCompatActivity(), LoginFormFragment.LoginEventsListener
         val userId = AuthUtils.getUserId(this)
 
         if (existingToken != null && userId != 0) {
+            // Set the auth header on all requests on our api singleton
+            ApiInstance.setAuthUtility(existingToken)
+
             fetchUsersProfile(userId)
         } else {
             auth_check_progress.visibility = View.GONE

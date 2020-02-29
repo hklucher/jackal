@@ -5,6 +5,7 @@ import androidx.room.Entity
 import androidx.room.ForeignKey
 import androidx.room.Index
 import androidx.room.PrimaryKey
+import org.joda.time.DateTime
 import org.joda.time.LocalDate
 import org.joda.time.format.DateTimeFormat
 import java.io.Serializable
@@ -25,8 +26,6 @@ data class Game(
     companion object {
         const val TeamAttack = "attack"
         const val TeamDefense = "defense"
-
-        const val DATE_TIME_FORMAT = "EEE, dd MMM yyyy HH:mm:ss Z"
     }
 
     fun didWin(): Boolean = status == "won"
@@ -41,10 +40,7 @@ data class Game(
         }
 
         return try {
-            LocalDate.parse(
-                this.createdAt?.replace("UTC ", ""),
-                DateTimeFormat.forPattern(DATE_TIME_FORMAT)
-            )
+            DateTime(this.createdAt).toLocalDate()
         } catch (e: IllegalArgumentException) {
             null
         }

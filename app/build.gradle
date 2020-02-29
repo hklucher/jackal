@@ -46,6 +46,9 @@ dependencies {
     implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.0.0'
     implementation 'com.google.android.material:material:1.2.0-alpha01'
     implementation 'com.github.PhilJay:MPAndroidChart:v3.1.0'
+    implementation "joda-time:joda-time:2.10.5"
+    implementation "com.github.debop:koda-time:1.2.1"
+
 
     //  Room dependencies
     implementation "androidx.room:room-runtime:$room_version"

@@ -18,6 +18,13 @@ import com.github.mikephil.charting.data.PieData
 import com.github.mikephil.charting.data.PieDataSet
 import com.github.mikephil.charting.data.PieEntry
 import kotlinx.android.synthetic.main.fragment_win_loss_stats.*
+import org.joda.time.*
+import kotlin.time.ExperimentalTime
+import kotlin.time.days
+
+fun Interval.toLocalDates(): Sequence<LocalDate> = generateSequence(start) { d ->
+    d.plusDays(1).takeIf { it < end }
+}.map(DateTime::toLocalDate)
 
 class WinLossStatsFragment : Fragment() {
 
@@ -34,6 +41,7 @@ class WinLossStatsFragment : Fragment() {
 
     private val loggedGamesObserver = Observer<List<Game>> {
         setupWinLossPieChart()
+        setupLineChart()
     }
 
     override fun onCreateView(
@@ -55,6 +63,7 @@ class WinLossStatsFragment : Fragment() {
         observeGamesViewModel(viewModel)
         setupWinLossPieChart()
         setupChartChips()
+//        setupLineChart()
     }
 
     private fun observeGamesViewModel(gamesViewModel: GamesViewModel) {
@@ -114,8 +123,35 @@ class WinLossStatsFragment : Fragment() {
         }
     }
 
-//    private fun setupLineChart() {
-//        val chart = line_chart_win_loss
-//        val dataObject = mutableListOf<Entry>()
-//    }
+    private fun setupLineChart() {
+        val chart = line_chart_win_loss
+        val dataObject = mutableListOf<Entry>()
+        val now = DateTime.now()
+        val sevenDaysAgo = now.minusDays(7)
+        val allGames = viewModel.allGames.value
+        val pastWeek = Interval(now.minusDays(7), now)
+
+        // Iterate over the last 7 days
+        pastWeek.toLocalDates().forEach { date ->
+            val wonOnDay = allGames?.filter { game ->
+                val gamePlayedAt = game.createdAtTimestamp()
+
+                if (gamePlayedAt != null) {
+                    game.didWin() && gamePlayedAt.toDateMidnight().isEqual(date.toDateMidnight())
+                } else {
+                    false
+                }
+            }
+
+            val lostOnDay = allGames?.filter { game ->
+                val gamePlayedAt = game.createdAtTimestamp()
+
+                if (gamePlayedAt != null) {
+                    game.didLose() && gamePlayedAt.toDateMidnight().isEqual(date.toDateMidnight())
+                } else {
+                    false
+                }
+            }
+        }
+    }
 }

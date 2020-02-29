@@ -1,12 +1,13 @@
 package com.brolo.jackal
 
+import android.util.Log
 import com.brolo.jackal.model.Game
 import org.junit.Test
 import java.util.*
 
 class GameTest {
 
-    private val createdAt = "Tue, 04 Feb 2020 23:58:51 UTC +00:00"
+    private val createdAt = "2020-02-09T16:41:43.216Z"
 
     private val game = Game(1, "attack", "in_progress", 1, createdAt)
 
@@ -138,7 +139,7 @@ class GameTest {
         val timestamp = game.createdAtTimestamp()
 
         assert(timestamp?.monthOfYear == 2)
-        assert(timestamp?.dayOfWeek == 2)
+        assert(timestamp?.dayOfMonth == 9)
         assert(timestamp?.year == 2020)
     }
 

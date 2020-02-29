@@ -21,4 +21,7 @@
 
     </androidx.viewpager.widget.ViewPager>
 
+    <include layout="@layout/bottom_navigation" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
+

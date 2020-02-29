@@ -48,12 +48,31 @@ class WinLossStatsFragment : Fragment() {
 
         viewModel = ViewModelProviders.of(this).get(GamesViewModel::class.java)
 
+        // TODO: This is fetching the games every single time you go back to the tab
+        // from "Maps" (could have something to do with the fact that the tab is furthest away)
+        // look into how lifecycles work here
         observeGamesViewModel(viewModel)
         setupWinLossPieChart()
+        setupChartChips()
     }
 
     private fun observeGamesViewModel(gamesViewModel: GamesViewModel) {
         gamesViewModel.allGames.observe(this, loggedGamesObserver)
+    }
+
+    private fun setupChartChips() {
+        win_loss_chart_chips.setOnCheckedChangeListener { _, checkedId ->
+            when (checkedId) {
+                R.id.win_loss_pie_chip -> {
+                    line_chart_win_loss.visibility = View.GONE
+                    pie_chart_win_loss.visibility = View.VISIBLE
+                }
+                R.id.win_loss_line_chip -> {
+                    pie_chart_win_loss.visibility = View.GONE
+                    line_chart_win_loss.visibility = View.VISIBLE
+                }
+            }
+        }
     }
 
     private fun setupWinLossPieChart() {

@@ -13,10 +13,7 @@ import com.brolo.jackal.R
 import com.brolo.jackal.model.Game
 import com.brolo.jackal.utils.CalcUtils
 import com.brolo.jackal.viewmodel.GamesViewModel
-import com.github.mikephil.charting.data.Entry
-import com.github.mikephil.charting.data.PieData
-import com.github.mikephil.charting.data.PieDataSet
-import com.github.mikephil.charting.data.PieEntry
+import com.github.mikephil.charting.data.*
 import kotlinx.android.synthetic.main.fragment_win_loss_stats.*
 import org.joda.time.*
 import kotlin.time.ExperimentalTime
@@ -125,14 +122,17 @@ class WinLossStatsFragment : Fragment() {
 
     private fun setupLineChart() {
         val chart = line_chart_win_loss
-        val dataObject = mutableListOf<Entry>()
+        val wonEntries = mutableListOf<Entry>()
+        val lostEntries = mutableListOf<Entry>()
         val now = DateTime.now()
-        val sevenDaysAgo = now.minusDays(7)
         val allGames = viewModel.allGames.value
         val pastWeek = Interval(now.minusDays(7), now)
+        val lines = mutableListOf<LineDataSet>()
 
         // Iterate over the last 7 days
-        pastWeek.toLocalDates().forEach { date ->
+        pastWeek.toLocalDates().forEachIndexed { index, date ->
+            // TODO: Extract wonDay/lostDay funcition to utils class
+            // Get all the games played on the current date that were won
             val wonOnDay = allGames?.filter { game ->
                 val gamePlayedAt = game.createdAtTimestamp()
 
@@ -143,6 +143,7 @@ class WinLossStatsFragment : Fragment() {
                 }
             }
 
+            // Get all the games played on the current date that were lost
             val lostOnDay = allGames?.filter { game ->
                 val gamePlayedAt = game.createdAtTimestamp()
 
@@ -152,6 +153,27 @@ class WinLossStatsFragment : Fragment() {
                     false
                 }
             }
+
+            if (wonOnDay != null && lostOnDay != null) {
+                wonEntries.add(Entry(index.toFloat(), wonOnDay.size.toFloat()))
+                lostEntries.add(Entry(index.toFloat(), lostOnDay.size.toFloat()))
+            }
+
+
         }
+
+        val wonDataSet = LineDataSet(wonEntries, "Won Games")
+        val lostDataSet = LineDataSet(lostEntries, "Lost Games")
+
+        wonDataSet.color = Color.parseColor("#ff6f00")
+        lostDataSet.color = Color.parseColor("#1976d2")
+
+        lines.add(wonDataSet)
+        lines.add(lostDataSet)
+
+        chart.data = LineData(wonDataSet, lostDataSet)
+
+
+        chart.invalidate()
     }
 }

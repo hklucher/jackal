@@ -5,6 +5,8 @@ import org.junit.Test
 
 class GameTest {
 
+    private val createdAt = "Tue, 04 Feb 2020 23:58:51 UTC +00:00"
+
     private val game = Game(1, "attack", "in_progress", 1)
 
     @Test
@@ -27,6 +29,20 @@ class GameTest {
         game.status = "won"
 
         assert(game.status == "won")
+    }
+
+    @Test
+    fun attributes_hasCreatedAtReader() {
+        game.createdAt = createdAt
+
+        assert(game.createdAt == createdAt)
+    }
+
+    @Test
+    fun attributes_hasCreatedAtSetter() {
+        game.createdAt = "some_new_timestamp"
+
+        assert(game.createdAt == "some_new_timestamp")
     }
 
     @Test

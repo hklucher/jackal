@@ -13,6 +13,7 @@ import com.brolo.jackal.R
 import com.brolo.jackal.model.Game
 import com.brolo.jackal.utils.CalcUtils
 import com.brolo.jackal.viewmodel.GamesViewModel
+import com.github.mikephil.charting.data.Entry
 import com.github.mikephil.charting.data.PieData
 import com.github.mikephil.charting.data.PieDataSet
 import com.github.mikephil.charting.data.PieEntry
@@ -113,4 +114,8 @@ class WinLossStatsFragment : Fragment() {
         }
     }
 
+//    private fun setupLineChart() {
+//        val chart = line_chart_win_loss
+//        val dataObject = mutableListOf<Entry>()
+//    }
 }

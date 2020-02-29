@@ -12,7 +12,8 @@ data class Game(
     @PrimaryKey(autoGenerate = true) val id: Int = 0,
     @ColumnInfo(name = "starting_team") var startingTeam: String,
     var status: String,
-    @ColumnInfo(name = "map_id") var mapId: Int?
+    @ColumnInfo(name = "map_id") var mapId: Int?,
+    var createdAt: String? = null
 ) : Serializable {
     companion object {
         const val TeamAttack = "attack"

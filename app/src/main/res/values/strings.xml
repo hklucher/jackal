@@ -41,9 +41,11 @@
     <string name="title_team_stats">Starting Teams</string>
     <string name="title_win_loss">Wins and Losses</string>
     <string name="title_maps">Maps</string>
-    <string name="win_loss_overall">
-        Your overall win/loss
-    </string>
+    <string name="win_loss_overall">Your overall win/loss </string>
+    <string name="dashboard">Dashboard</string>
+    <string name="games">Games</string>
+    <string name="global">Global Stats</string>
+    <string name="settings">Settings</string>
 
     <plurals name="total_games">
         <item quantity="one">You have recorded %d games</item>

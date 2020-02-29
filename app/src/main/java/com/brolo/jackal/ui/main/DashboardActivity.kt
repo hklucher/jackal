@@ -10,6 +10,7 @@ import com.brolo.jackal.R
 import com.brolo.jackal.model.Game
 import com.brolo.jackal.viewmodel.GamesViewModel
 import kotlinx.android.synthetic.main.activity_dashboard.*
+import kotlinx.android.synthetic.main.bottom_navigation.*
 
 class DashboardActivity : AppCompatActivity(R.layout.activity_dashboard) {
 
@@ -27,6 +28,12 @@ class DashboardActivity : AppCompatActivity(R.layout.activity_dashboard) {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        setupViewPager()
+        setupBottomNavigation()
+    }
+
+    // Sets up the ViewPager for top tabs.
+    private fun setupViewPager() {
         val viewPager = dashboard_pager
         val adapter = DashboardPagerAdapter(supportFragmentManager)
 
@@ -37,6 +44,12 @@ class DashboardActivity : AppCompatActivity(R.layout.activity_dashboard) {
         viewModel = ViewModelProviders.of(this).get(GamesViewModel::class.java)
 
         observeGamesViewModel(viewModel)
+    }
+
+    // Do any necessary setup for the bottom navigation bar.
+    // TODO: Extract this to some sort of parent activity/interface
+    private fun setupBottomNavigation() {
+        bottom_app_bar.selectedItemId = R.id.actions_dashboard
     }
 
     private fun observeGamesViewModel(gamesViewModel: GamesViewModel) {

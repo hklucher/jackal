@@ -6,6 +6,9 @@ import androidx.room.ForeignKey
 import androidx.room.Index
 import androidx.room.PrimaryKey
 import java.io.Serializable
+import java.text.ParseException
+import java.text.SimpleDateFormat
+import java.util.*
 
 @Entity(indices = [Index("map_id")], foreignKeys = [ForeignKey(entity = Map::class, parentColumns = ["id"], childColumns = ["map_id"])])
 data class Game(
@@ -25,4 +28,16 @@ data class Game(
     fun didLose(): Boolean = status == "lost"
 
     fun isComplete(): Boolean = status != "in_progress"
+
+    fun createdAtTimestamp(): Calendar? {
+        return try {
+            val calendar =  Calendar.getInstance()
+            val sdf = SimpleDateFormat("EEE, dd MMM yyyy HH:mm:ss z", Locale.ENGLISH)
+            calendar.time = sdf.parse(this.createdAt)
+
+            calendar
+        } catch (e: ParseException) {
+            null
+        }
+    }
 }

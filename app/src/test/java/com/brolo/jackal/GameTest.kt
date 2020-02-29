@@ -2,12 +2,13 @@ package com.brolo.jackal
 
 import com.brolo.jackal.model.Game
 import org.junit.Test
+import java.util.*
 
 class GameTest {
 
     private val createdAt = "Tue, 04 Feb 2020 23:58:51 UTC +00:00"
 
-    private val game = Game(1, "attack", "in_progress", 1)
+    private val game = Game(1, "attack", "in_progress", 1, createdAt)
 
     @Test
     fun attributes_hasIdReader() {
@@ -123,5 +124,28 @@ class GameTest {
         game.status = "lost"
 
         assert(game.isComplete())
+    }
+
+    @Test
+    fun createdAtTimestamp_returnsNullWhenNoTimestamp() {
+        val game = Game(1, "attack", "in_progress", 1, null)
+
+        assert(game.createdAtTimestamp() == null)
+    }
+
+    @Test
+    fun createdAtTimestamp_returnsDateFromTimestamp() {
+        val timestamp = game.createdAtTimestamp()
+
+        assert(timestamp?.get(Calendar.MONTH) == 1)
+        assert(timestamp?.get(Calendar.DAY_OF_WEEK) == 3)
+        assert(timestamp?.get(Calendar.YEAR) == 2020)
+    }
+
+    @Test
+    fun createdAtTimestamp_returnsNullWhenInvalidTime() {
+        game.createdAt = "This won't work"
+
+        assert(game.createdAtTimestamp() == null)
     }
 }

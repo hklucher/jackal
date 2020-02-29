@@ -18,14 +18,42 @@
         android:textSize="16sp"
         android:text="@string/win_loss_overall" />
 
-    <com.github.mikephil.charting.charts.PieChart
-        android:id="@+id/pie_chart_win_loss"
+    <LinearLayout
+        android:id="@+id/win_loss_chart_container"
         app:layout_constraintTop_toBottomOf="@id/header_win_loss"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        android:layout_marginRight="14dp"
-        android:layout_marginLeft="14dp"
         android:layout_width="match_parent"
-        android:layout_height="300dp" />
+        android:layout_height="wrap_content">
+
+        <com.github.mikephil.charting.charts.PieChart
+            android:id="@+id/pie_chart_win_loss"
+            android:layout_marginRight="14dp"
+            android:layout_marginLeft="14dp"
+            android:layout_width="match_parent"
+            android:layout_height="300dp" />
+
+    </LinearLayout>
+
+    <com.google.android.material.chip.ChipGroup
+        app:layout_constraintTop_toBottomOf="@id/win_loss_chart_container"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:layout_margin="14dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <com.google.android.material.chip.Chip
+            style="@style/Widget.MaterialComponents.Chip.Filter"
+            android:text="@string/overall"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <com.google.android.material.chip.Chip
+            style="@style/Widget.MaterialComponents.Chip.Filter"
+            android:text="@string/past_7_days"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+    </com.google.android.material.chip.ChipGroup>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

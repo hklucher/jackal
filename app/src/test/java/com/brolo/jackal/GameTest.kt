@@ -137,9 +137,9 @@ class GameTest {
     fun createdAtTimestamp_returnsDateFromTimestamp() {
         val timestamp = game.createdAtTimestamp()
 
-        assert(timestamp?.get(Calendar.MONTH) == 1)
-        assert(timestamp?.get(Calendar.DAY_OF_WEEK) == 3)
-        assert(timestamp?.get(Calendar.YEAR) == 2020)
+        assert(timestamp?.monthOfYear == 2)
+        assert(timestamp?.dayOfWeek == 2)
+        assert(timestamp?.year == 2020)
     }
 
     @Test

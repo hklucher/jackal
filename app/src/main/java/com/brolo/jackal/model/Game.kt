@@ -5,9 +5,13 @@ import androidx.room.Entity
 import androidx.room.ForeignKey
 import androidx.room.Index
 import androidx.room.PrimaryKey
+import org.joda.time.LocalDate
+import org.joda.time.format.DateTimeFormat
 import java.io.Serializable
+import java.lang.IllegalArgumentException
 import java.text.ParseException
 import java.text.SimpleDateFormat
+import java.time.DateTimeException
 import java.util.*
 
 @Entity(indices = [Index("map_id")], foreignKeys = [ForeignKey(entity = Map::class, parentColumns = ["id"], childColumns = ["map_id"])])
@@ -21,6 +25,8 @@ data class Game(
     companion object {
         const val TeamAttack = "attack"
         const val TeamDefense = "defense"
+
+        const val DATE_TIME_FORMAT = "EEE, dd MMM yyyy HH:mm:ss Z"
     }
 
     fun didWin(): Boolean = status == "won"
@@ -29,14 +35,17 @@ data class Game(
 
     fun isComplete(): Boolean = status != "in_progress"
 
-    fun createdAtTimestamp(): Calendar? {
-        return try {
-            val calendar =  Calendar.getInstance()
-            val sdf = SimpleDateFormat("EEE, dd MMM yyyy HH:mm:ss z", Locale.ENGLISH)
-            calendar.time = sdf.parse(this.createdAt)
+    fun createdAtTimestamp(): LocalDate? {
+        if (this.createdAt == null) {
+            return null
+        }
 
-            calendar
-        } catch (e: ParseException) {
+        return try {
+            LocalDate.parse(
+                this.createdAt?.replace("UTC ", ""),
+                DateTimeFormat.forPattern(DATE_TIME_FORMAT)
+            )
+        } catch (e: IllegalArgumentException) {
             null
         }
     }

@@ -23,6 +23,7 @@ import com.github.mikephil.charting.data.PieDataSet
 import com.github.mikephil.charting.data.PieEntry
 import com.github.mikephil.charting.formatter.ValueFormatter
 import kotlinx.android.synthetic.main.fragment_win_loss_stats.*
+import kotlinx.android.synthetic.main.main_activity.*
 import org.joda.time.DateTime
 import org.joda.time.Interval
 
@@ -63,7 +64,6 @@ class WinLossStatsFragment : Fragment() {
         observeGamesViewModel(viewModel)
         setupWinLossPieChart()
         setupChartChips()
-//        setupLineChart()
     }
 
     private fun observeGamesViewModel(gamesViewModel: GamesViewModel) {
@@ -71,15 +71,18 @@ class WinLossStatsFragment : Fragment() {
     }
 
     private fun setupChartChips() {
+        // TODO: Change the "Overall win/loss" text here
         win_loss_chart_chips.setOnCheckedChangeListener { _, checkedId ->
             when (checkedId) {
                 R.id.win_loss_pie_chip -> {
                     line_chart_win_loss.visibility = View.GONE
                     pie_chart_win_loss.visibility = View.VISIBLE
+                    header_win_loss.text = getString(R.string.win_loss_overall)
                 }
                 R.id.win_loss_line_chip -> {
                     pie_chart_win_loss.visibility = View.GONE
                     line_chart_win_loss.visibility = View.VISIBLE
+                    header_win_loss.text = getString(R.string.win_loss_past_week)
                 }
             }
         }

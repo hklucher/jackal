@@ -42,6 +42,7 @@
     <string name="title_win_loss">Wins and Losses</string>
     <string name="title_maps">Maps</string>
     <string name="win_loss_overall">Your overall win/loss </string>
+    <string name="win_loss_past_week">Your win/loss from the past week</string>
     <string name="dashboard">Dashboard</string>
     <string name="games">Games</string>
     <string name="global">Global Stats</string>

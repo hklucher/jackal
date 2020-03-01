@@ -71,7 +71,6 @@ class WinLossStatsFragment : Fragment() {
     }
 
     private fun setupChartChips() {
-        // TODO: Change the "Overall win/loss" text here
         win_loss_chart_chips.setOnCheckedChangeListener { _, checkedId ->
             when (checkedId) {
                 R.id.win_loss_pie_chip -> {

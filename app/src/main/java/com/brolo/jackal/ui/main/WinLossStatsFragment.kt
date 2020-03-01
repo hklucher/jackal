@@ -12,8 +12,10 @@ import androidx.lifecycle.ViewModelProviders
 import com.brolo.jackal.R
 import com.brolo.jackal.model.Game
 import com.brolo.jackal.utils.CalcUtils
+import com.brolo.jackal.utils.DateBasedChartFormatter
 import com.brolo.jackal.viewmodel.GamesViewModel
 import com.github.mikephil.charting.data.*
+import com.github.mikephil.charting.formatter.ValueFormatter
 import kotlinx.android.synthetic.main.fragment_win_loss_stats.*
 import org.joda.time.*
 import kotlin.time.ExperimentalTime
@@ -126,7 +128,8 @@ class WinLossStatsFragment : Fragment() {
         val lostEntries = mutableListOf<Entry>()
         val now = DateTime.now()
         val allGames = viewModel.allGames.value
-        val pastWeek = Interval(now.minusDays(7), now)
+        // Get an interval of the past week, adding one day from now as the interval is exclusive at the end
+        val pastWeek = Interval(now.minusDays(6), now.plusDays(1))
         val lines = mutableListOf<LineDataSet>()
 
         // Iterate over the last 7 days
@@ -165,11 +168,42 @@ class WinLossStatsFragment : Fragment() {
         val wonDataSet = LineDataSet(wonEntries, "Won Games")
         val lostDataSet = LineDataSet(lostEntries, "Lost Games")
 
+        // Configure setup for the won data set
         wonDataSet.color = Color.parseColor("#ff6f00")
+        wonDataSet.lineWidth = 6f
+        wonDataSet.circleRadius = 6f
+        wonDataSet.setDrawCircleHole(false)
+        wonDataSet.setCircleColor(Color.parseColor("#d4d4d4"))
+        wonDataSet.setDrawValues(false)
+        wonDataSet.mode = LineDataSet.Mode.CUBIC_BEZIER
+
+        // Configure setup for the lost data set
         lostDataSet.color = Color.parseColor("#1976d2")
+        lostDataSet.lineWidth = 4f
+        lostDataSet.circleRadius = 6f
+        lostDataSet.setDrawCircleHole(false)
+        lostDataSet.setCircleColor(Color.parseColor("#d4d4d4"))
+        lostDataSet.setDrawValues(false)
+        lostDataSet.mode = LineDataSet.Mode.CUBIC_BEZIER
 
         lines.add(wonDataSet)
         lines.add(lostDataSet)
+
+        // General configuration for the chart
+        chart.description.isEnabled = false
+        chart.axisLeft.setDrawGridLines(false)
+        chart.xAxis.setDrawGridLines(false)
+        chart.xAxis.valueFormatter = DateBasedChartFormatter(pastWeek.toLocalDates().toList())
+        chart.axisRight.setDrawLabels(false)
+        chart.axisLeft.valueFormatter = object : ValueFormatter() {
+            override fun getFormattedValue(value: Float): String {
+                if (value % 1 == 0f) {
+                    return value.toInt().toString()
+                }
+
+                return ""
+            }
+        }
 
         chart.data = LineData(wonDataSet, lostDataSet)
 

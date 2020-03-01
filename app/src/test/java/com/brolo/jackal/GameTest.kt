@@ -5,7 +5,9 @@ import org.junit.Test
 
 class GameTest {
 
-    private val game = Game(1, "attack", "in_progress", 1)
+    private val createdAt = "2020-02-09T16:41:43.216Z"
+
+    private val game = Game(1, "attack", "in_progress", 1, createdAt)
 
     @Test
     fun attributes_hasIdReader() {
@@ -27,6 +29,20 @@ class GameTest {
         game.status = "won"
 
         assert(game.status == "won")
+    }
+
+    @Test
+    fun attributes_hasCreatedAtReader() {
+        game.createdAt = createdAt
+
+        assert(game.createdAt == createdAt)
+    }
+
+    @Test
+    fun attributes_hasCreatedAtSetter() {
+        game.createdAt = "some_new_timestamp"
+
+        assert(game.createdAt == "some_new_timestamp")
     }
 
     @Test
@@ -107,5 +123,28 @@ class GameTest {
         game.status = "lost"
 
         assert(game.isComplete())
+    }
+
+    @Test
+    fun createdAtTimestamp_returnsNullWhenNoTimestamp() {
+        val game = Game(1, "attack", "in_progress", 1, null)
+
+        assert(game.createdAtTimestamp() == null)
+    }
+
+    @Test
+    fun createdAtTimestamp_returnsDateFromTimestamp() {
+        val timestamp = game.createdAtTimestamp()
+
+        assert(timestamp?.monthOfYear == 2)
+        assert(timestamp?.dayOfMonth == 9)
+        assert(timestamp?.year == 2020)
+    }
+
+    @Test
+    fun createdAtTimestamp_returnsNullWhenInvalidTime() {
+        game.createdAt = "This won't work"
+
+        assert(game.createdAtTimestamp() == null)
     }
 }

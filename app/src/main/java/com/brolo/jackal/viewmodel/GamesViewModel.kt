@@ -33,7 +33,10 @@ class GamesViewModel(application: Application) : AndroidViewModel(application) {
         val request = apiInstance.getLoggedGames()
 
         request.enqueue(object : Callback<GameListResponse> {
-            override fun onResponse(call: Call<GameListResponse>, response: Response<GameListResponse>) {
+            override fun onResponse(
+                call: Call<GameListResponse>,
+                response: Response<GameListResponse>
+            ) {
                 allGames.value = response.body()?.data
             }
 
@@ -42,7 +45,6 @@ class GamesViewModel(application: Application) : AndroidViewModel(application) {
             }
         })
     }
-
 
     fun insert(game: Game) {
         viewModelScope.launch {

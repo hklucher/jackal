@@ -42,8 +42,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:paddingLeft="24dp"
+                android:paddingRight="24dp"
                 app:singleSelection="true"
-                android:paddingRight="24dp">
+                app:selectionRequired="true">
 
                 <com.google.android.material.chip.Chip
                     android:id="@+id/chip_start_side"

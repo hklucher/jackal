@@ -1,6 +1,5 @@
 package com.brolo.jackal.ui.main
 
-import android.graphics.Color
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -10,11 +9,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.brolo.jackal.R
 import com.brolo.jackal.model.Game
-import com.brolo.jackal.utils.CalcUtils
 import com.brolo.jackal.viewmodel.GamesViewModel
-import com.github.mikephil.charting.animation.Easing
-import com.github.mikephil.charting.data.PieData
-import com.github.mikephil.charting.data.PieDataSet
 import com.github.mikephil.charting.data.PieEntry
 import kotlinx.android.synthetic.main.fragment_win_loss.*
 

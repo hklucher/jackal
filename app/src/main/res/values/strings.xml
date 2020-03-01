@@ -42,10 +42,13 @@
     <string name="title_win_loss">Wins and Losses</string>
     <string name="title_maps">Maps</string>
     <string name="win_loss_overall">Your overall win/loss </string>
+    <string name="win_loss_past_week">Your win/loss from the past week</string>
     <string name="dashboard">Dashboard</string>
     <string name="games">Games</string>
     <string name="global">Global Stats</string>
     <string name="settings">Settings</string>
+    <string name="overall">Overall</string>
+    <string name="past_7_days">Past 7 Days</string>
 
     <plurals name="total_games">
         <item quantity="one">You have recorded %d games</item>

@@ -5,17 +5,17 @@ import androidx.room.Entity
 import androidx.room.ForeignKey
 import androidx.room.Index
 import androidx.room.PrimaryKey
-import org.joda.time.DateTime
-import org.joda.time.LocalDate
-import org.joda.time.format.DateTimeFormat
 import java.io.Serializable
 import java.lang.IllegalArgumentException
-import java.text.ParseException
-import java.text.SimpleDateFormat
-import java.time.DateTimeException
-import java.util.*
+import org.joda.time.DateTime
+import org.joda.time.LocalDate
 
-@Entity(indices = [Index("map_id")], foreignKeys = [ForeignKey(entity = Map::class, parentColumns = ["id"], childColumns = ["map_id"])])
+@Entity(
+    indices = [Index("map_id")],
+    foreignKeys = [ForeignKey(entity = Map::class,
+    parentColumns = ["id"],
+    childColumns = ["map_id"]
+)])
 data class Game(
     @PrimaryKey(autoGenerate = true) val id: Int = 0,
     @ColumnInfo(name = "starting_team") var startingTeam: String,

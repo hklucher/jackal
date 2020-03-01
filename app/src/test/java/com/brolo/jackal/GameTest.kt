@@ -1,9 +1,7 @@
 package com.brolo.jackal
 
-import android.util.Log
 import com.brolo.jackal.model.Game
 import org.junit.Test
-import java.util.*
 
 class GameTest {
 

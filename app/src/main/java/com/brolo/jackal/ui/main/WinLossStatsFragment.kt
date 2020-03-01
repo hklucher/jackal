@@ -2,7 +2,6 @@ package com.brolo.jackal.ui.main
 
 import android.graphics.Color
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,20 +9,22 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.brolo.jackal.R
+import com.brolo.jackal.extensions.toLocalDates
 import com.brolo.jackal.model.Game
 import com.brolo.jackal.utils.CalcUtils
 import com.brolo.jackal.utils.DateBasedChartFormatter
+import com.brolo.jackal.utils.GameUtils
 import com.brolo.jackal.viewmodel.GamesViewModel
-import com.github.mikephil.charting.data.*
+import com.github.mikephil.charting.data.Entry
+import com.github.mikephil.charting.data.LineData
+import com.github.mikephil.charting.data.LineDataSet
+import com.github.mikephil.charting.data.PieData
+import com.github.mikephil.charting.data.PieDataSet
+import com.github.mikephil.charting.data.PieEntry
 import com.github.mikephil.charting.formatter.ValueFormatter
 import kotlinx.android.synthetic.main.fragment_win_loss_stats.*
-import org.joda.time.*
-import kotlin.time.ExperimentalTime
-import kotlin.time.days
-
-fun Interval.toLocalDates(): Sequence<LocalDate> = generateSequence(start) { d ->
-    d.plusDays(1).takeIf { it < end }
-}.map(DateTime::toLocalDate)
+import org.joda.time.DateTime
+import org.joda.time.Interval
 
 class WinLossStatsFragment : Fragment() {
 
@@ -118,7 +119,6 @@ class WinLossStatsFragment : Fragment() {
             pieChart.data = pieChartData
             pieChart.description.isEnabled = false
             dataSet.setDrawValues(false)
-
         }
     }
 
@@ -132,37 +132,15 @@ class WinLossStatsFragment : Fragment() {
         val pastWeek = Interval(now.minusDays(6), now.plusDays(1))
         val lines = mutableListOf<LineDataSet>()
 
-        // Iterate over the last 7 days
-        pastWeek.toLocalDates().forEachIndexed { index, date ->
-            // TODO: Extract wonDay/lostDay funcition to utils class
-            // Get all the games played on the current date that were won
-            val wonOnDay = allGames?.filter { game ->
-                val gamePlayedAt = game.createdAtTimestamp()
+        if (allGames != null) {
+            // Iterate over the last 7 days
+            pastWeek.toLocalDates().forEachIndexed { index, date ->
+                val wonOnDay = GameUtils.filterWithDate(date, allGames) { g -> g.didWin() }
+                val lostOnDay = GameUtils.filterWithDate(date, allGames) { g -> g.didLose() }
 
-                if (gamePlayedAt != null) {
-                    game.didWin() && gamePlayedAt.toDateMidnight().isEqual(date.toDateMidnight())
-                } else {
-                    false
-                }
-            }
-
-            // Get all the games played on the current date that were lost
-            val lostOnDay = allGames?.filter { game ->
-                val gamePlayedAt = game.createdAtTimestamp()
-
-                if (gamePlayedAt != null) {
-                    game.didLose() && gamePlayedAt.toDateMidnight().isEqual(date.toDateMidnight())
-                } else {
-                    false
-                }
-            }
-
-            if (wonOnDay != null && lostOnDay != null) {
                 wonEntries.add(Entry(index.toFloat(), wonOnDay.size.toFloat()))
                 lostEntries.add(Entry(index.toFloat(), lostOnDay.size.toFloat()))
             }
-
-
         }
 
         val wonDataSet = LineDataSet(wonEntries, "Won Games")
@@ -206,7 +184,6 @@ class WinLossStatsFragment : Fragment() {
         }
 
         chart.data = LineData(wonDataSet, lostDataSet)
-
 
         chart.invalidate()
     }

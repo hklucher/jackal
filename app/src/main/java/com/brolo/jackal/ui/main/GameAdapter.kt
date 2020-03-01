@@ -38,7 +38,7 @@ class GameAdapter(
 
         holder.cardView.findViewById<TextView>(R.id.game_title).text = mapName
         holder.cardView.findViewById<TextView>(R.id.game_side).text = teamText
-        holder.cardView.findViewById<TextView>(R.id.game_status).text = GameUtils.getGameStatus(game)
+        holder.cardView.findViewById<TextView>(R.id.game_status).text = game.status
         holder.cardView.game_more_btn.setOnClickListener {
             clickListener.onGameClick(position)
         }

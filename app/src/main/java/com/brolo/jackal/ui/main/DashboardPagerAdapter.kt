@@ -29,4 +29,3 @@ class DashboardPagerAdapter(fm: FragmentManager) : FragmentStatePagerAdapter(
         }
     }
 }
-

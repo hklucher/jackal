@@ -6,6 +6,7 @@
     android:layout_height="match_parent">
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/log_game_fab"
         app:layout_constraintBottom_toTopOf="@id/bottom_app_bar"
         app:layout_constraintLeft_toRightOf="@id/bottom_app_bar"
         app:layout_constraintRight_toLeftOf="@id/bottom_app_bar"

@@ -1,5 +1,6 @@
 package com.brolo.jackal.ui.main
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
@@ -45,10 +46,14 @@ class DashboardActivity : AppCompatActivity(R.layout.activity_dashboard) {
         observeGamesViewModel(viewModel)
     }
 
-    // Do any necessary setup for the bottom navigation bar.
-    // TODO: Extract this to some sort of parent activity/interface
     private fun setupBottomNavigation() {
         bottom_app_bar.selectedItemId = R.id.actions_dashboard
+
+        log_game_fab.setOnClickListener {
+            val intent = Intent(this, NewGameActivity::class.java)
+
+            startActivity(intent)
+        }
     }
 
     private fun observeGamesViewModel(gamesViewModel: GamesViewModel) {

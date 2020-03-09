@@ -5,6 +5,7 @@ import android.util.Log
 import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
@@ -31,6 +32,7 @@ class NewGameActivity : AppCompatActivity(R.layout.activity_new_game) {
         val TAG = NewGameActivity::class.java.simpleName
     }
 
+    private var isSubmitting = false
     private var selectedTeam: String? = null
     private var selectedMap: Map? = null
 
@@ -109,12 +111,30 @@ class NewGameActivity : AppCompatActivity(R.layout.activity_new_game) {
     }
 
     private fun updateButtonEnabledState() {
-        submit_game_btn.isEnabled = selectedMap != null && selectedTeam != null
+        submit_game_btn.isEnabled = selectedMap != null && selectedTeam != null && !isSubmitting
+    }
+
+    private fun handleFormSubmitted() {
+        isSubmitting = true
+        updateButtonEnabledState()
+    }
+
+    private fun handleSubmitResponse(successful: Boolean) {
+        isSubmitting = false
+        updateButtonEnabledState()
+
+        if (successful) {
+            Toast.makeText(this, "Game logged!", Toast.LENGTH_LONG).show()
+
+            finish()
+        }
     }
 
     private fun setupSubmitButton() {
         // NOTE: Need to ensure the IDs stored in Room are the same IDs returned from API
         submit_game_btn.setOnClickListener {
+            handleFormSubmitted()
+
             val game = Game(0, (selectedTeam as String), "in_progress", selectedMap?.id)
             val gameRequest = GameRequest(game)
 
@@ -123,13 +143,12 @@ class NewGameActivity : AppCompatActivity(R.layout.activity_new_game) {
 
             request.enqueue(object : Callback<GameResponse> {
                 override fun onResponse(call: Call<GameResponse>, response: Response<GameResponse>) {
-                    // TODO: Need to figure out why everything is null here
-                    // Probably need a custom deserializer or model
-                    Log.d(TAG, "onResponse")
+                    handleSubmitResponse(true)
                 }
 
                 override fun onFailure(call: Call<GameResponse>, t: Throwable) {
-                    Log.d(TAG, "onFailure")
+                    handleSubmitResponse(false)
+
                 }
             })
         }

@@ -26,14 +26,17 @@
         android:orientation="vertical">
 
         <androidx.appcompat.widget.AppCompatRadioButton
+            android:id="@+id/radio_btn_attack"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/attack" />
 
         <androidx.appcompat.widget.AppCompatRadioButton
+            android:id="@+id/radio_btn_defense"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/defense" />
+
     </RadioGroup>
 
     <TextView
@@ -48,7 +51,7 @@
         android:textSize="18sp" />
 
     <Spinner
-        android:id="@+id/map_spinner"
+        android:id="@+id/select_map_spinner"
         app:layout_constraintTop_toBottomOf="@id/map_header"
         app:layout_constraintLeft_toLeftOf="parent"
         android:layout_width="match_parent"
@@ -62,6 +65,7 @@
         android:layout_width="150dp"
         android:layout_height="wrap_content"
         android:text="@string/submit"
+        android:enabled="false"
         style="@style/Widget.Jackal.Button"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -15,7 +15,7 @@
     </style>
 
     <style name="Widget.Jackal.Button" parent="Widget.MaterialComponents.Button">
-        <item name="backgroundTint">@color/colorAccent</item>
+        <item name="backgroundTint">@color/jackal_button_states</item>
     </style>
 
 </resources>

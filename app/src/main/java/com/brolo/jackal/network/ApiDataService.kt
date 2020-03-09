@@ -20,5 +20,5 @@ interface ApiDataService {
     fun getLoggedGames(): Call<GameListResponse>
 
     @POST("/api/v1/games")
-    fun createGame(@Body gameRequest: GameRequest): Call<Game>
+    fun createGame(@Body gameRequest: GameRequest): Call<GameResponse>
 }

@@ -1,6 +1,7 @@
 package com.brolo.jackal.ui.main
 
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
@@ -9,17 +10,27 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.brolo.jackal.R
 import com.brolo.jackal.model.Game
+import com.brolo.jackal.model.GameRequest
+import com.brolo.jackal.model.GameResponse
 import com.brolo.jackal.model.Map
 import com.brolo.jackal.network.ApiDataService
 import com.brolo.jackal.network.ApiInstance
 import com.brolo.jackal.viewmodel.MapsViewModel
 import kotlinx.android.synthetic.main.activity_new_game.*
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 // TODO:
 // 1. API Call to create game from form
 // 2. Once game is created, pass back to previous activity using startActivityForResult
 // 3. Style disabled button
 class NewGameActivity : AppCompatActivity(R.layout.activity_new_game) {
+    companion object {
+        @Suppress("unused")
+        val TAG = NewGameActivity::class.java.simpleName
+    }
+
     private var selectedTeam: String? = null
     private var selectedMap: Map? = null
 
@@ -59,6 +70,7 @@ class NewGameActivity : AppCompatActivity(R.layout.activity_new_game) {
 
         setupRadioButtonListener()
         setupMapSelectListener()
+        setupSubmitButton()
     }
 
     override fun onSupportNavigateUp(): Boolean {
@@ -75,6 +87,7 @@ class NewGameActivity : AppCompatActivity(R.layout.activity_new_game) {
 
             override fun onNothingSelected(parent: AdapterView<*>?) {
                 // NOTE: Not currently possible to not select a map. Defaults to first.
+                selectedMap = null
             }
         }
 
@@ -100,11 +113,25 @@ class NewGameActivity : AppCompatActivity(R.layout.activity_new_game) {
     }
 
     private fun setupSubmitButton() {
-        val game = Game(0, "attack", "in_progress", 1)
-
+        // NOTE: Need to ensure the IDs stored in Room are the same IDs returned from API
         submit_game_btn.setOnClickListener {
+            val game = Game(0, (selectedTeam as String), "in_progress", selectedMap?.id)
+            val gameRequest = GameRequest(game)
+
             val api = ApiInstance.getInstance().create(ApiDataService::class.java)
-//            val request = api.createGame()
+            val request = api.createGame(gameRequest)
+
+            request.enqueue(object : Callback<GameResponse> {
+                override fun onResponse(call: Call<GameResponse>, response: Response<GameResponse>) {
+                    // TODO: Need to figure out why everything is null here
+                    // Probably need a custom deserializer or model
+                    Log.d(TAG, "onResponse")
+                }
+
+                override fun onFailure(call: Call<GameResponse>, t: Throwable) {
+                    Log.d(TAG, "onFailure")
+                }
+            })
         }
     }
 }

@@ -7,8 +7,8 @@ class GamesRepository(private val gameDao: GameDao) {
 
     val games: LiveData<List<Game>> = gameDao.getAll()
 
-    suspend fun insert(game: Game) {
-        gameDao.insert(game)
+    suspend fun insert(vararg games: Game) {
+        gameDao.insert(*games)
     }
 
     suspend fun update(game: Game) {

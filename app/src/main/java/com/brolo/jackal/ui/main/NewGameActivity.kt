@@ -16,6 +16,7 @@ import com.brolo.jackal.model.GameResponse
 import com.brolo.jackal.model.Map
 import com.brolo.jackal.network.ApiDataService
 import com.brolo.jackal.network.ApiInstance
+import com.brolo.jackal.viewmodel.GamesViewModel
 import com.brolo.jackal.viewmodel.MapsViewModel
 import kotlinx.android.synthetic.main.activity_new_game.*
 import retrofit2.Call
@@ -37,6 +38,7 @@ class NewGameActivity : AppCompatActivity(R.layout.activity_new_game) {
     private var selectedMap: Map? = null
 
     private lateinit var mapsViewModel: MapsViewModel
+    private lateinit var gamesViewModel: GamesViewModel
 
     private val mapsObserver = Observer<List<Map>> { maps ->
         val mapNames = maps.map(Map::name)
@@ -69,6 +71,8 @@ class NewGameActivity : AppCompatActivity(R.layout.activity_new_game) {
         // Configure the maps view model
         mapsViewModel = ViewModelProviders.of(this).get(MapsViewModel::class.java)
         mapsViewModel.allMaps.observe(this, mapsObserver)
+
+        gamesViewModel = ViewModelProviders.of(this).get(GamesViewModel::class.java)
 
         setupRadioButtonListener()
         setupMapSelectListener()
@@ -135,22 +139,31 @@ class NewGameActivity : AppCompatActivity(R.layout.activity_new_game) {
         submit_game_btn.setOnClickListener {
             handleFormSubmitted()
 
-            val game = Game(0, (selectedTeam as String), "in_progress", selectedMap?.id)
+
+
+
+            val game = Game(0, (selectedTeam as String), "won", selectedMap?.id)
             val gameRequest = GameRequest(game)
 
-            val api = ApiInstance.getInstance().create(ApiDataService::class.java)
-            val request = api.createGame(gameRequest)
+            gamesViewModel.insert(game)
 
-            request.enqueue(object : Callback<GameResponse> {
-                override fun onResponse(call: Call<GameResponse>, response: Response<GameResponse>) {
-                    handleSubmitResponse(true)
-                }
+            handleSubmitResponse(true)
 
-                override fun onFailure(call: Call<GameResponse>, t: Throwable) {
-                    handleSubmitResponse(false)
 
-                }
-            })
+//
+//            val api = ApiInstance.getInstance().create(ApiDataService::class.java)
+//            val request = api.createGame(gameRequest)
+//
+//            request.enqueue(object : Callback<GameResponse> {
+//                override fun onResponse(call: Call<GameResponse>, response: Response<GameResponse>) {
+//                    handleSubmitResponse(true)
+//                }
+//
+//                override fun onFailure(call: Call<GameResponse>, t: Throwable) {
+//                    handleSubmitResponse(false)
+//
+//                }
+//            })
         }
     }
 }

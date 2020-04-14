@@ -1,10 +1,13 @@
 package com.brolo.jackal.viewmodel
 
 import android.app.Application
+import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
+import androidx.room.Insert
+import androidx.room.OnConflictStrategy
 import com.brolo.jackal.model.Game
 import com.brolo.jackal.model.GameListResponse
 import com.brolo.jackal.network.ApiDataService
@@ -24,11 +27,13 @@ class GamesViewModel(application: Application) : AndroidViewModel(application) {
 
     init {
         val gamesDao = GameDatabase.getDatabase(application).gameDao()
-        //    TODO: Support repository for offline mode.
         repository = GamesRepository(gamesDao)
+        allGames = repository.games
+    }
 
-        allGames = MutableLiveData<List<Game>>()
-
+    // TODO: Need to find a place where this can be called
+    // once db has finished being read
+    fun hydrateFromApi() {
         val apiInstance = ApiInstance.getInstance().create(ApiDataService::class.java)
         val request = apiInstance.getLoggedGames()
 
@@ -37,13 +42,24 @@ class GamesViewModel(application: Application) : AndroidViewModel(application) {
                 call: Call<GameListResponse>,
                 response: Response<GameListResponse>
             ) {
-                allGames.value = response.body()?.data
+                val fetchedGames = response.body()?.data
+
+                if (fetchedGames != null) {
+                    insertMany(*fetchedGames.toTypedArray())
+                }
             }
 
             override fun onFailure(call: Call<GameListResponse>, t: Throwable) {
                 TODO("not implemented")
             }
         })
+    }
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    fun insertMany(vararg games: Game) {
+        viewModelScope.launch {
+            repository.insert(*games)
+        }
     }
 
     fun insert(game: Game) {

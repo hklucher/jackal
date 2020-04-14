@@ -1,5 +1,6 @@
 package com.brolo.jackal.ui.main
 
+import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
@@ -19,10 +20,13 @@ class DashboardActivity : AppCompatActivity(R.layout.activity_dashboard) {
     companion object {
         @Suppress("unused")
         val TAG = DashboardActivity::class.java.simpleName
+
+        val GAME_LOGGED_OK = 1
     }
 
     private val loggedGamesObserver = Observer<List<Game>> {
-        Log.d(TAG, "loggedGamesObserver updated!")
+        if (it.isEmpty()) {
+        }
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -30,6 +34,17 @@ class DashboardActivity : AppCompatActivity(R.layout.activity_dashboard) {
 
         setupViewPager()
         setupBottomNavigation()
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+
+        if (requestCode == GAME_LOGGED_OK && resultCode == Activity.RESULT_OK) {
+            // TODO:
+            // Store data fetched from API in room
+            // Only pull fetch if no data exists in room
+            // Insert into room after submitting from API
+        }
     }
 
     // Sets up the ViewPager for top tabs.
@@ -52,7 +67,7 @@ class DashboardActivity : AppCompatActivity(R.layout.activity_dashboard) {
         log_game_fab.setOnClickListener {
             val intent = Intent(this, NewGameActivity::class.java)
 
-            startActivity(intent)
+            startActivityForResult(intent, GAME_LOGGED_OK)
         }
     }
 

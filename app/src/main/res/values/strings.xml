@@ -34,6 +34,7 @@
     <string name="password_placeholder">Password</string>
     <string name="login">Login</string>
     <string name="sign_in">Sign In</string>
+    <string name="submit">Submit</string>
     <string name="submitting">Submitting...</string>
     <string name="welcome_message">
         Welcome to Jackal!\nAn application designed to track all of your gameplay stats in Rainbow Six Siege.
@@ -49,6 +50,9 @@
     <string name="settings">Settings</string>
     <string name="overall">Overall</string>
     <string name="past_7_days">Past 7 Days</string>
+    <string name="new_game">New Game</string>
+    <string name="what_team_start_on">What side did you start on?</string>
+    <string name="what_map_did_you_get">What map did you get?</string>
 
     <plurals name="total_games">
         <item quantity="one">You have recorded %d games</item>

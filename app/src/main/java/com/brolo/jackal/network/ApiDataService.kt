@@ -1,8 +1,6 @@
 package com.brolo.jackal.network
 
-import com.brolo.jackal.model.GameListResponse
-import com.brolo.jackal.model.LoginRequest
-import com.brolo.jackal.model.User
+import com.brolo.jackal.model.*
 import retrofit2.Call
 import retrofit2.http.Body
 import retrofit2.http.GET
@@ -20,4 +18,7 @@ interface ApiDataService {
 
     @GET("/api/v1/games")
     fun getLoggedGames(): Call<GameListResponse>
+
+    @POST("/api/v1/games")
+    fun createGame(@Body gameRequest: GameRequest): Call<GameResponse>
 }

@@ -16,7 +16,7 @@ interface GameDao {
     fun getAll(): LiveData<List<Game>>
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
-    suspend fun insert(game: Game)
+    suspend fun insert(vararg games: Game)
 
     @Delete
     suspend fun delete(game: Game)

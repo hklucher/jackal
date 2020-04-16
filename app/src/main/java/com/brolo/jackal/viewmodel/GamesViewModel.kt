@@ -29,6 +29,8 @@ class GamesViewModel(application: Application) : AndroidViewModel(application) {
         val gamesDao = GameDatabase.getDatabase(application).gameDao()
         repository = GamesRepository(gamesDao)
         allGames = repository.games
+
+        hydrateFromApi()
     }
 
     // TODO: Need to find a place where this can be called

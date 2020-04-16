@@ -18,34 +18,45 @@
         android:textSize="16sp"
         android:text="@string/win_loss_overall" />
 
-    <LinearLayout
-        android:id="@+id/win_loss_chart_container"
-        app:layout_constraintTop_toBottomOf="@id/header_win_loss"
+    <androidx.cardview.widget.CardView
+        android:id="@+id/win_loss_chart_card"
+        app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        android:orientation="vertical"
-        android:layout_marginRight="14dp"
-        android:layout_marginLeft="14dp"
+        android:layout_margin="14dp"
         android:layout_width="match_parent"
-        android:layout_height="300dp"
-        android:animateLayoutChanges="true">
+        android:layout_height="wrap_content">
 
-        <com.github.mikephil.charting.charts.PieChart
-            android:id="@+id/pie_chart_win_loss"
+        <LinearLayout
+            android:id="@+id/win_loss_chart_container"
+            app:layout_constraintTop_toBottomOf="@id/header_win_loss"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            android:orientation="vertical"
+            android:layout_marginRight="14dp"
+            android:layout_marginLeft="14dp"
+            android:padding="14dp"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="300dp"
+            android:animateLayoutChanges="true">
 
-        <com.github.mikephil.charting.charts.LineChart
-            android:id="@+id/line_chart_win_loss"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:visibility="gone" />
+            <com.github.mikephil.charting.charts.PieChart
+                android:id="@+id/pie_chart_win_loss"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
 
-    </LinearLayout>
+            <com.github.mikephil.charting.charts.LineChart
+                android:id="@+id/line_chart_win_loss"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:visibility="gone" />
+
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
 
     <com.google.android.material.chip.ChipGroup
         android:id="@+id/win_loss_chart_chips"
-        app:layout_constraintTop_toBottomOf="@id/win_loss_chart_container"
+        app:layout_constraintTop_toBottomOf="@id/win_loss_chart_card"
         app:layout_constraintLeft_toLeftOf="parent"
         app:singleSelection="true"
         app:checkedChip="@id/win_loss_pie_chip"

@@ -49,16 +49,16 @@ class DashboardActivity : AppCompatActivity(R.layout.activity_dashboard) {
 
     // Sets up the ViewPager for top tabs.
     private fun setupViewPager() {
-        val viewPager = dashboard_pager
-        val adapter = DashboardPagerAdapter(supportFragmentManager)
-
-        viewPager.adapter = adapter
-
-        dashboard_tab_layout.setupWithViewPager(viewPager)
-
-        viewModel = ViewModelProviders.of(this).get(GamesViewModel::class.java)
-
-        observeGamesViewModel(viewModel)
+//        val viewPager = dashboard_pager
+//        val adapter = DashboardPagerAdapter(supportFragmentManager)
+//
+//        viewPager.adapter = adapter
+//
+//        dashboard_tab_layout.setupWithViewPager(viewPager)
+//
+//        viewModel = ViewModelProviders.of(this).get(GamesViewModel::class.java)
+//
+//        observeGamesViewModel(viewModel)
     }
 
     private fun setupBottomNavigation() {

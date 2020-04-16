@@ -13,7 +13,7 @@ class DashboardPagerAdapter(fm: FragmentManager) : FragmentStatePagerAdapter(
     override fun getPageTitle(position: Int): CharSequence? {
         return when (position) {
             0 -> "Win / Loss"
-            1 -> "Starting Teams"
+            1 -> "Teams"
             2 -> "Maps"
             else -> null
         }

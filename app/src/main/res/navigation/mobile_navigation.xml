@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:startDestination="@id/dashboard_dest"
+    android:id="@+id/navigation">
+
+    <fragment
+        android:id="@+id/dashboard_dest"
+        android:name="com.brolo.jackal.ui.main.DashboardFragment"
+        android:layout="@layout/fragment_dashboard" />
+
+    <fragment
+        android:id="@+id/all_games_dest"
+        android:name="com.brolo.jackal.ui.main.AllGamesFragment"
+        android:layout="@layout/fragment_all_games" />
+
+    <fragment
+        android:id="@+id/settings_dest"
+        android:name="com.brolo.jackal.ui.main.SettingsFragment"
+        android:layout="@layout/fragment_settings" />
+</navigation>

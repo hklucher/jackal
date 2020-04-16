@@ -62,13 +62,13 @@ class DashboardActivity : AppCompatActivity(R.layout.activity_dashboard) {
     }
 
     private fun setupBottomNavigation() {
-        bottom_app_bar.selectedItemId = R.id.actions_dashboard
+//        bottom_app_bar.selectedItemId = R.id.actions_dashboard
 
-        log_game_fab.setOnClickListener {
-            val intent = Intent(this, NewGameActivity::class.java)
-
-            startActivityForResult(intent, GAME_LOGGED_OK)
-        }
+//        log_game_fab.setOnClickListener {
+//            val intent = Intent(this, NewGameActivity::class.java)
+//
+//            startActivityForResult(intent, GAME_LOGGED_OK)
+//        }
     }
 
     private fun observeGamesViewModel(gamesViewModel: GamesViewModel) {

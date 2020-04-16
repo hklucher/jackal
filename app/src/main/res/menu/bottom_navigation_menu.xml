@@ -4,30 +4,17 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
-        android:id="@+id/actions_dashboard"
-        android:enabled="true"
+        android:id="@id/dashboard_dest"
         android:icon="@drawable/ic_home"
-        android:title="@string/dashboard"
-        app:showAsAction="ifRoom" />
+        android:title="@string/dashboard" />
 
     <item
-        android:id="@+id/actions_games"
-        android:enabled="true"
+        android:id="@id/all_games_dest"
         android:icon="@drawable/ic_item_list"
-        android:title="@string/games"
-        app:showAsAction="ifRoom" />
+        android:title="@string/games" />
 
     <item
-        android:id="@+id/actions_global_stats"
-        android:enabled="true"
-        android:icon="@drawable/ic_people"
-        android:title="@string/global"
-        app:showAsAction="ifRoom" />
-
-    <item
-        android:id="@+id/actions_settings"
-        android:enabled="true"
+        android:id="@id/settings_dest"
         android:icon="@drawable/ic_settings_gear"
-        android:title="@string/settings"
-        app:showAsAction="ifRoom" />
+        android:title="@string/settings" />
 </menu>

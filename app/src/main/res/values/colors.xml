@@ -10,6 +10,8 @@
     <color name="darkElevation">#1F1B24</color>
 
     <color name="colorDisabled">#d3d3d3</color>
+    <color name="lightSurface">#f4f4f4</color>
+    <color name="errorRed">#a63232</color>
 
     <!--  Chart Colors   -->
     <color name="colorMaterialBlue">#1976d2</color>

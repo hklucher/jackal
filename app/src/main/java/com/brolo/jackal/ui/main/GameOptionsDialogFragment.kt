@@ -58,24 +58,24 @@ class GameOptionsDialogFragment : BottomSheetDialogFragment() {
     }
 
     private fun setupClickListeners() {
-        delete_game_row.setOnClickListener {
-            val gameId = arguments?.getInt(ARG_GAME_ID)
+//        delete_game_row.setOnClickListener {
+//            val gameId = arguments?.getInt(ARG_GAME_ID)
+//
+//            dialog?.dismiss()
+//
+//            if (gameId != null) {
+//                listener.onGameDeleted(gameId)
+//            }
+//        }
 
-            dialog?.dismiss()
-
-            if (gameId != null) {
-                listener.onGameDeleted(gameId)
-            }
-        }
-
-        edit_game_row.setOnClickListener {
-            val gameId = arguments?.getInt(ARG_GAME_ID)
-
-            dialog?.dismiss()
-
-            if (gameId != null) {
-                listener.onRecordGameResult(gameId)
-            }
-        }
+//        edit_game_row.setOnClickListener {
+//            val gameId = arguments?.getInt(ARG_GAME_ID)
+//
+//            dialog?.dismiss()
+//
+//            if (gameId != null) {
+//                listener.onRecordGameResult(gameId)
+//            }
+//        }
     }
 }

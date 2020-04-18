@@ -13,7 +13,7 @@
     <string name="maps">Maps</string>
     <string name="undo">Undo</string>
     <string name="game_actionsheet">Game Action Sheet</string>
-    <string name="record_game_result">Record game result</string> <string name="delete_game">Delete game</string>
+    <string name="record_game_result">Record game result</string> <string name="delete_game">Delete Game</string>
     <string name="manage_game">Manage Game</string>
     <string name="game_deleted">Game Deleted</string>
     <string name="yes">Yes</string>
@@ -50,9 +50,12 @@
     <string name="settings">Settings</string>
     <string name="overall">Overall</string>
     <string name="past_7_days">Past 7 Days</string>
-    <string name="new_game">New Game</string>
+    <string name="new_game">Log Game</string>
     <string name="what_team_start_on">What side did you start on?</string>
     <string name="what_map_did_you_get">What map did you get?</string>
+    <string name="all_games">All Games</string>
+    <string name="mark_game_as_won">Mark Game as Won</string>
+    <string name="mark_as_lost">Mark Game as Lost</string>
 
     <plurals name="total_games">
         <item quantity="one">You have recorded %d games</item>

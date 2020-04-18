@@ -67,7 +67,7 @@ class WinLossStatsFragment : Fragment() {
     }
 
     private fun observeGamesViewModel(gamesViewModel: GamesViewModel) {
-        gamesViewModel.allGames.observe(this, loggedGamesObserver)
+        gamesViewModel.allGames.observe(viewLifecycleOwner, loggedGamesObserver)
     }
 
     private fun setupChartChips() {

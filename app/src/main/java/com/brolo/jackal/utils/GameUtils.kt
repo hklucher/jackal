@@ -3,6 +3,7 @@ package com.brolo.jackal.utils
 import com.brolo.jackal.model.Game
 import com.brolo.jackal.model.Map
 import org.joda.time.LocalDate
+import java.util.*
 
 class GameUtils {
     companion object {
@@ -15,6 +16,13 @@ class GameUtils {
                 "Started on Attack"
             } else {
                 "Started on Defense"
+            }
+        }
+
+        @ExperimentalStdlibApi
+        fun getHumanizedStatus(game: Game): String {
+            return game.status.split("_").joinToString(" ") {
+                it.capitalize(Locale.ENGLISH)
             }
         }
 

@@ -7,16 +7,35 @@
 
     <fragment
         android:id="@+id/dashboard_dest"
+        android:label="@string/dashboard"
         android:name="com.brolo.jackal.ui.main.DashboardFragment"
-        android:layout="@layout/fragment_dashboard" />
+        android:layout="@layout/fragment_dashboard">
+
+        <action
+            android:id="@+id/action_dashboard_to_new_game"
+            app:destination="@id/new_game_dest"
+            app:enterAnim="@anim/enter_from_right"
+            app:exitAnim="@anim/exit_to_left"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
+
+    </fragment>
 
     <fragment
         android:id="@+id/all_games_dest"
+        android:label="@string/all_games"
         android:name="com.brolo.jackal.ui.main.AllGamesFragment"
         android:layout="@layout/fragment_all_games" />
 
     <fragment
         android:id="@+id/settings_dest"
+        android:label="@string/settings"
         android:name="com.brolo.jackal.ui.main.SettingsFragment"
         android:layout="@layout/fragment_settings" />
+
+    <fragment
+        android:id="@+id/new_game_dest"
+        android:label="@string/new_game"
+        android:name="com.brolo.jackal.ui.main.NewGameFragment"
+        android:layout="@layout/fragment_new_game" />
 </navigation>

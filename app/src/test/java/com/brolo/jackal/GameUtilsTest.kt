@@ -27,7 +27,7 @@ class GameUtilsTest {
     private val inProgressGame = Game(
         0,
         "attack",
-        "inProgress",
+        "in_progress",
         allMaps.first().id
     )
 
@@ -36,27 +36,6 @@ class GameUtilsTest {
         val result = GameUtils.getPlayedMap(wonGame, allMaps)
 
         assert(result == allMaps.first())
-    }
-
-    @Test
-    fun getGameStatus_returnsInProgressWhenDidWinIsNull() {
-        val result = GameUtils.getGameStatus(inProgressGame)
-
-        assert(result == "In Progress")
-    }
-
-    @Test
-    fun getGameStatus_returnsVictoryWhenDidWinIsTrue() {
-        val result = GameUtils.getGameStatus(wonGame)
-
-        assert(result == "Victory")
-    }
-
-    @Test
-    fun getGameStatus_returnsLossWhenDidWinIsFalse() {
-        val result = GameUtils.getGameStatus(lostGame)
-
-        assert(result == "Loss")
     }
 
     @Test
@@ -71,5 +50,30 @@ class GameUtilsTest {
         val result = GameUtils.getHumanizedStartingSide(lostGame)
 
         assert(result == "Started on Defense")
+    }
+
+    @ExperimentalStdlibApi
+    @Test
+    fun getHumanizedStatus_returnsWonWhenWon() {
+        val result = GameUtils.getHumanizedStatus(wonGame)
+
+        assert(result == "Won")
+    }
+
+    @ExperimentalStdlibApi
+    @Test
+    fun getHumanizedStatus_returnsLostWhenLost() {
+        val result = GameUtils.getHumanizedStatus(lostGame)
+
+        assert(result == "Lost")
+    }
+
+    @ExperimentalStdlibApi
+    @Test
+    fun getHumanizedStatus_returnsInProgressWhenInProgress() {
+        val result = GameUtils.getHumanizedStatus(inProgressGame)
+        print(result)
+
+        assert(result == "In Progress")
     }
 }

@@ -20,7 +20,7 @@ class GameResponseDeserializer : JsonDeserializer<Game> {
             val mapId = attributes.get("mapId").asInt
             val createdAt = attributes.get("createdAt").asString
 
-            return Game(id, status, startingTeam, mapId, createdAt)
+            return Game(id, startingTeam, status, mapId, createdAt)
         }
 
         return null

@@ -18,11 +18,19 @@ import org.joda.time.LocalDate
     childColumns = ["map_id"]
 )])
 data class Game(
-    @PrimaryKey(autoGenerate = true) @SerializedName("id") val id: Int = 0,
-    @ColumnInfo(name = "starting_team") @SerializedName("starting_team") var startingTeam: String,
-    @SerializedName("status") var status: String,
-    @ColumnInfo(name = "map_id") @SerializedName("map_id") var mapId: Int?,
-    @SerializedName("created_at") var createdAt: String? = null
+    @PrimaryKey(autoGenerate = true)
+    @SerializedName("id")
+    val id: Int = 0,
+    @ColumnInfo(name = "starting_team")
+    @SerializedName("starting_team")
+    var startingTeam: String,
+    @SerializedName("status")
+    var status: String,
+    @ColumnInfo(name = "map_id")
+    @SerializedName("map_id")
+    var mapId: Int?,
+    @SerializedName("created_at")
+    var createdAt: String? = null
 ) : Serializable {
     companion object {
         const val TeamAttack = "attack"
@@ -42,7 +50,7 @@ data class Game(
 
         return try {
             DateTime(this.createdAt).toLocalDate()
-        } catch (e: IllegalArgumentException) {
+        } catch (e: Throwable) {
             null
         }
     }

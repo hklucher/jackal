@@ -2,6 +2,7 @@ package com.brolo.jackal.ui.main
 
 import android.graphics.Color
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.cardview.widget.CardView
@@ -18,7 +19,7 @@ class GameAdapter(
     private val clickListener: OnGameClickListener
 ) : RecyclerView.Adapter<GameAdapter.ViewHolder>() {
 
-    class ViewHolder(val cardView: CardView) : RecyclerView.ViewHolder(cardView)
+    class ViewHolder(val cardView: View) : RecyclerView.ViewHolder(cardView)
 
     interface OnGameClickListener {
         fun onGameClick(position: Int)
@@ -26,11 +27,12 @@ class GameAdapter(
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val cardView = LayoutInflater.from(parent.context)
-            .inflate(R.layout.game_card, parent, false) as CardView
+            .inflate(R.layout.game_card, parent, false)
 
         return ViewHolder(cardView)
     }
 
+    @ExperimentalStdlibApi
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val game = games[position]
         val mapName = GameUtils.getPlayedMap(game, maps)?.name
@@ -38,24 +40,25 @@ class GameAdapter(
 
         holder.cardView.findViewById<TextView>(R.id.game_title).text = mapName
         holder.cardView.findViewById<TextView>(R.id.game_side).text = teamText
-        holder.cardView.findViewById<TextView>(R.id.game_status).text = game.status
+        holder.cardView.findViewById<TextView>(R.id.game_status).text = GameUtils.getHumanizedStatus(game)
         holder.cardView.game_more_btn.setOnClickListener {
             clickListener.onGameClick(position)
         }
 
-//        setStatusTextStyle(holder, game.didWin)
+        setStatusTextStyle(holder, game)
     }
 
     override fun getItemCount(): Int {
         return games.size
     }
 
-    private fun setStatusTextStyle(holder: ViewHolder, didWin: Boolean?) {
+    private fun setStatusTextStyle(holder: ViewHolder, game: Game) {
         val textView = holder.cardView.findViewById<TextView>(R.id.game_status)
 
-        when (didWin) {
-            true -> textView.setTextColor(Color.parseColor("#4BB543"))
-            false -> textView.setTextColor(Color.parseColor("#A63232"))
+        if (game.didWin()) {
+            textView.setTextColor(Color.parseColor("#4BB543"))
+        } else if (game.didLose()) {
+            textView.setTextColor(Color.parseColor("#A63232"))
         }
     }
 }

@@ -19,7 +19,8 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class GamesViewModel(application: Application) : AndroidViewModel(application) {
+class GamesViewModel(application: Application)
+    : AndroidViewModel(application) {
 
     private val repository: GamesRepository
 
@@ -30,6 +31,7 @@ class GamesViewModel(application: Application) : AndroidViewModel(application) {
         repository = GamesRepository(gamesDao)
         allGames = repository.games
 
+        // TODO: Need to find a way to not hydrate from api when we don't need to.
         hydrateFromApi()
     }
 

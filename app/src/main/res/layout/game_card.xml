@@ -33,13 +33,19 @@
             android:layout_marginTop="4dp" />
 
         <TextView
+            android:id="@+id/game_created_at"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:fontFamily="@font/roboto"
+            android:textSize="14sp" />
+
+        <TextView
             android:id="@+id/game_status"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:fontFamily="@font/roboto"
             android:textColor="@color/colorYellowOrange"
-            android:textSize="14sp"
-            android:layout_marginTop="4dp" />
+            android:textSize="14sp" />
 
     </LinearLayout>
 

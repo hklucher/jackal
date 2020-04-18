@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.brolo.jackal.R
 import com.brolo.jackal.model.Game
 import com.brolo.jackal.model.Map
+import com.brolo.jackal.utils.DateUtils
 import com.brolo.jackal.utils.GameUtils
 import kotlinx.android.synthetic.main.game_card.view.*
 
@@ -36,11 +37,17 @@ class GameAdapter(
         val game = games[position]
         val mapName = GameUtils.getPlayedMap(game, maps)?.name
         val teamText = GameUtils.getHumanizedStartingSide(game)
+        val createdAt = game.createdAtTimestamp()
 
         holder.cardView.findViewById<TextView>(R.id.game_title).text = mapName
         holder.cardView.findViewById<TextView>(R.id.game_side).text = teamText
         holder.cardView.findViewById<TextView>(R.id.game_status).text = GameUtils.getHumanizedStatus(game)
         holder.cardView.game_more_btn.setOnClickListener { clickListener.onGameClick(position) }
+        if (createdAt != null) {
+            holder.cardView.findViewById<TextView>(R.id.game_created_at).text = DateUtils.formatDate(
+                createdAt
+            )
+        }
         setStatusTextStyle(holder, game)
     }
 

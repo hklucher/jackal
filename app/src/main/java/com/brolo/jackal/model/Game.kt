@@ -7,7 +7,6 @@ import androidx.room.Index
 import androidx.room.PrimaryKey
 import com.google.gson.annotations.SerializedName
 import java.io.Serializable
-import java.lang.IllegalArgumentException
 import org.joda.time.DateTime
 import org.joda.time.LocalDate
 

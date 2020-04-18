@@ -1,11 +1,10 @@
 package com.brolo.jackal.ui.main
 
-import android.content.Context
-import android.media.midi.MidiOutputPort
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
@@ -13,12 +12,15 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.brolo.jackal.R
 import com.brolo.jackal.model.Game
+import com.brolo.jackal.model.GameOptionType
 import com.brolo.jackal.model.Map
 import com.brolo.jackal.viewmodel.GamesViewModel
 import com.brolo.jackal.viewmodel.MapsViewModel
 import kotlinx.android.synthetic.main.fragment_all_games.*
 
-class AllGamesFragment : Fragment(), GameAdapter.OnGameClickListener {
+class AllGamesFragment : Fragment(),
+    GameAdapter.OnGameClickListener, GameOptionsSheet.OnOptionSelectedListener {
+
     private lateinit var recyclerView: RecyclerView
     private lateinit var viewAdapter: RecyclerView.Adapter<*>
     private lateinit var viewManager: RecyclerView.LayoutManager
@@ -26,7 +28,7 @@ class AllGamesFragment : Fragment(), GameAdapter.OnGameClickListener {
     private lateinit var gamesViewModel: GamesViewModel
     private lateinit var mapsViewModel: MapsViewModel
 
-    private var rootView: View? = null
+    private var gameOptionsSheet: GameOptionsSheet? = null
 
     private val gameObserver = Observer<List<Game>> { games ->
         val maps = mapsViewModel.allMaps.value
@@ -49,11 +51,7 @@ class AllGamesFragment : Fragment(), GameAdapter.OnGameClickListener {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        if (rootView == null) {
-            rootView = inflater.inflate(R.layout.fragment_all_games, container, false)
-        }
-
-        return rootView
+        return inflater.inflate(R.layout.fragment_all_games, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -66,8 +64,29 @@ class AllGamesFragment : Fragment(), GameAdapter.OnGameClickListener {
         mapsViewModel.allMaps.observe(viewLifecycleOwner, mapsObserver)
     }
 
+    override fun onOptionSelected(option: GameOptionType, game: Game) {
+        when (option) {
+            GameOptionType.MARK_GAME_WON -> {
+                Toast.makeText(context, "Mark as Won", Toast.LENGTH_SHORT).show()
+            }
+            GameOptionType.MARK_GAME_LOST -> {
+                Toast.makeText(context, "Mark as Lost", Toast.LENGTH_SHORT).show()
+            }
+            GameOptionType.DELETE_GAME -> {
+                Toast.makeText(context, "Delete game", Toast.LENGTH_SHORT).show()
+            }
+        }
+
+        gameOptionsSheet?.dismiss()
+    }
+
     override fun onGameClick(position: Int) {
-        GameOptionsSheet().show(childFragmentManager, "game_options")
+        gamesViewModel.allGames.value?.let { games ->
+            val game = games[position]
+
+            gameOptionsSheet = GameOptionsSheet(this, game)
+            gameOptionsSheet?.show(childFragmentManager, "game_options")
+        }
     }
 
     private fun setupRecyclerView(games: List<Game>, maps: List<Map>) {
@@ -80,4 +99,5 @@ class AllGamesFragment : Fragment(), GameAdapter.OnGameClickListener {
             adapter = viewAdapter
         }
     }
+
 }

@@ -34,6 +34,9 @@ data class Game(
     companion object {
         const val TeamAttack = "attack"
         const val TeamDefense = "defense"
+        const val StatusWon = "won"
+        const val StatusLost = "lost"
+        const val StatusInProgress = "in_progress"
     }
 
     fun didWin(): Boolean = status == "won"

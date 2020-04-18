@@ -17,6 +17,8 @@ import com.brolo.jackal.model.Map
 import com.brolo.jackal.viewmodel.GamesViewModel
 import com.brolo.jackal.viewmodel.MapsViewModel
 import kotlinx.android.synthetic.main.fragment_all_games.*
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 
 class AllGamesFragment : Fragment(),
     GameAdapter.OnGameClickListener, GameOptionsSheet.OnOptionSelectedListener {
@@ -66,12 +68,8 @@ class AllGamesFragment : Fragment(),
 
     override fun onOptionSelected(option: GameOptionType, game: Game) {
         when (option) {
-            GameOptionType.MARK_GAME_WON -> {
-                Toast.makeText(context, "Mark as Won", Toast.LENGTH_SHORT).show()
-            }
-            GameOptionType.MARK_GAME_LOST -> {
-                Toast.makeText(context, "Mark as Lost", Toast.LENGTH_SHORT).show()
-            }
+            GameOptionType.MARK_GAME_WON -> updateGamestatus(game, Game.StatusWon)
+            GameOptionType.MARK_GAME_LOST -> updateGamestatus(game, Game.StatusLost)
             GameOptionType.DELETE_GAME -> {
                 Toast.makeText(context, "Delete game", Toast.LENGTH_SHORT).show()
             }
@@ -87,6 +85,16 @@ class AllGamesFragment : Fragment(),
             gameOptionsSheet = GameOptionsSheet(this, game)
             gameOptionsSheet?.show(childFragmentManager, "game_options")
         }
+    }
+
+    private fun updateGamestatus(game: Game, status: String) {
+        game.status = status
+
+        GlobalScope.launch {
+            gamesViewModel.update(game)
+        }
+
+        Toast.makeText(context, "Game result recorded", Toast.LENGTH_SHORT).show()
     }
 
     private fun setupRecyclerView(games: List<Game>, maps: List<Map>) {

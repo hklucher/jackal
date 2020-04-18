@@ -1,11 +1,10 @@
 package com.brolo.jackal.ui.main
 
-import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
-import androidx.cardview.widget.CardView
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.brolo.jackal.R
 import com.brolo.jackal.model.Game
@@ -41,10 +40,7 @@ class GameAdapter(
         holder.cardView.findViewById<TextView>(R.id.game_title).text = mapName
         holder.cardView.findViewById<TextView>(R.id.game_side).text = teamText
         holder.cardView.findViewById<TextView>(R.id.game_status).text = GameUtils.getHumanizedStatus(game)
-        holder.cardView.game_more_btn.setOnClickListener {
-            clickListener.onGameClick(position)
-        }
-
+        holder.cardView.game_more_btn.setOnClickListener { clickListener.onGameClick(position) }
         setStatusTextStyle(holder, game)
     }
 
@@ -55,10 +51,30 @@ class GameAdapter(
     private fun setStatusTextStyle(holder: ViewHolder, game: Game) {
         val textView = holder.cardView.findViewById<TextView>(R.id.game_status)
 
-        if (game.didWin()) {
-            textView.setTextColor(Color.parseColor("#4BB543"))
-        } else if (game.didLose()) {
-            textView.setTextColor(Color.parseColor("#A63232"))
+        when {
+            game.didWin() -> {
+                textView.setTextColor(
+                    ContextCompat.getColor(
+                        holder.itemView.context, R.color.successGreen
+                    )
+                )
+            }
+
+            game.didLose() -> {
+                textView.setTextColor(
+                    ContextCompat.getColor(
+                        holder.itemView.context, R.color.errorRed
+                    )
+                )
+            }
+            else -> {
+                textView.setTextColor(
+                    ContextCompat.getColor(
+                        holder.itemView.context,
+                        R.color.colorYellowOrange
+                    )
+                )
+            }
         }
     }
 }

@@ -26,6 +26,8 @@ class AllGamesFragment : Fragment(), GameAdapter.OnGameClickListener {
     private lateinit var gamesViewModel: GamesViewModel
     private lateinit var mapsViewModel: MapsViewModel
 
+    private var rootView: View? = null
+
     private val gameObserver = Observer<List<Game>> { games ->
         val maps = mapsViewModel.allMaps.value
 
@@ -47,7 +49,11 @@ class AllGamesFragment : Fragment(), GameAdapter.OnGameClickListener {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.fragment_all_games, container, false)
+        if (rootView == null) {
+            rootView = inflater.inflate(R.layout.fragment_all_games, container, false)
+        }
+
+        return rootView
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

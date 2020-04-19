@@ -1,6 +1,7 @@
 package com.brolo.jackal.ui.main
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,17 +12,26 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.brolo.jackal.R
-import com.brolo.jackal.model.Game
-import com.brolo.jackal.model.GameOptionType
+import com.brolo.jackal.model.*
 import com.brolo.jackal.model.Map
+import com.brolo.jackal.network.ApiDataService
+import com.brolo.jackal.network.ApiInstance
 import com.brolo.jackal.viewmodel.GamesViewModel
 import com.brolo.jackal.viewmodel.MapsViewModel
 import kotlinx.android.synthetic.main.fragment_all_games.*
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 class AllGamesFragment : Fragment(),
     GameAdapter.OnGameClickListener, GameOptionsSheet.OnOptionSelectedListener {
+
+    companion object {
+        @Suppress("unused")
+        val TAG = AllGamesFragment::class.java.simpleName
+    }
 
     private lateinit var recyclerView: RecyclerView
     private lateinit var viewAdapter: RecyclerView.Adapter<*>
@@ -68,13 +78,14 @@ class AllGamesFragment : Fragment(),
 
     override fun onOptionSelected(option: GameOptionType, game: Game) {
         when (option) {
-            GameOptionType.MARK_GAME_WON -> updateGamestatus(game, Game.StatusWon)
-            GameOptionType.MARK_GAME_LOST -> updateGamestatus(game, Game.StatusLost)
+            GameOptionType.MARK_GAME_WON -> updateGameStatus(game, Game.StatusWon)
+            GameOptionType.MARK_GAME_LOST -> updateGameStatus(game, Game.StatusLost)
             GameOptionType.DELETE_GAME -> {
                 Toast.makeText(context, "Delete game", Toast.LENGTH_SHORT).show()
             }
         }
 
+        showToastMessage(option)
         gameOptionsSheet?.dismiss()
     }
 
@@ -87,14 +98,32 @@ class AllGamesFragment : Fragment(),
         }
     }
 
-    private fun updateGamestatus(game: Game, status: String) {
+    private fun updateGameStatus(game: Game, status: String) {
         game.status = status
 
+        val gameRequest = GameRequest(game)
+        val apiInstance = ApiInstance.getInstance().create(ApiDataService::class.java)
+        val request = apiInstance.updateGame(game.id, gameRequest)
+
+        request.enqueue(object : Callback<GameResponse> {
+            override fun onResponse(call: Call<GameResponse>, response: Response<GameResponse>) {}
+            override fun onFailure(call: Call<GameResponse>, t: Throwable) {}
+        })
+
+        // FIXME: When updating game status, recyclerview scrolls to top
         GlobalScope.launch {
             gamesViewModel.update(game)
         }
+    }
 
-        Toast.makeText(context, "Game result recorded", Toast.LENGTH_SHORT).show()
+    private fun showToastMessage(optionType: GameOptionType) {
+        val message = when (optionType) {
+            GameOptionType.MARK_GAME_WON -> "Game marked as won, congrats!"
+            GameOptionType.MARK_GAME_LOST -> "Game marked as lost, better luck next time!"
+            GameOptionType.DELETE_GAME -> "Game deleted."
+        }
+
+        Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
     }
 
     private fun setupRecyclerView(games: List<Game>, maps: List<Map>) {

@@ -31,15 +31,6 @@ class WinLossStatsFragment : Fragment() {
 
     private lateinit var viewModel: GamesViewModel
 
-    companion object {
-        @Suppress("unused")
-        val TAG = WinLossStatsFragment::class.java.simpleName
-
-        fun getInstance(): WinLossStatsFragment {
-            return WinLossStatsFragment()
-        }
-    }
-
     private val loggedGamesObserver = Observer<List<Game>> {
         setupWinLossPieChart()
         setupLineChart()
@@ -189,4 +180,14 @@ class WinLossStatsFragment : Fragment() {
 
         chart.invalidate()
     }
+
+    companion object {
+        @Suppress("unused")
+        val TAG = WinLossStatsFragment::class.java.simpleName
+
+        fun getInstance(): WinLossStatsFragment {
+            return WinLossStatsFragment()
+        }
+    }
+
 }

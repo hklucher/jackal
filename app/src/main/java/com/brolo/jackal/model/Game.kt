@@ -7,7 +7,6 @@ import androidx.room.Index
 import androidx.room.PrimaryKey
 import com.google.gson.annotations.SerializedName
 import java.io.Serializable
-import java.lang.IllegalArgumentException
 import org.joda.time.DateTime
 import org.joda.time.LocalDate
 
@@ -35,6 +34,9 @@ data class Game(
     companion object {
         const val TeamAttack = "attack"
         const val TeamDefense = "defense"
+        const val StatusWon = "won"
+        const val StatusLost = "lost"
+        const val StatusInProgress = "in_progress"
     }
 
     fun didWin(): Boolean = status == "won"

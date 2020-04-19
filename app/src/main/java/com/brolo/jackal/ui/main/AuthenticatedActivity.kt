@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.brolo.jackal.R
@@ -27,12 +28,16 @@ class AuthenticatedActivity  : AppCompatActivity() {
     }
 
     private fun setupNavToolbar(navController: NavController) {
-        // FIXME: Showing back arrow when going to different bottom tab
-        setupActionBarWithNavController(navController)
+        val appBarConfiguration = AppBarConfiguration(
+            setOf(R.id.dashboard_dest, R.id.all_games_dest, R.id.settings_dest)
+        )
+
+        setupActionBarWithNavController(navController, appBarConfiguration)
     }
 
     private fun setupBottomNav(navController: NavController) {
         val bottomNav = findViewById<BottomNavigationView>(R.id.bottom_app_bar)
+
         bottomNav?.setupWithNavController(navController)
     }
 }

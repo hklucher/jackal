@@ -30,9 +30,6 @@
 
         <LinearLayout
             android:id="@+id/win_loss_chart_container"
-            app:layout_constraintTop_toBottomOf="@id/header_win_loss"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
             android:orientation="vertical"
             android:layout_marginRight="14dp"
             android:layout_marginLeft="14dp"

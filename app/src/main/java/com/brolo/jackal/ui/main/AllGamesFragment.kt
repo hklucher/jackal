@@ -26,8 +26,10 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class AllGamesFragment : Fragment(),
-    GameAdapter.OnGameClickListener, GameOptionsSheet.OnOptionSelectedListener {
+class AllGamesFragment :
+    Fragment(),
+    GameAdapter.OnGameClickListener,
+    GameOptionsSheet.OnOptionSelectedListener {
 
     companion object {
         @Suppress("unused")
@@ -40,6 +42,8 @@ class AllGamesFragment : Fragment(),
 
     private lateinit var gamesViewModel: GamesViewModel
     private lateinit var mapsViewModel: MapsViewModel
+
+    private val apiInstance = ApiInstance.getInstance().create(ApiDataService::class.java)
 
     private var gameOptionsSheet: GameOptionsSheet? = null
 
@@ -101,7 +105,6 @@ class AllGamesFragment : Fragment(),
         game.status = status
 
         val gameRequest = GameRequest(game)
-        val apiInstance = ApiInstance.getInstance().create(ApiDataService::class.java)
         val request = apiInstance.updateGame(game.id, gameRequest)
 
         request.enqueue(object : Callback<GameResponse> {
@@ -116,6 +119,17 @@ class AllGamesFragment : Fragment(),
     }
 
     private fun deleteGame(game: Game) {
+        val request = apiInstance.deleteGame(game.id)
+
+        request.enqueue(object : Callback<Response<Void>> {
+            override fun onResponse(
+                call: Call<Response<Void>>,
+                response: Response<Response<Void>>
+            ) {}
+
+            override fun onFailure(call: Call<Response<Void>>, t: Throwable) {}
+        })
+
         GlobalScope.launch { gamesViewModel.delete(game) }
     }
 

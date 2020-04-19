@@ -2,6 +2,7 @@ package com.brolo.jackal.network
 
 import com.brolo.jackal.model.*
 import retrofit2.Call
+import retrofit2.Response
 import retrofit2.http.*
 
 interface ApiDataService {
@@ -22,5 +23,8 @@ interface ApiDataService {
 
     @PUT("/api/v1/games/{id}")
     fun updateGame(@Path("id") id: Int, @Body gameRequest: GameRequest): Call<GameResponse>
+
+    @DELETE("/api/v1/games/{id}")
+    fun deleteGame(@Path("id") id: Int): Call<Response<Void>>
 
 }

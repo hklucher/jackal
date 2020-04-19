@@ -5,6 +5,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.ViewTreeObserver
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
@@ -80,9 +81,7 @@ class AllGamesFragment : Fragment(),
         when (option) {
             GameOptionType.MARK_GAME_WON -> updateGameStatus(game, Game.StatusWon)
             GameOptionType.MARK_GAME_LOST -> updateGameStatus(game, Game.StatusLost)
-            GameOptionType.DELETE_GAME -> {
-                Toast.makeText(context, "Delete game", Toast.LENGTH_SHORT).show()
-            }
+            GameOptionType.DELETE_GAME -> deleteGame(game)
         }
 
         showToastMessage(option)
@@ -114,6 +113,10 @@ class AllGamesFragment : Fragment(),
         GlobalScope.launch {
             gamesViewModel.update(game)
         }
+    }
+
+    private fun deleteGame(game: Game) {
+        GlobalScope.launch { gamesViewModel.delete(game) }
     }
 
     private fun showToastMessage(optionType: GameOptionType) {

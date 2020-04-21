@@ -1,7 +1,6 @@
 package com.brolo.jackal.ui.main
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -19,6 +18,7 @@ import com.brolo.jackal.model.GameResponse
 import com.brolo.jackal.model.Map
 import com.brolo.jackal.network.ApiDataService
 import com.brolo.jackal.network.ApiInstance
+import com.brolo.jackal.viewmodel.GameFormViewModel
 import com.brolo.jackal.viewmodel.GamesViewModel
 import com.brolo.jackal.viewmodel.MapsViewModel
 import kotlinx.android.synthetic.main.activity_new_game.select_map_spinner
@@ -28,16 +28,21 @@ import retrofit2.Response
 
 class NewGameFragment : Fragment() {
 
-    companion object {
-        @Suppress("unused")
-        val TAG = NewGameFragment::class.java.simpleName
-    }
-
     private lateinit var mapsViewModel: MapsViewModel
     private lateinit var gamesViewModel: GamesViewModel
+    private lateinit var formViewModel: GameFormViewModel
 
-    private var selectedMap: Map? = null
-    private var selectedTeam: String? = null
+    private val startTeamObserver = Observer<String?> { team ->
+        updateEnabledState(team != null && formViewModel.map.value != null)
+    }
+
+    private val playedMapObserver = Observer<Map?> { map ->
+        updateEnabledState(map != null && formViewModel.startTeam.value != null)
+    }
+
+    private val submittingObserver = Observer<Boolean> { submitting ->
+        updateEnabledState(!submitting)
+    }
 
     private val mapsObserver = Observer<List<Map>> { maps ->
         val mapNames = maps.map(Map::name)
@@ -54,17 +59,13 @@ class NewGameFragment : Fragment() {
         }
 
         // If the user hasn't manually selected a map yet, set selectedMap variable to first game
-        selectedMap = selectedMap ?: maps.first()
+        formViewModel.map.value = maps.first()
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
-        mapsViewModel = ViewModelProviders.of(this).get(MapsViewModel::class.java)
-        mapsViewModel.allMaps.observe(viewLifecycleOwner, mapsObserver)
-
-        gamesViewModel = ViewModelProviders.of(this).get(GamesViewModel::class.java)
-
+        setupViewModels()
         setupRadioButtonListener()
         setupMapSelectedListener()
         setupSubmitBtn()
@@ -78,16 +79,24 @@ class NewGameFragment : Fragment() {
         return inflater.inflate(R.layout.fragment_new_game, container, false)
     }
 
+    private fun setupViewModels() {
+        mapsViewModel = ViewModelProviders.of(this).get(MapsViewModel::class.java)
+        mapsViewModel.allMaps.observe(viewLifecycleOwner, mapsObserver)
+
+        gamesViewModel = ViewModelProviders.of(this).get(GamesViewModel::class.java)
+
+        formViewModel = ViewModelProviders.of(this).get(GameFormViewModel::class.java)
+        formViewModel.startTeam.observe(viewLifecycleOwner, startTeamObserver)
+        formViewModel.map.observe(viewLifecycleOwner, playedMapObserver)
+        formViewModel.submitting.observe(viewLifecycleOwner, submittingObserver)
+    }
+
     // Sync the value of `selectedTeam` when team radio group changes value.
     private fun setupRadioButtonListener() {
         team_radio_grp.setOnCheckedChangeListener { _, checkedId ->
             when (checkedId) {
-                R.id.team_atk -> {
-                    selectedTeam = "attack"
-                }
-                R.id.team_def -> {
-                    selectedTeam = "defense"
-                }
+                R.id.team_atk -> formViewModel.startTeam.value = Game.TeamAttack
+                R.id.team_def -> formViewModel.startTeam.value = Game.TeamDefense
             }
         }
     }
@@ -96,20 +105,25 @@ class NewGameFragment : Fragment() {
     private fun setupMapSelectedListener() {
         select_map_spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-                selectedMap = mapsViewModel.allMaps.value?.get(position)
+                formViewModel.map.value = mapsViewModel.allMaps.value?.get(position)
             }
 
             override fun onNothingSelected(parent: AdapterView<*>?) {
                 // NOTE: Not currently possible to not select a map. Defaults to first.
-                selectedMap = null
             }
         }
     }
 
+    private fun updateEnabledState(isEnabled: Boolean) {
+        log_game_submit_btn.isEnabled = isEnabled
+    }
+
     private fun setupSubmitBtn() {
        log_game_submit_btn.setOnClickListener {
-           val teamForSubmit = selectedTeam
-           val mapForSubmit = selectedMap
+           formViewModel.submitting.value = true
+
+           val teamForSubmit = formViewModel.startTeam.value
+           val mapForSubmit = formViewModel.map.value
 
            if (teamForSubmit != null && mapForSubmit != null) {
                val game = Game(0, teamForSubmit, "in_progress", mapForSubmit.id)
@@ -124,10 +138,10 @@ class NewGameFragment : Fragment() {
                        response: Response<GameResponse>
                    ) {
                        try {
+                           formViewModel.submitting.value = false
+
                            val createdGame = response.body() as Game
 
-                           // FIXME: There is an issue here where inserting this game
-                           // into the DB is swapping team/status fields
                            gamesViewModel.insert(createdGame)
 
                            Toast.makeText(
@@ -138,6 +152,8 @@ class NewGameFragment : Fragment() {
 
                            findNavController().navigateUp()
                        } catch (error: TypeCastException) {
+                           formViewModel.submitting.value = false
+
                            Toast.makeText(
                                context,
                                "Unfortunately, there was a server error logging this game.",
@@ -148,10 +164,22 @@ class NewGameFragment : Fragment() {
                    }
 
                    override fun onFailure(call: Call<GameResponse>, t: Throwable) {
-                       Log.d(TAG, t.toString())
+                       formViewModel.submitting.value = false
+
+                       Toast.makeText(
+                           context,
+                           "Unfortunately, there was a server error logging this game.",
+                           Toast.LENGTH_LONG
+                       ).show()
                    }
                })
            }
        }
     }
+
+    companion object {
+        @Suppress("unused")
+        val TAG = NewGameFragment::class.java.simpleName
+    }
+
 }

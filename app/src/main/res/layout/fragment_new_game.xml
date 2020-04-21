@@ -63,7 +63,7 @@
                 android:id="@+id/select_map_spinner"
                 app:layout_constraintTop_toBottomOf="@id/map_label"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
+                android:layout_height="wrap_content" />
         </LinearLayout>
     </androidx.cardview.widget.CardView>
 
@@ -74,6 +74,8 @@
         app:layout_constraintBottom_toBottomOf="parent"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        style="@style/Widget.Jackal.Button"
-        android:text="@string/submit" />
+        android:enabled="false"
+        android:text="@string/submit"
+        style="@style/Widget.Jackal.Button" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -2,11 +2,10 @@ package com.brolo.jackal.ui.main
 
 import android.os.Bundle
 import android.util.Log
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
-import android.view.ViewTreeObserver
+import android.view.*
+import android.widget.ImageButton
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
@@ -18,6 +17,7 @@ import com.brolo.jackal.model.*
 import com.brolo.jackal.model.Map
 import com.brolo.jackal.network.ApiDataService
 import com.brolo.jackal.network.ApiInstance
+import com.brolo.jackal.viewmodel.GameMultiSelectViewModel
 import com.brolo.jackal.viewmodel.GamesViewModel
 import com.brolo.jackal.viewmodel.MapsViewModel
 import kotlinx.android.synthetic.main.fragment_all_games.*
@@ -40,15 +40,28 @@ class AllGamesFragment :
     }
 
     private lateinit var recyclerView: RecyclerView
-    private lateinit var viewAdapter: RecyclerView.Adapter<*>
+    private lateinit var viewAdapter: GameAdapter
     private lateinit var viewManager: RecyclerView.LayoutManager
 
     private lateinit var gamesViewModel: GamesViewModel
     private lateinit var mapsViewModel: MapsViewModel
+    private lateinit var gameMultiSelectViewModel: GameMultiSelectViewModel
+
+    private lateinit var toolMenu: Menu
 
     private val apiInstance = ApiInstance.getInstance().create(ApiDataService::class.java)
 
     private var gameOptionsSheet: GameOptionsSheet? = null
+
+    private val selectedGamesObserver = Observer<List<Int>> { gameIds ->
+        if (gameIds.isNotEmpty()) {
+            showDeleteIcon()
+
+//            if (this::recyclerView.isInitialized) {
+//                viewAdapter.notifyDataSetChanged()
+//            }
+        }
+    }
 
     private val gameObserver = Observer<List<Game>> { games ->
         val maps = mapsViewModel.allMaps.value
@@ -83,7 +96,20 @@ class AllGamesFragment :
         mapsViewModel = ViewModelProviders.of(this).get(MapsViewModel::class.java)
         mapsViewModel.allMaps.observe(viewLifecycleOwner, mapsObserver)
 
+        gameMultiSelectViewModel = ViewModelProviders.of(this).get(
+            GameMultiSelectViewModel::class.java
+        )
+
+        gameMultiSelectViewModel.gameIds.observe(viewLifecycleOwner, selectedGamesObserver)
+
+        setHasOptionsMenu(true)
         setupButtons()
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        toolMenu = menu
+        inflater.inflate(R.menu.all_games_menu, toolMenu)
+        super.onCreateOptionsMenu(menu, inflater)
     }
 
     override fun onOptionSelected(option: GameOptionType, game: Game) {
@@ -103,6 +129,22 @@ class AllGamesFragment :
 
             gameOptionsSheet = GameOptionsSheet(this, game)
             gameOptionsSheet?.show(childFragmentManager, "game_options")
+        }
+    }
+
+    override fun onGameLongPress(position: Int) {
+        Toast.makeText(context, "Test", Toast.LENGTH_LONG).show()
+
+        gamesViewModel.allGames.value?.let {
+            val game = it[position]
+
+            gameMultiSelectViewModel.add(game.id)
+        }
+    }
+
+    private fun showDeleteIcon() {
+        if (this::toolMenu.isInitialized) {
+            toolMenu.findItem(R.id.action_delete).isVisible = true
         }
     }
 
@@ -150,7 +192,12 @@ class AllGamesFragment :
 
     private fun setupRecyclerView(games: List<Game>, maps: List<Map>) {
         viewManager = LinearLayoutManager(context)
-        viewAdapter = GameAdapter(games, maps, this)
+        viewAdapter = GameAdapter(
+            games,
+            maps,
+            this,
+            context
+        )
 
         recyclerView = all_games_recycler_view.apply {
             setHasFixedSize(true)

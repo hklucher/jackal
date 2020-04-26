@@ -25,6 +25,7 @@
     <string name="game_options_menu_title">Game Options</string>
     <string name="option_export_as_csv">Export Games as CSV</string>
     <string name="delete_all_games">Delete all Games</string>
+    <string name="delete_games">Delete Games</string>
     <string name="confirm_delete_all_games">
         Are you sure you want to delete all of your recorded game data?\nThis action cannot be undone.
     </string>

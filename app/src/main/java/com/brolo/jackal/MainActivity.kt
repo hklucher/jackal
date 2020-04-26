@@ -96,6 +96,9 @@ class MainActivity : AppCompatActivity(R.layout.main_activity),
         insertGame(game)
     }
 
+    override fun onGameLongPress(position: Int) {
+    }
+
     override fun onGameDeleted(gameId: Int) {
         viewModel.allGames.value?.let {
             val game = it.find { game -> game.id == gameId }
@@ -155,7 +158,7 @@ class MainActivity : AppCompatActivity(R.layout.main_activity),
 
     private fun setupRecyclerView(games: List<Game>, maps: List<Map>) {
         viewManager = LinearLayoutManager(this)
-        viewAdapter = GameAdapter(games.take(20), maps, this)
+        viewAdapter = GameAdapter(games.take(20), maps, this, this)
 
         recyclerView = game_recycler_view.apply {
             setHasFixedSize(true)

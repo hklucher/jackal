@@ -1,5 +1,6 @@
 package com.brolo.jackal.ui.main
 
+import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -16,13 +17,19 @@ import kotlinx.android.synthetic.main.game_card.view.*
 class GameAdapter(
     private val games: List<Game>,
     private val maps: List<Map>,
-    private val clickListener: OnGameClickListener
+    private val clickListener: OnGameClickListener,
+    private val context: Context?
 ) : RecyclerView.Adapter<GameAdapter.ViewHolder>() {
 
     class ViewHolder(val cardView: View) : RecyclerView.ViewHolder(cardView)
 
+    // This GameAdapter class should manage the selectedGameIds
+    // We should only listen to changes for selectedGameIds to know when to show icons +
+    var selectedGameIds: List<Int> = emptyList()
+
     interface OnGameClickListener {
         fun onGameClick(position: Int)
+        fun onGameLongPress(position: Int)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -39,10 +46,21 @@ class GameAdapter(
         val teamText = GameUtils.getHumanizedStartingSide(game)
         val createdAt = game.createdAtTimestamp()
 
+        if (selectedGameIds.contains(game.id) && context != null) {
+            holder.cardView.setBackgroundColor(ContextCompat.getColor(context, R.color.colorAccent))
+        }
+
         holder.cardView.findViewById<TextView>(R.id.game_title).text = mapName
         holder.cardView.findViewById<TextView>(R.id.game_side).text = teamText
         holder.cardView.findViewById<TextView>(R.id.game_status).text = GameUtils.getHumanizedStatus(game)
         holder.cardView.game_more_btn.setOnClickListener { clickListener.onGameClick(position) }
+        holder.cardView.game_row_inner_container.setOnLongClickListener {
+            clickListener.onGameLongPress(position)
+            selectedGameIds = selectedGameIds.plus(game.id)
+            notifyDataSetChanged()
+            true
+        }
+
         if (createdAt != null) {
             holder.cardView.findViewById<TextView>(R.id.game_created_at).text = DateUtils.formatDate(
                 createdAt

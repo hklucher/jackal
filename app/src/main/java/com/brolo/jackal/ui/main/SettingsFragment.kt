@@ -5,6 +5,7 @@ import android.util.Log
 import android.view.View
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
 import com.brolo.jackal.R
 import com.brolo.jackal.model.User
@@ -38,6 +39,9 @@ class SettingsFragment : PreferenceFragmentCompat() {
     }
 
     private fun syncSettingsFromUser(user: User) {
+        val emailPreference = findPreference<Preference>(getString(R.string.preference_email_key))
+
+        emailPreference?.summary = user.email
     }
 
     companion object {

@@ -9,10 +9,9 @@
         app:title="Push notifications" />
 
     <Preference
-        app:key="email"
+        app:key="@string/preference_email_key"
         app:title="Change email"
-        android:icon="@drawable/ic_email"
-        app:summary="hklucher@gmail.com" />
+        android:icon="@drawable/ic_email" />
 
     <Preference
         app:key="password"

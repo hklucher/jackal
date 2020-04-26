@@ -54,6 +54,7 @@ dependencies {
     implementation "com.github.debop:koda-time:1.2.1"
     implementation "androidx.navigation:navigation-fragment-ktx:$nav_version"
     implementation "androidx.navigation:navigation-ui-ktx:$nav_version"
+    implementation "androidx.preference:preference:1.1.0"
 
     //  Room dependencies
     implementation "androidx.room:room-runtime:$room_version"

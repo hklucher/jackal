@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <SwitchPreferenceCompat
+        app:key="notifications"
+        android:icon="@drawable/ic_notification_active"
+        app:title="Push notifications" />
+
+    <Preference
+        app:key="email"
+        app:title="Change email"
+        android:icon="@drawable/ic_email"
+        app:summary="hklucher@gmail.com" />
+
+    <Preference
+        app:key="password"
+        app:title="Reset password"
+        android:icon="@drawable/ic_lock_outlined_closed"
+        app:summary="••••••••" />
+
+</PreferenceScreen>

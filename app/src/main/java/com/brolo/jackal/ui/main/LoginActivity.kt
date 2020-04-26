@@ -2,20 +2,28 @@ package com.brolo.jackal.ui.main
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.ViewModelProviders
 import com.brolo.jackal.R
 import com.brolo.jackal.model.LoginRequest
 import com.brolo.jackal.model.User
 import com.brolo.jackal.network.ApiDataService
 import com.brolo.jackal.network.ApiInstance
 import com.brolo.jackal.utils.AuthUtils
+import com.brolo.jackal.viewmodel.UsersViewModel
 import kotlinx.android.synthetic.main.activity_login.*
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
 class LoginActivity : AppCompatActivity(), LoginFormFragment.LoginEventsListener {
+
+    lateinit var userViewModel: UsersViewModel
+
     companion object {
         val TAG = LoginActivity::class.java.simpleName
     }
@@ -26,6 +34,7 @@ class LoginActivity : AppCompatActivity(), LoginFormFragment.LoginEventsListener
 
         supportActionBar?.hide()
         handleAuthCheck()
+        initViewModels()
     }
 
     override fun onLoginSubmit(loginRequest: LoginRequest) {
@@ -36,12 +45,15 @@ class LoginActivity : AppCompatActivity(), LoginFormFragment.LoginEventsListener
         response.enqueue(object : Callback<User> {
             override fun onResponse(call: Call<User>, response: Response<User>) {
                 response.headers().get("Authorization")?.let { authToken ->
+                    val loggedInUser = response.body() as User
                     // Save the token & user id to the device for future use
                     AuthUtils.saveJWT(activity, authToken)
-                    AuthUtils.saveUserId(activity, response.body()!!.id)
+                    AuthUtils.saveUserId(activity, loggedInUser.id)
 
                     // Set the auth header on all requests on our api singleton
                     ApiInstance.setAuthUtility(authToken)
+
+                    insertCurrentUser(loggedInUser)
 
                     proceedToMainApp()
                 }
@@ -51,6 +63,16 @@ class LoginActivity : AppCompatActivity(), LoginFormFragment.LoginEventsListener
                 TODO("Implement login errors")
             }
         })
+    }
+
+    private fun initViewModels() {
+        userViewModel = ViewModelProviders.of(this).get(UsersViewModel::class.java)
+    }
+
+    private fun insertCurrentUser(user: User) {
+        GlobalScope.launch {
+            userViewModel.insertCurrentUser(user)
+        }
     }
 
     private fun handleAuthCheck() {
@@ -92,4 +114,5 @@ class LoginActivity : AppCompatActivity(), LoginFormFragment.LoginEventsListener
 
         startActivity(intent)
     }
+
 }

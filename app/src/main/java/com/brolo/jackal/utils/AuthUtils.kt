@@ -31,6 +31,16 @@ class AuthUtils {
             return sharedPref.getString(JWT_KEY, null)
         }
 
+        fun deleteJWT(activity: Activity) {
+            val editor = activity.getSharedPreferences(
+                getAuthFileName(),
+                Context.MODE_PRIVATE
+            ).edit()
+
+            // NOTE: Need to synchronously delete to delete data before going back to login activity
+            editor.remove(JWT_KEY).commit()
+        }
+
         fun saveUserId(activity: Activity, id: Int) {
             val sharedPref = activity.getSharedPreferences(
                 getAuthFileName(),
@@ -50,6 +60,16 @@ class AuthUtils {
             )
 
             return sharedPref.getInt(USER_ID_KEY, 0)
+        }
+
+        fun deleteUserId(activity: Activity) {
+            val editor = activity.getSharedPreferences(
+                getAuthFileName(),
+                Context.MODE_PRIVATE
+            ).edit()
+
+            // NOTE: Need to synchronously delete to delete data before going back to login activity
+            editor.remove(USER_ID_KEY).commit()
         }
 
         private fun getAuthFileName() = "${BuildConfig.APPLICATION_ID}.$AUTH_FILE_NAME"

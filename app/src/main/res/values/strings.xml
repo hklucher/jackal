@@ -57,6 +57,7 @@
     <string name="mark_game_as_won">Mark Game as Won</string>
     <string name="mark_as_lost">Mark Game as Lost</string>
     <string name="preference_email_key">email</string>
+    <string name="edit_email">Edit Email</string>
 
     <plurals name="total_games">
         <item quantity="one">You have recorded %d games</item>

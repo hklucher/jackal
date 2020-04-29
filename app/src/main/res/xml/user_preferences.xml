@@ -11,12 +11,18 @@
     <Preference
         app:key="@string/preference_email_key"
         app:title="Change email"
-        android:icon="@drawable/ic_email" />
+        android:icon="@drawable/ic_email"
+        app:summary="" />
 
     <Preference
         app:key="password"
         app:title="Reset password"
         android:icon="@drawable/ic_lock_outlined_closed"
         app:summary="••••••••" />
+
+    <Preference
+        app:key="logout"
+        app:title="Log Out"
+        android:icon="@drawable/ic_exit" />
 
 </PreferenceScreen>

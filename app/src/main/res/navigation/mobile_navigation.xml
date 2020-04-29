@@ -25,17 +25,46 @@
         android:id="@+id/all_games_dest"
         android:label="@string/all_games"
         android:name="com.brolo.jackal.ui.main.AllGamesFragment"
-        android:layout="@layout/fragment_all_games" />
+        android:layout="@layout/fragment_all_games">
+
+        <action
+            android:id="@+id/action_all_games_to_new_game"
+            app:destination="@id/new_game_dest"
+            app:enterAnim="@anim/enter_from_right"
+            app:exitAnim="@anim/exit_to_left"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
+
+    </fragment>
 
     <fragment
         android:id="@+id/settings_dest"
         android:label="@string/settings"
         android:name="com.brolo.jackal.ui.main.SettingsFragment"
-        android:layout="@layout/fragment_settings" />
+        android:layout="@layout/fragment_settings">
+
+        <action
+            android:id="@+id/action_settings_to_edit_email"
+            app:destination="@id/edit_email_dest"
+            app:enterAnim="@anim/enter_from_right"
+            app:exitAnim="@anim/exit_to_left"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
+
+    </fragment>
 
     <fragment
         android:id="@+id/new_game_dest"
         android:label="@string/new_game"
         android:name="com.brolo.jackal.ui.main.NewGameFragment"
-        android:layout="@layout/fragment_new_game" />
+        android:layout="@layout/fragment_new_game">
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/edit_email_dest"
+        android:label="@string/edit_email"
+        android:name="com.brolo.jackal.ui.main.EditEmailFragment"
+        android:layout="@layout/fragment_edit_email" />
+
 </navigation>

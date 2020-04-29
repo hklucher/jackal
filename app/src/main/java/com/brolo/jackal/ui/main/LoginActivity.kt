@@ -99,7 +99,7 @@ class LoginActivity : AppCompatActivity(), LoginFormFragment.LoginEventsListener
 
         response.enqueue(object : Callback<User> {
             override fun onResponse(call: Call<User>, response: Response<User>) {
-                // TODO: Do something with the current user
+                // TODO: Insert current user from response here
                 proceedToMainApp()
             }
 
@@ -113,6 +113,7 @@ class LoginActivity : AppCompatActivity(), LoginFormFragment.LoginEventsListener
         }
 
         startActivity(intent)
+        overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out)
     }
 
 }

@@ -12,6 +12,7 @@ import com.brolo.jackal.model.Game
 import com.brolo.jackal.model.Map
 import com.brolo.jackal.utils.DateUtils
 import com.brolo.jackal.utils.GameUtils
+import com.brolo.jackal.utils.MultiSelector
 import kotlinx.android.synthetic.main.game_card.view.*
 
 class GameAdapter(
@@ -23,9 +24,7 @@ class GameAdapter(
 
     class ViewHolder(val cardView: View) : RecyclerView.ViewHolder(cardView)
 
-    // This GameAdapter class should manage the selectedGameIds
-    // We should only listen to changes for selectedGameIds to know when to show icons +
-    var selectedGameIds: List<Int> = emptyList()
+    private val selector = MultiSelector()
 
     interface OnGameClickListener {
         fun onGameClick(position: Int)
@@ -46,17 +45,16 @@ class GameAdapter(
         val teamText = GameUtils.getHumanizedStartingSide(game)
         val createdAt = game.createdAtTimestamp()
 
-        if (selectedGameIds.contains(game.id) && context != null) {
-            holder.cardView.setBackgroundColor(ContextCompat.getColor(context, R.color.colorAccent))
-        }
-
+        // TOOD: Move to separate fun
         holder.cardView.findViewById<TextView>(R.id.game_title).text = mapName
         holder.cardView.findViewById<TextView>(R.id.game_side).text = teamText
         holder.cardView.findViewById<TextView>(R.id.game_status).text = GameUtils.getHumanizedStatus(game)
         holder.cardView.game_more_btn.setOnClickListener { clickListener.onGameClick(position) }
         holder.cardView.game_row_inner_container.setOnLongClickListener {
             clickListener.onGameLongPress(position)
-            selectedGameIds = selectedGameIds.plus(game.id)
+
+            selectOrDeselectGameId(game.id, holder)
+
             notifyDataSetChanged()
             true
         }
@@ -71,6 +69,30 @@ class GameAdapter(
 
     override fun getItemCount(): Int {
         return games.size
+    }
+
+    private fun selectOrDeselectGameId(gameId: Int, holder: ViewHolder) {
+        if (selector.isSelected(gameId)) {
+            selector.deselect(gameId)
+        } else {
+            selector.select(gameId)
+        }
+
+        updateSelectedUI(holder, selector.isSelected(gameId))
+    }
+
+    private fun updateSelectedUI(holder: ViewHolder, isSelected: Boolean) {
+        if (context != null) {
+            if (isSelected) {
+                holder.cardView.setBackgroundColor(
+                    ContextCompat.getColor(context, R.color.colorAccent)
+                )
+            } else {
+                holder.cardView.setBackgroundColor(
+                    ContextCompat.getColor(context, android.R.color.white)
+                )
+            }
+        }
     }
 
     private fun setStatusTextStyle(holder: ViewHolder, game: Game) {

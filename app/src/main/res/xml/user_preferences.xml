@@ -3,11 +3,6 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <SwitchPreferenceCompat
-        app:key="notifications"
-        android:icon="@drawable/ic_notification_active"
-        app:title="Push notifications" />
-
     <Preference
         app:key="@string/preference_email_key"
         app:title="Change email"
@@ -19,6 +14,11 @@
         app:title="Reset password"
         android:icon="@drawable/ic_lock_outlined_closed"
         app:summary="••••••••" />
+
+    <SwitchPreferenceCompat
+        app:key="notifications"
+        android:icon="@drawable/ic_notification_active"
+        app:title="Push notifications" />
 
     <Preference
         app:key="logout"

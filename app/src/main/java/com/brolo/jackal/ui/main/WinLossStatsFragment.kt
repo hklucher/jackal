@@ -49,9 +49,6 @@ class WinLossStatsFragment : Fragment() {
 
         viewModel = ViewModelProviders.of(this).get(GamesViewModel::class.java)
 
-        // TODO: This is fetching the games every single time you go back to the tab
-        // from "Maps" (could have something to do with the fact that the tab is furthest away)
-        // look into how lifecycles work here
         observeGamesViewModel(viewModel)
         setupWinLossPieChart()
         setupChartChips()

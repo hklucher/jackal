@@ -13,6 +13,7 @@ import com.brolo.jackal.R
 import com.brolo.jackal.model.Game
 import com.brolo.jackal.model.Map
 import com.brolo.jackal.utils.BarChartXAxisFormatter
+import com.brolo.jackal.utils.BarChartYAxisFormatter
 import com.brolo.jackal.utils.whenNotNull
 import com.brolo.jackal.viewmodel.GamesViewModel
 import com.brolo.jackal.viewmodel.MapsViewModel
@@ -92,9 +93,10 @@ class MapsPlayedStatsFragment : Fragment() {
         maps_played_bar_chart.data = data
         maps_played_bar_chart.description.isEnabled = false
         maps_played_bar_chart.xAxis.valueFormatter = formatter
-        maps_played_bar_chart.setFitBars(true)
-        maps_played_bar_chart.setFitBars(true)
+        maps_played_bar_chart.setVisibleXRangeMaximum(5f)
         maps_played_bar_chart.invalidate()
+        maps_played_bar_chart.axisLeft.valueFormatter = BarChartYAxisFormatter()
+        maps_played_bar_chart.axisRight.setDrawLabels(false)
     }
 
     companion object {

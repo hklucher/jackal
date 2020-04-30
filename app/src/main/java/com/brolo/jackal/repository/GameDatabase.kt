@@ -7,13 +7,15 @@ import androidx.room.RoomDatabase
 import androidx.sqlite.db.SupportSQLiteDatabase
 import com.brolo.jackal.model.Game
 import com.brolo.jackal.model.Map
+import com.brolo.jackal.model.User
 import com.brolo.jackal.utils.MapUtils
 
-@Database(entities = [Game::class, Map::class], version = 1, exportSchema = false)
+@Database(entities = [Game::class, Map::class, User::class], version = 2, exportSchema = false)
 abstract class GameDatabase : RoomDatabase() {
 
     abstract fun gameDao(): GameDao
     abstract fun mapDao(): MapDao
+    abstract fun userDao(): UserDao
 
     companion object {
         @Volatile
@@ -43,7 +45,8 @@ abstract class GameDatabase : RoomDatabase() {
                     context.applicationContext,
                     GameDatabase::class.java,
                     "game_database"
-                ).addCallback(populateMapsCallback).build()
+                ).addMigrations(MIGRATION_1_2).addCallback(populateMapsCallback).build()
+
 
                 INSTANCE = instance
 

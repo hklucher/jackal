@@ -8,10 +8,11 @@ class BarChartXAxisFormatter(private val maps: List<Map>) : IndexAxisValueFormat
     override fun getFormattedValue(value: Float): String {
         val mapName = maps[value.toInt()].name
 
-        if (mapName.length > 5) {
-            return "${maps[value.toInt()].name.slice(0..4)}."
+        if (mapName.length > 3) {
+            return "${maps[value.toInt()].name.slice(0..2)}."
         }
 
         return mapName
     }
+
 }

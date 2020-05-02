@@ -36,6 +36,7 @@
     <string name="win_loss_percentage">Your win loss percentages</string>
     <string name="email_placeholder">Email</string>
     <string name="password_placeholder">Password</string>
+    <string name="password_confirmation_placeholder">Confirm Password</string>
     <string name="login">Login</string>
     <string name="sign_in">Sign In</string>
     <string name="sign_in_requesting">Signing In...</string>

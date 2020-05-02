@@ -20,7 +20,9 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class LoginActivity : AppCompatActivity(), LoginFormFragment.LoginEventsListener {
+class LoginActivity : AppCompatActivity(),
+    LoginFormFragment.LoginEventsListener,
+    RegistrationFormFragment.RegistrationEventsListener {
 
     lateinit var userViewModel: UsersViewModel
 
@@ -40,6 +42,35 @@ class LoginActivity : AppCompatActivity(), LoginFormFragment.LoginEventsListener
     override fun onLoginSuccess(user: User) {
         insertCurrentUser(user)
         proceedToMainApp()
+    }
+
+    override fun onSignUpClick() {
+        val registrationFragment = RegistrationFormFragment.createInstance()
+
+        val transition = supportFragmentManager.beginTransaction().replace(
+            R.id.login_fragment_container,
+            registrationFragment
+        )
+
+        transition.setCustomAnimations(
+            android.R.anim.slide_in_left,
+            android.R.anim.slide_out_right,
+            android.R.anim.slide_in_left,
+            android.R.anim.slide_out_right
+        )
+
+        transition.commit()
+    }
+
+    override fun onSignInClick() {
+        val loginFragment = LoginFormFragment.newInstance()
+
+        val transition = supportFragmentManager.beginTransaction().replace(
+            R.id.login_fragment_container,
+            loginFragment
+        )
+
+        transition.commit()
     }
 
     private fun initViewModels() {

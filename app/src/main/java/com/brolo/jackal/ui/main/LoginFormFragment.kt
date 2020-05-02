@@ -2,17 +2,23 @@ package com.brolo.jackal.ui.main
 
 import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.brolo.jackal.R
+import com.brolo.jackal.model.LoginError
 import com.brolo.jackal.model.LoginRequest
 import com.brolo.jackal.model.LoginUser
 import com.brolo.jackal.model.User
 import com.brolo.jackal.network.ApiDataService
 import com.brolo.jackal.network.ApiInstance
 import com.brolo.jackal.utils.AuthUtils
+import com.google.android.material.snackbar.Snackbar
+import com.google.gson.Gson
+import com.google.gson.reflect.TypeToken
 import java.lang.ClassCastException
 import kotlinx.android.synthetic.main.fragment_login_form.*
 import retrofit2.Call
@@ -34,6 +40,7 @@ class LoginFormFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setupSubmitButton()
+        setupSignUpButton()
     }
 
     override fun onAttach(context: Context) {
@@ -48,24 +55,34 @@ class LoginFormFragment : Fragment() {
 
     private fun login(loginRequest: LoginRequest) {
         setSubmittingButtonUI(true)
-//
+
         val service = ApiInstance.getInstance().create(ApiDataService::class.java)
         val response = service.login(loginRequest)
 
         response.enqueue(object : Callback<User> {
             override fun onResponse(call: Call<User>, response: Response<User>) {
-                response.headers().get("Authorization")?.let { authToken ->
-                    val loggedInUser = response.body() as User
-                    val currentActivity = activity
+                setSubmittingButtonUI(false)
 
-                    if (currentActivity != null) {
-                        AuthUtils.saveJWT(currentActivity, authToken)
-                        AuthUtils.saveUserId(currentActivity, loggedInUser.id)
-                        ApiInstance.setAuthUtility(authToken)
+                if (response.code() in 200..299) {
+                    response.headers().get("Authorization")?.let { authToken ->
 
-                        setSubmittingButtonUI(false)
+                        val loggedInUser = response.body() as User
+                        val currentActivity = activity
 
-                        listener.onLoginSuccess(loggedInUser)
+                        if (currentActivity != null) {
+                            AuthUtils.saveJWT(currentActivity, authToken)
+                            AuthUtils.saveUserId(currentActivity, loggedInUser.id)
+                            ApiInstance.setAuthUtility(authToken)
+
+                            listener.onLoginSuccess(loggedInUser)
+                        }
+                    }
+                } else {
+                    val type = object : TypeToken<LoginError>() {}.type
+                    val responseError: LoginError? = Gson().fromJson(response.errorBody()!!.charStream(), type)
+
+                    responseError?.let {
+                        Snackbar.make(login_fragment, it.error, Snackbar.LENGTH_INDEFINITE).show()
                     }
                 }
             }
@@ -91,6 +108,12 @@ class LoginFormFragment : Fragment() {
         }
     }
 
+    private fun setupSignUpButton() {
+        btn_sign_up.setOnClickListener {
+            listener.onSignUpClick()
+        }
+    }
+
     private fun setSubmittingButtonUI(isSubmitting: Boolean) {
         btn_submit.isEnabled = !isSubmitting
 
@@ -102,6 +125,9 @@ class LoginFormFragment : Fragment() {
     }
 
     companion object {
+        @Suppress("unused")
+        val TAG = LoginFormFragment::class.java.simpleName
+
         fun newInstance(): LoginFormFragment {
             return LoginFormFragment()
         }
@@ -109,6 +135,7 @@ class LoginFormFragment : Fragment() {
 
     interface LoginEventsListener {
         fun onLoginSuccess(user: User)
+        fun onSignUpClick()
     }
 
 }

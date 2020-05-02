@@ -37,32 +37,9 @@ class LoginActivity : AppCompatActivity(), LoginFormFragment.LoginEventsListener
         initViewModels()
     }
 
-    override fun onLoginSubmit(loginRequest: LoginRequest) {
-        val service = ApiInstance.getInstance().create(ApiDataService::class.java)
-        val response = service.login(loginRequest)
-        val activity = this
-
-        response.enqueue(object : Callback<User> {
-            override fun onResponse(call: Call<User>, response: Response<User>) {
-                response.headers().get("Authorization")?.let { authToken ->
-                    val loggedInUser = response.body() as User
-                    // Save the token & user id to the device for future use
-                    AuthUtils.saveJWT(activity, authToken)
-                    AuthUtils.saveUserId(activity, loggedInUser.id)
-
-                    // Set the auth header on all requests on our api singleton
-                    ApiInstance.setAuthUtility(authToken)
-
-                    insertCurrentUser(loggedInUser)
-
-                    proceedToMainApp()
-                }
-            }
-
-            override fun onFailure(call: Call<User>, t: Throwable) {
-                TODO("Implement login errors")
-            }
-        })
+    override fun onLoginSuccess(user: User) {
+        insertCurrentUser(user)
+        proceedToMainApp()
     }
 
     private fun initViewModels() {

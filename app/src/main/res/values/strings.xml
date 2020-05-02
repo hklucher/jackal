@@ -1,5 +1,8 @@
 <resources>
     <string name="app_name">Jackal</string>
+    <string name="app_description">A convenient way to track your own Rainbow Six stats.</string>
+    <string name="sign_up_prompt">Sign Up</string>
+    <string name="or">Or</string>
     <string name="add_game">Add Game</string>
     <string name="log_game">Log a Game</string>
     <string name="create">Create</string>
@@ -35,6 +38,7 @@
     <string name="password_placeholder">Password</string>
     <string name="login">Login</string>
     <string name="sign_in">Sign In</string>
+    <string name="sign_in_requesting">Signing In...</string>
     <string name="submit">Submit</string>
     <string name="submitting">Submitting...</string>
     <string name="welcome_message">

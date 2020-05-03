@@ -21,13 +21,7 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".MainActivity">
-        </activity>
-
         <activity android:name=".ui.main.DashboardActivity">
-        </activity>
-
-        <activity android:name=".ui.main.GameEditActivity">
         </activity>
 
         <activity android:name=".ui.main.NewGameActivity" />

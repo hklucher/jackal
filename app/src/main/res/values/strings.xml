@@ -1,5 +1,8 @@
 <resources>
     <string name="app_name">Jackal</string>
+    <string name="app_description">A convenient way to track your own Rainbow Six stats.</string>
+    <string name="sign_up_prompt">Sign Up</string>
+    <string name="or">Or</string>
     <string name="add_game">Add Game</string>
     <string name="log_game">Log a Game</string>
     <string name="create">Create</string>
@@ -25,6 +28,7 @@
     <string name="game_options_menu_title">Game Options</string>
     <string name="option_export_as_csv">Export Games as CSV</string>
     <string name="delete_all_games">Delete all Games</string>
+    <string name="delete_games">Delete Games</string>
     <string name="confirm_delete_all_games">
         Are you sure you want to delete all of your recorded game data?\nThis action cannot be undone.
     </string>
@@ -32,8 +36,10 @@
     <string name="win_loss_percentage">Your win loss percentages</string>
     <string name="email_placeholder">Email</string>
     <string name="password_placeholder">Password</string>
+    <string name="password_confirmation_placeholder">Confirm Password</string>
     <string name="login">Login</string>
     <string name="sign_in">Sign In</string>
+    <string name="sign_in_requesting">Signing In...</string>
     <string name="submit">Submit</string>
     <string name="submitting">Submitting...</string>
     <string name="welcome_message">

@@ -20,7 +20,9 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class LoginActivity : AppCompatActivity(), LoginFormFragment.LoginEventsListener {
+class LoginActivity : AppCompatActivity(),
+    LoginFormFragment.LoginEventsListener,
+    RegistrationFormFragment.RegistrationEventsListener {
 
     lateinit var userViewModel: UsersViewModel
 
@@ -37,32 +39,38 @@ class LoginActivity : AppCompatActivity(), LoginFormFragment.LoginEventsListener
         initViewModels()
     }
 
-    override fun onLoginSubmit(loginRequest: LoginRequest) {
-        val service = ApiInstance.getInstance().create(ApiDataService::class.java)
-        val response = service.login(loginRequest)
-        val activity = this
+    override fun onLoginSuccess(user: User) {
+        insertCurrentUser(user)
+        proceedToMainApp()
+    }
 
-        response.enqueue(object : Callback<User> {
-            override fun onResponse(call: Call<User>, response: Response<User>) {
-                response.headers().get("Authorization")?.let { authToken ->
-                    val loggedInUser = response.body() as User
-                    // Save the token & user id to the device for future use
-                    AuthUtils.saveJWT(activity, authToken)
-                    AuthUtils.saveUserId(activity, loggedInUser.id)
+    override fun onSignUpClick() {
+        val registrationFragment = RegistrationFormFragment.createInstance()
 
-                    // Set the auth header on all requests on our api singleton
-                    ApiInstance.setAuthUtility(authToken)
+        val transition = supportFragmentManager.beginTransaction().replace(
+            R.id.login_fragment_container,
+            registrationFragment
+        )
 
-                    insertCurrentUser(loggedInUser)
+        transition.setCustomAnimations(
+            android.R.anim.slide_in_left,
+            android.R.anim.slide_out_right,
+            android.R.anim.slide_in_left,
+            android.R.anim.slide_out_right
+        )
 
-                    proceedToMainApp()
-                }
-            }
+        transition.commit()
+    }
 
-            override fun onFailure(call: Call<User>, t: Throwable) {
-                TODO("Implement login errors")
-            }
-        })
+    override fun onSignInClick() {
+        val loginFragment = LoginFormFragment.newInstance()
+
+        val transition = supportFragmentManager.beginTransaction().replace(
+            R.id.login_fragment_container,
+            loginFragment
+        )
+
+        transition.commit()
     }
 
     private fun initViewModels() {

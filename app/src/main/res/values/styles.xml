@@ -25,4 +25,11 @@
         <item name="rippleColor">@color/colorAccent</item>
     </style>
 
+    <style name="Widget.Jackal.FAB" parent="Widget.MaterialComponents.FloatingActionButton">
+        <item name="android:layout_margin">16dp</item>
+        <item name="android:backgroundTint">@color/colorAccent</item>
+        <item name="android:layout_gravity">bottom|right</item>
+        <item name="android:adjustViewBounds">true</item>
+    </style>
+
 </resources>

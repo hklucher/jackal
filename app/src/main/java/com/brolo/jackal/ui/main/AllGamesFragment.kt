@@ -1,11 +1,8 @@
 package com.brolo.jackal.ui.main
 
 import android.os.Bundle
-import android.util.Log
 import android.view.*
-import android.widget.ImageButton
 import android.widget.Toast
-import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
@@ -22,7 +19,6 @@ import com.brolo.jackal.viewmodel.GamesViewModel
 import com.brolo.jackal.viewmodel.MapsViewModel
 import kotlinx.android.synthetic.main.fragment_all_games.*
 import kotlinx.android.synthetic.main.fragment_all_games.new_game_fab
-import kotlinx.android.synthetic.main.fragment_dashboard.*
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import retrofit2.Call
@@ -56,10 +52,6 @@ class AllGamesFragment :
     private val selectedGamesObserver = Observer<List<Int>> { gameIds ->
         if (gameIds.isNotEmpty()) {
             showDeleteIcon()
-
-//            if (this::recyclerView.isInitialized) {
-//                viewAdapter.notifyDataSetChanged()
-//            }
         }
     }
 
@@ -204,12 +196,22 @@ class AllGamesFragment :
             layoutManager = viewManager
             adapter = viewAdapter
         }
+
+        initScrollListeners()
     }
 
     private fun setupButtons() {
         new_game_fab.setOnClickListener {
             findNavController().navigate(R.id.action_all_games_to_new_game)
         }
+    }
+
+    private fun initScrollListeners() {
+        recyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                if (dy > 0) new_game_fab.hide() else new_game_fab.show()
+            }
+        })
     }
 
 }

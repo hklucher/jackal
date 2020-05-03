@@ -45,13 +45,11 @@
             app:fontFamily="@font/roboto"
             android:textSize="14sp" />
 
-        <TextView
+        <com.google.android.material.chip.Chip
             android:id="@+id/game_status"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:fontFamily="@font/roboto"
-            android:textColor="@color/colorYellowOrange"
-            android:textSize="14sp" />
+            android:enabled="false" />
 
     </LinearLayout>
 

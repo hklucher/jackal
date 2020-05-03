@@ -27,9 +27,8 @@
         android:id="@+id/new_game_fab"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="16dp"
-        android:layout_gravity="bottom|right"
-        android:backgroundTint="@color/colorAccent"
-        app:srcCompat="@drawable/ic_log" />
+        app:borderWidth="0dp"
+        app:srcCompat="@drawable/ic_log"
+        style="@style/Widget.Jackal.FAB" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

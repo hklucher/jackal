@@ -14,6 +14,7 @@ import com.brolo.jackal.model.*
 import com.brolo.jackal.model.Map
 import com.brolo.jackal.network.ApiDataService
 import com.brolo.jackal.network.ApiInstance
+import com.brolo.jackal.utils.GameAdapterOpts
 import com.brolo.jackal.viewmodel.GameMultiSelectViewModel
 import com.brolo.jackal.viewmodel.GamesViewModel
 import com.brolo.jackal.viewmodel.MapsViewModel
@@ -183,12 +184,14 @@ class AllGamesFragment :
     }
 
     private fun setupRecyclerView(games: List<Game>, maps: List<Map>) {
+        val opts = GameAdapterOpts()
         viewManager = LinearLayoutManager(context)
         viewAdapter = GameAdapter(
             games,
             maps,
             this,
-            context
+            context,
+            opts
         )
 
         recyclerView = all_games_recycler_view.apply {

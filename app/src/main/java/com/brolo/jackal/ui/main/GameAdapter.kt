@@ -11,6 +11,7 @@ import com.brolo.jackal.R
 import com.brolo.jackal.model.Game
 import com.brolo.jackal.model.Map
 import com.brolo.jackal.utils.DateUtils
+import com.brolo.jackal.utils.GameAdapterOpts
 import com.brolo.jackal.utils.GameUtils
 import com.brolo.jackal.utils.MultiSelector
 import kotlinx.android.synthetic.main.game_card.view.*
@@ -19,8 +20,13 @@ class GameAdapter(
     private val games: List<Game>,
     private val maps: List<Map>,
     private val clickListener: OnGameClickListener,
-    private val context: Context?
+    private val context: Context?,
+    private val options: GameAdapterOpts
 ) : RecyclerView.Adapter<GameAdapter.ViewHolder>() {
+
+    enum class ViewMode {
+        Default, Card
+    }
 
     class ViewHolder(val cardView: View) : RecyclerView.ViewHolder(cardView)
 
@@ -32,10 +38,18 @@ class GameAdapter(
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val cardView = LayoutInflater.from(parent.context)
-            .inflate(R.layout.game_card, parent, false)
+        return if (options.mode == ViewMode.Default) {
+            val cardView = LayoutInflater.from(parent.context)
+                .inflate(R.layout.game_card, parent, false)
 
-        return ViewHolder(cardView)
+            ViewHolder(cardView)
+        } else {
+            val cardView = LayoutInflater.from(parent.context).inflate(
+                R.layout.game_preview_card, parent, false
+            )
+
+            ViewHolder(cardView)
+        }
     }
 
     @ExperimentalStdlibApi

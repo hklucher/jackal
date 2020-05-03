@@ -15,17 +15,7 @@ import com.brolo.jackal.viewmodel.GamesViewModel
 import kotlinx.android.synthetic.main.activity_dashboard.*
 import kotlinx.android.synthetic.main.fragment_dashboard.*
 
-// BIG TODOs:
-// 1. Figure out how to properly share live data from this fragment to each fragment inside the tab/pager.
-// 2. Make sure we're not fetching anymore after we initially populate the data.
-// 3. It looks like this data gets re-populated every time the bottom tab changes/go to diff screen.
-//    See if there's a way to persist view model data between navigation or persist
-
 class DashboardFragment : Fragment() {
-    companion object {
-        @Suppress("unused")
-        val TAG = DashboardFragment::class.java.simpleName
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -40,6 +30,7 @@ class DashboardFragment : Fragment() {
 
         setupViewPager()
         setupButtons()
+        setupRecentGames()
     }
 
     private fun setupViewPager() {
@@ -55,4 +46,20 @@ class DashboardFragment : Fragment() {
             findNavController().navigate(R.id.action_dashboard_to_new_game)
         }
     }
+
+    private fun setupRecentGames() {
+        val fragment = LatestGamesFragment.createInstance()
+        val transaction = childFragmentManager.beginTransaction().add(
+            R.id.latest_games_frag_container,
+            fragment
+        )
+
+        transaction.commit()
+    }
+
+    companion object {
+        @Suppress("unused")
+        val TAG = DashboardFragment::class.java.simpleName
+    }
+
 }

@@ -23,7 +23,6 @@ import com.github.mikephil.charting.data.PieDataSet
 import com.github.mikephil.charting.data.PieEntry
 import com.github.mikephil.charting.formatter.ValueFormatter
 import kotlinx.android.synthetic.main.fragment_win_loss_stats.*
-import kotlinx.android.synthetic.main.main_activity.*
 import org.joda.time.DateTime
 import org.joda.time.Interval
 

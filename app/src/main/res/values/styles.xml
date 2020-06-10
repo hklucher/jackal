@@ -32,4 +32,9 @@
         <item name="android:adjustViewBounds">true</item>
     </style>
 
+    <style name="BodyText1">
+        <item name="fontFamily">@font/roboto</item>
+        <item name="android:textSize">14sp</item>
+    </style>
+
 </resources>

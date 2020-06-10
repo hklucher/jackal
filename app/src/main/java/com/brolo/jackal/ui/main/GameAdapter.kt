@@ -1,83 +1,48 @@
 package com.brolo.jackal.ui.main
 
-import android.content.Context
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.brolo.jackal.R
+import com.brolo.jackal.databinding.GameCardBinding
 import com.brolo.jackal.model.Game
 import com.brolo.jackal.model.Map
-import com.brolo.jackal.utils.DateUtils
-import com.brolo.jackal.utils.GameAdapterOpts
 import com.brolo.jackal.utils.GameUtils
-import com.brolo.jackal.utils.MultiSelector
-import kotlinx.android.synthetic.main.game_card.view.*
 
-class GameAdapter(
-    private val games: List<Game>,
-    private val maps: List<Map>,
-    private val clickListener: OnGameClickListener,
-    private val context: Context?,
-    private val options: GameAdapterOpts
-) : RecyclerView.Adapter<GameAdapter.ViewHolder>() {
+class GameAdapter(private val games: List<Game>, private val maps: List<Map>, private val listener: OnGameClickListener)
+    : RecyclerView.Adapter<GameAdapter.GameHolder>() {
 
-    enum class ViewMode {
-        Default, Card
+    class GameHolder(val itemBinding: GameCardBinding) : RecyclerView.ViewHolder(itemBinding.root) {
+        fun bind(game: Game, map: Map) {
+            itemBinding.game = game
+            itemBinding.map = map
+        }
     }
-
-    class ViewHolder(val cardView: View) : RecyclerView.ViewHolder(cardView)
-
-    private val selector = MultiSelector()
 
     interface OnGameClickListener {
         fun onGameClick(position: Int)
-        fun onGameLongPress(position: Int)
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        return if (options.mode == ViewMode.Default) {
-            val cardView = LayoutInflater.from(parent.context)
-                .inflate(R.layout.game_card, parent, false)
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): GameHolder {
+        val itemBinding = GameCardBinding.inflate(
+            LayoutInflater.from(parent.context),
+            parent,
+            false
+        )
 
-            ViewHolder(cardView)
-        } else {
-            val cardView = LayoutInflater.from(parent.context).inflate(
-                R.layout.game_preview_card, parent, false
-            )
-
-            ViewHolder(cardView)
-        }
+        return GameHolder(itemBinding)
     }
 
     @ExperimentalStdlibApi
-    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: GameHolder, position: Int) {
         val game = games[position]
-        val mapName = GameUtils.getPlayedMap(game, maps)?.name
-        val teamText = GameUtils.getHumanizedStartingSide(game)
-        val createdAt = game.createdAtTimestamp()
+        val map = GameUtils.getPlayedMap(game, maps)
 
-        // TOOD: Move to separate fun
-        holder.cardView.findViewById<TextView>(R.id.game_title).text = mapName
-        holder.cardView.findViewById<TextView>(R.id.game_side).text = teamText
-        holder.cardView.findViewById<TextView>(R.id.game_status).text = GameUtils.getHumanizedStatus(game)
-        holder.cardView.game_more_btn.setOnClickListener { clickListener.onGameClick(position) }
-        holder.cardView.game_row_inner_container.setOnLongClickListener {
-            clickListener.onGameLongPress(position)
+        map?.let { holder.bind(game, map) }
 
-            selectOrDeselectGameId(game.id, holder)
+        holder.itemBinding.gameMoreBtn.setOnClickListener { listener.onGameClick(position) }
 
-            notifyDataSetChanged()
-            true
-        }
-
-        if (createdAt != null) {
-            holder.cardView.findViewById<TextView>(R.id.game_created_at).text = DateUtils.formatDate(
-                createdAt
-            )
-        }
         setStatusTextStyle(holder, game)
     }
 
@@ -85,36 +50,10 @@ class GameAdapter(
         return games.size
     }
 
-    private fun selectOrDeselectGameId(gameId: Int, holder: ViewHolder) {
-        if (selector.isSelected(gameId)) {
-            selector.deselect(gameId)
-        } else {
-            selector.select(gameId)
-        }
-
-        updateSelectedUI(holder, selector.isSelected(gameId))
-    }
-
-    private fun updateSelectedUI(holder: ViewHolder, isSelected: Boolean) {
-        if (context != null) {
-            if (isSelected) {
-                holder.cardView.setBackgroundColor(
-                    ContextCompat.getColor(context, R.color.colorAccent)
-                )
-            } else {
-                holder.cardView.setBackgroundColor(
-                    ContextCompat.getColor(context, android.R.color.white)
-                )
-            }
-        }
-    }
-
-    private fun setStatusTextStyle(holder: ViewHolder, game: Game) {
-        val textView = holder.cardView.findViewById<TextView>(R.id.game_status)
-
+    private fun setStatusTextStyle(holder: GameHolder, game: Game) {
         when {
             game.didWin() -> {
-                textView.setTextColor(
+                holder.itemBinding.gameStatus.setTextColor(
                     ContextCompat.getColor(
                         holder.itemView.context, R.color.successGreen
                     )
@@ -122,17 +61,17 @@ class GameAdapter(
             }
 
             game.didLose() -> {
-                textView.setTextColor(
+                holder.itemBinding.gameStatus.setTextColor(
                     ContextCompat.getColor(
                         holder.itemView.context, R.color.errorRed
                     )
                 )
             }
+
             else -> {
-                textView.setTextColor(
+                holder.itemBinding.gameStatus.setTextColor(
                     ContextCompat.getColor(
-                        holder.itemView.context,
-                        R.color.colorYellowOrange
+                        holder.itemView.context, R.color.colorYellowOrange
                     )
                 )
             }

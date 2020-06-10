@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+    </data>
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="85dp"
+            android:layout_marginHorizontal="14dp"
+            android:layout_marginBottom="8dp"
+            app:cardCornerRadius="8dp">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:paddingTop="14dp">
+
+                <TextView
+                    android:id="@+id/map_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    android:layout_marginLeft="14dp"
+                    android:layout_marginStart="14dp"
+                    android:textSize="16sp"
+                    android:textColor="@android:color/black"
+                    app:fontFamily="@font/roboto_black"
+                    tools:text="Chalet" />
+
+                <TextView
+                    android:id="@+id/won_count"
+                    app:layout_constraintTop_toBottomOf="@id/map_name"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    android:layout_marginLeft="14dp"
+                    android:layout_marginStart="14dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    tools:text="100 games won" />
+
+                <TextView
+                    android:id="@+id/lost_count"
+                    app:layout_constraintTop_toBottomOf="@id/won_count"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    android:layout_marginLeft="14dp"
+                    android:layout_marginStart="14dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    tools:text="3000 games lost" />
+
+                <LinearLayout
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    android:baselineAligned="false"
+                    android:layout_width="match_parent"
+                    android:layout_height="6dp"
+                    android:orientation="horizontal"
+                    android:weightSum="1">
+
+                    <LinearLayout
+                        android:id="@+id/lost_bar"
+                        android:orientation="horizontal"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="0.5"
+                        android:background="@color/errorRed" />
+
+                    <LinearLayout
+                        android:id="@+id/won_bar"
+                        android:orientation="horizontal"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="0.5"
+                        android:background="@color/successGreen" />
+
+                </LinearLayout>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </androidx.cardview.widget.CardView>
+
+
+    </LinearLayout>
+</layout>

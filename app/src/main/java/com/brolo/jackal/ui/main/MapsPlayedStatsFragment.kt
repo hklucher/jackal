@@ -1,6 +1,5 @@
 package com.brolo.jackal.ui.main
 
-import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -9,9 +8,13 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.brolo.jackal.R
 import com.brolo.jackal.model.Game
 import com.brolo.jackal.model.Map
+import com.brolo.jackal.model.MapStatsItemType
+import com.brolo.jackal.model.MapStatsListItem
 import com.brolo.jackal.utils.BarChartXAxisFormatter
 import com.brolo.jackal.utils.BarChartYAxisFormatter
 import com.brolo.jackal.utils.whenNotNull
@@ -28,16 +31,20 @@ class MapsPlayedStatsFragment : Fragment() {
     private lateinit var gamesViewModel: GamesViewModel
     private lateinit var mapsViewModel: MapsViewModel
 
+    private lateinit var recyclerView: RecyclerView
+    private lateinit var viewAdapter: RecyclerView.Adapter<*>
+    private lateinit var viewManager: RecyclerView.LayoutManager
+
     private val gamesObserver = Observer<List<Game>> { games ->
         val maps = mapsViewModel.allMaps.value
 
-        whenNotNull(maps) { setupBarChart(games, it) }
+        whenNotNull(maps) { initRecyclerView(games, it) }
     }
 
     private val mapsObserver = Observer<List<Map>> { maps ->
         val games = gamesViewModel.allGames.value
 
-        whenNotNull(games) { setupBarChart(it, maps) }
+        whenNotNull(games) { initRecyclerView(it, maps) }
     }
 
     override fun onCreateView(
@@ -58,45 +65,47 @@ class MapsPlayedStatsFragment : Fragment() {
         mapsViewModel.allMaps.observe(viewLifecycleOwner, mapsObserver)
     }
 
-    private fun setupBarChart(games: List<Game>, maps: List<Map>) {
-        val entries = arrayListOf<BarEntry>()
-        val formatter = BarChartXAxisFormatter(maps)
+    private fun initRecyclerView(games: List<Game>, maps: List<Map>) {
+        val currentContext = context
 
-        maps.forEachIndexed { index, map ->
-            val wonGames = games.filter { it.didWin() && it.mapId == map.id }
-            val lostGames = games.filter { it.didLose() && it.mapId == map.id }
+        if (currentContext != null) {
+            viewManager = LinearLayoutManager(currentContext)
+            viewAdapter = MapsPlayedAdapter(getListItems(games, maps), games, maps, currentContext)
 
-            // Only add games to bar chart when at least one game has been completed on the map.
-            if (wonGames.isNotEmpty() || lostGames.isNotEmpty())  {
-                entries.add(BarEntry(
-                    index.toFloat(), floatArrayOf(wonGames.size.toFloat(), lostGames.size.toFloat())
-                ))
+            recyclerView  = maps_played_stats_recycler_view.apply {
+                setHasFixedSize(true)
+                layoutManager = viewManager
+                adapter = viewAdapter
             }
         }
+    }
 
-        val set = BarDataSet(entries, "")
+    private fun getListItems(games: List<Game>, maps: List<Map>): List<MapStatsListItem> {
+        val items = mutableListOf<MapStatsListItem>()
 
-        set.stackLabels = arrayOf("Won", "Lost")
+        items.add(MapStatsListItem(MapStatsItemType.Chart))
 
-        set.colors = listOf(
-            ContextCompat.getColor(requireContext(), R.color.colorMaterialOrange),
-            ContextCompat.getColor(requireContext(), R.color.colorMaterialBlue)
-        )
+        maps.forEach {
+            val wonCount = games.fold(0) { sum, game ->
+                if (game.didWin() && game.mapId == it.id) {
+                    sum + 1
+                } else {
+                    sum
+                }
+            }
 
-        val data = BarData(set)
+            val lostCount = games.fold(0) { sum, game ->
+                if (game.didLose() && game.mapId == it.id) {
+                    sum + 1
+                } else {
+                    sum
+                }
+            }
 
-        data.barWidth = 0.5f
+            items.add(MapStatsListItem(MapStatsItemType.MapOverview, it, wonCount, lostCount))
+        }
 
-        data.setDrawValues(false)
-
-        maps_played_bar_chart.axisLeft.setDrawGridLines(false)
-        maps_played_bar_chart.data = data
-        maps_played_bar_chart.description.isEnabled = false
-        maps_played_bar_chart.xAxis.valueFormatter = formatter
-        maps_played_bar_chart.setVisibleXRangeMaximum(5f)
-        maps_played_bar_chart.invalidate()
-        maps_played_bar_chart.axisLeft.valueFormatter = BarChartYAxisFormatter()
-        maps_played_bar_chart.axisRight.setDrawLabels(false)
+        return items
     }
 
     companion object {

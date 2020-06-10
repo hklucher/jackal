@@ -64,9 +64,20 @@
     <string name="mark_as_lost">Mark Game as Lost</string>
     <string name="preference_email_key">email</string>
     <string name="edit_email">Edit Email</string>
+    <string name="bullet">\u2022</string>
 
     <plurals name="total_games">
         <item quantity="one">You have recorded %d games</item>
         <item quantity="other">You have recorded %d games</item>
+    </plurals>
+
+    <plurals name="games_won">
+        <item quantity="one">%d game won</item>
+        <item quantity="other">%d games won</item>
+    </plurals>
+
+    <plurals name="games_lost">
+        <item quantity="one">%d game lost</item>
+        <item quantity="other">%d games lost</item>
     </plurals>
 </resources>

@@ -5,10 +5,12 @@ import androidx.room.Entity
 import androidx.room.ForeignKey
 import androidx.room.Index
 import androidx.room.PrimaryKey
+import com.brolo.jackal.utils.DateUtils
 import com.google.gson.annotations.SerializedName
 import java.io.Serializable
 import org.joda.time.DateTime
 import org.joda.time.LocalDate
+import java.util.*
 
 @Entity(
     indices = [Index("map_id")],
@@ -38,6 +40,27 @@ data class Game(
         const val StatusLost = "lost"
         const val StatusInProgress = "in_progress"
     }
+
+    @ExperimentalStdlibApi
+    val humanizedStatus: String
+        get() {
+            return status.split("_").joinToString(" ") {
+                it.capitalize(Locale.ROOT)
+            }
+        }
+
+    @ExperimentalStdlibApi
+    val humanizedStartingTeam: String
+        get() {
+            return startingTeam.capitalize(Locale.ROOT)
+        }
+
+    val formattedCreatedAt: String?
+        get() {
+            return createdAtTimestamp()?.let {
+                DateUtils.formatDate(it)
+            }
+        }
 
     fun didWin(): Boolean = status == "won"
 

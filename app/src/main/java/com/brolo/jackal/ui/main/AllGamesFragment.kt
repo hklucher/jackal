@@ -4,18 +4,18 @@ import android.os.Bundle
 import android.view.*
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.brolo.jackal.R
+import com.brolo.jackal.databinding.FragmentAllGamesBinding
 import com.brolo.jackal.model.*
 import com.brolo.jackal.model.Map
 import com.brolo.jackal.network.ApiDataService
 import com.brolo.jackal.network.ApiInstance
-import com.brolo.jackal.utils.GameAdapterOpts
-import com.brolo.jackal.viewmodel.GameMultiSelectViewModel
 import com.brolo.jackal.viewmodel.GamesViewModel
 import com.brolo.jackal.viewmodel.MapsViewModel
 import kotlinx.android.synthetic.main.fragment_all_games.*
@@ -36,25 +36,19 @@ class AllGamesFragment :
         val TAG = AllGamesFragment::class.java.simpleName
     }
 
+    private var _binding: FragmentAllGamesBinding? = null
+    private val binding get() = _binding!!
+
     private lateinit var recyclerView: RecyclerView
     private lateinit var viewAdapter: GameAdapter
     private lateinit var viewManager: RecyclerView.LayoutManager
 
-    private lateinit var gamesViewModel: GamesViewModel
-    private lateinit var mapsViewModel: MapsViewModel
-    private lateinit var gameMultiSelectViewModel: GameMultiSelectViewModel
-
-    private lateinit var toolMenu: Menu
+    private val gamesViewModel: GamesViewModel by activityViewModels()
+    private val mapsViewModel: MapsViewModel by activityViewModels()
 
     private val apiInstance = ApiInstance.getInstance().create(ApiDataService::class.java)
 
     private var gameOptionsSheet: GameOptionsSheet? = null
-
-    private val selectedGamesObserver = Observer<List<Int>> { gameIds ->
-        if (gameIds.isNotEmpty()) {
-            showDeleteIcon()
-        }
-    }
 
     private val gameObserver = Observer<List<Game>> { games ->
         val maps = mapsViewModel.allMaps.value
@@ -77,32 +71,18 @@ class AllGamesFragment :
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.fragment_all_games, container, false)
+        _binding = FragmentAllGamesBinding.inflate(inflater, container, false)
+
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        gamesViewModel = ViewModelProviders.of(this).get(GamesViewModel::class.java)
         gamesViewModel.allGames.observe(viewLifecycleOwner, gameObserver)
-
-        mapsViewModel = ViewModelProviders.of(this).get(MapsViewModel::class.java)
         mapsViewModel.allMaps.observe(viewLifecycleOwner, mapsObserver)
 
-        gameMultiSelectViewModel = ViewModelProviders.of(this).get(
-            GameMultiSelectViewModel::class.java
-        )
-
-        gameMultiSelectViewModel.gameIds.observe(viewLifecycleOwner, selectedGamesObserver)
-
-        setHasOptionsMenu(true)
         setupButtons()
-    }
-
-    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        toolMenu = menu
-        inflater.inflate(R.menu.all_games_menu, toolMenu)
-        super.onCreateOptionsMenu(menu, inflater)
     }
 
     override fun onOptionSelected(option: GameOptionType, game: Game) {
@@ -125,20 +105,17 @@ class AllGamesFragment :
         }
     }
 
-    override fun onGameLongPress(position: Int) {
-        Toast.makeText(context, "Test", Toast.LENGTH_LONG).show()
+    private fun setupRecyclerView(games: List<Game>, maps: List<Map>) {
+        viewManager = LinearLayoutManager(context)
+        viewAdapter = GameAdapter(games, maps, this)
 
-        gamesViewModel.allGames.value?.let {
-            val game = it[position]
-
-            gameMultiSelectViewModel.add(game.id)
+        recyclerView = all_games_recycler_view.apply {
+            setHasFixedSize(true)
+            layoutManager = viewManager
+            adapter = viewAdapter
         }
-    }
 
-    private fun showDeleteIcon() {
-        if (this::toolMenu.isInitialized) {
-            toolMenu.findItem(R.id.action_delete).isVisible = true
-        }
+        initScrollListeners()
     }
 
     private fun updateGameStatus(game: Game, status: String) {
@@ -183,26 +160,6 @@ class AllGamesFragment :
         Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
     }
 
-    private fun setupRecyclerView(games: List<Game>, maps: List<Map>) {
-        val opts = GameAdapterOpts()
-        viewManager = LinearLayoutManager(context)
-        viewAdapter = GameAdapter(
-            games,
-            maps,
-            this,
-            context,
-            opts
-        )
-
-        recyclerView = all_games_recycler_view.apply {
-            setHasFixedSize(true)
-            layoutManager = viewManager
-            adapter = viewAdapter
-        }
-
-        initScrollListeners()
-    }
-
     private fun setupButtons() {
         new_game_fab.setOnClickListener {
             findNavController().navigate(R.id.action_all_games_to_new_game)
@@ -216,5 +173,4 @@ class AllGamesFragment :
             }
         })
     }
-
 }

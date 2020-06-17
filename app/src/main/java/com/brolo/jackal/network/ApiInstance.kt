@@ -1,7 +1,5 @@
 package com.brolo.jackal.network
 
-import com.brolo.jackal.model.GameListResponse
-import com.brolo.jackal.model.GameResponse
 import com.brolo.jackal.utils.Constants
 import com.google.gson.GsonBuilder
 import okhttp3.OkHttpClient
@@ -35,11 +33,7 @@ class ApiInstance {
 
                 chain.proceed(request)
             }
-
-            val gson = GsonBuilder()
-                .registerTypeAdapter(GameListResponse::class.java, GameListDeserializer())
-                .registerTypeAdapter(GameResponse::class.java, GameResponseDeserializer())
-                .create()
+            val gson = GsonBuilder().create()
 
             retrofit = Retrofit.Builder()
                         .baseUrl(Constants.BASE_URL)

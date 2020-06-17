@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingVertical="@dimen/spacing_3"
+    android:background="@drawable/border_bottom"
+    android:orientation="vertical"
+    android:gravity="center">
+
+    <View
+        android:id="@+id/drag_indicator"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintLeft_toLeftOf="@id/dialog_title"
+        app:layout_constraintRight_toRightOf="@id/dialog_title"
+        android:layout_width="30dp"
+        android:layout_height="3dp"
+        android:background="@drawable/drag_indicator_background"
+    />
+
+    <TextView
+        android:id="@+id/dialog_title"
+        app:layout_constraintTop_toBottomOf="@id/drag_indicator"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/spacing_2"
+        tools:text="Options"
+        style="@style/Header2"
+    />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

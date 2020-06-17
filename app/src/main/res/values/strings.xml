@@ -65,6 +65,7 @@
     <string name="preference_email_key">email</string>
     <string name="edit_email">Edit Email</string>
     <string name="bullet">\u2022</string>
+    <string name="options">Game Options</string>
 
     <plurals name="total_games">
         <item quantity="one">You have recorded %d games</item>

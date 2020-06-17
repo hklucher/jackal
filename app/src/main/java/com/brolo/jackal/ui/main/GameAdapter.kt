@@ -10,7 +10,7 @@ import com.brolo.jackal.model.Game
 import com.brolo.jackal.model.Map
 import com.brolo.jackal.utils.GameUtils
 
-class GameAdapter(private val games: List<Game>, private val maps: List<Map>, private val listener: OnGameClickListener)
+class GameAdapter(var games: List<Game>, private val maps: List<Map>, private val listener: OnGameClickListener)
     : RecyclerView.Adapter<GameAdapter.GameHolder>() {
 
     class GameHolder(val itemBinding: GameCardBinding) : RecyclerView.ViewHolder(itemBinding.root) {

@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+>
+    <data>
+        <variable name="viewModel" type="com.brolo.jackal.viewmodel.NewGameViewModel" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingBottom="@dimen/spacing_3">
+
+        <com.brolo.jackal.ui.components.DialogHeader
+            android:id="@+id/newGameHeader"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:header_title="@string/new_game"
+        />
+
+        <TextView
+            android:id="@+id/startTeamTitle"
+            app:layout_constraintTop_toBottomOf="@id/newGameHeader"
+            app:layout_constraintLeft_toLeftOf="parent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/what_team_start_on"
+            android:layout_marginTop="@dimen/spacing_3"
+            android:layout_marginHorizontal="@dimen/spacing_3"
+            style="@style/Header3"
+        />
+
+        <RadioGroup
+            android:id="@+id/startTeamRadioGroup"
+            app:layout_constraintTop_toBottomOf="@id/startTeamTitle"
+            app:layout_constraintLeft_toLeftOf="parent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/spacing_3"
+        >
+
+            <RadioButton
+                android:id="@+id/startTeamAttack"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/attack"
+                android:onCheckedChanged="@{(group, id) -> viewModel.onStartTeamChanged(`attack`)}"
+            />
+
+            <RadioButton
+                android:id="@+id/startTeamDefense"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/defense"
+                android:onCheckedChanged="@{(group, id) -> viewModel.onStartTeamChanged(`defense`)}"
+            />
+
+        </RadioGroup>
+
+        <TextView
+            android:id="@+id/mapTitle"
+            app:layout_constraintTop_toBottomOf="@id/startTeamRadioGroup"
+            app:layout_constraintLeft_toLeftOf="parent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/what_map_did_you_get"
+            android:layout_marginTop="@dimen/spacing_3"
+            android:layout_marginHorizontal="@dimen/spacing_3"
+            style="@style/Header3"
+        />
+
+        <Spinner
+            android:id="@+id/mapSelectSpinner"
+            app:layout_constraintTop_toBottomOf="@id/mapTitle"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/spacing_3"
+        />
+
+        <Button
+            android:id="@+id/newGameSubmit"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/mapSelectSpinner"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            android:layout_marginTop="@dimen/spacing_3"
+            android:layout_marginHorizontal="@dimen/spacing_3"
+            android:text="@string/submit"
+            android:enabled="@{viewModel.mapId != null &amp;&amp; viewModel.startTeam != null}"
+            style="@style/Widget.Jackal.Button"
+        />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

@@ -5,11 +5,14 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.navigation.fragment.findNavController
 import com.brolo.jackal.R
 import kotlinx.android.synthetic.main.fragment_dashboard.*
 
 class DashboardFragment : Fragment() {
+    companion object {
+        @Suppress("unused")
+        val TAG = DashboardFragment::class.java.simpleName
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -36,13 +39,7 @@ class DashboardFragment : Fragment() {
 
     private fun setupButtons() {
         new_game_fab.setOnClickListener {
-            findNavController().navigate(R.id.action_dashboard_to_new_game)
+            NewGameBottomSheet().show(parentFragmentManager, "new_game_fragment")
         }
     }
-
-    companion object {
-        @Suppress("unused")
-        val TAG = DashboardFragment::class.java.simpleName
-    }
-
 }

@@ -5,7 +5,9 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.brolo.jackal.R
@@ -28,7 +30,7 @@ import org.joda.time.Interval
 
 class WinLossStatsFragment : Fragment() {
 
-    private lateinit var viewModel: GamesViewModel
+    private val viewModel: GamesViewModel by activityViewModels()
 
     private val loggedGamesObserver = Observer<List<Game>> {
         setupWinLossPieChart()
@@ -45,8 +47,6 @@ class WinLossStatsFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        viewModel = ViewModelProviders.of(this).get(GamesViewModel::class.java)
 
         observeGamesViewModel(viewModel)
         setupWinLossPieChart()
@@ -98,10 +98,12 @@ class WinLossStatsFragment : Fragment() {
             pieChart.data = pieChartData
             pieChart.invalidate()
 
-            dataSet.setColors(
-                Color.parseColor("#ff6f00"),
-                Color.parseColor("#1976d2")
-            )
+            context?.let { ctx ->
+                dataSet.setColors(
+                    ContextCompat.getColor(ctx, R.color.colorMaterialOrange),
+                    ContextCompat.getColor(ctx, R.color.colorMaterialBlue)
+                )
+            }
 
             pieChart.holeRadius = 0.0f
             pieChart.transparentCircleRadius = 0.0f

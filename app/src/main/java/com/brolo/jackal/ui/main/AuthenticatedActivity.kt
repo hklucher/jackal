@@ -51,6 +51,8 @@ class AuthenticatedActivity  : AppCompatActivity() {
     }
 
     private fun setupNavToolbar(navController: NavController) {
+        supportActionBar?.elevation = 0f
+
         val appBarConfiguration = AppBarConfiguration(
             setOf(R.id.dashboard_dest, R.id.all_games_dest, R.id.settings_dest)
         )

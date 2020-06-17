@@ -16,13 +16,13 @@ interface ApiDataService {
 
     // *** GAME REQUESTS *** //
     @GET("/api/v1/games")
-    fun getLoggedGames(): Call<GameListResponse>
+    fun getLoggedGames(): Call<List<Game>>
 
     @POST("/api/v1/games")
-    fun createGame(@Body gameRequest: GameRequest): Call<GameResponse>
+    suspend fun createGame(@Body gameRequest: GameRequest): Game
 
     @PUT("/api/v1/games/{id}")
-    fun updateGame(@Path("id") id: Int, @Body gameRequest: GameRequest): Call<GameResponse>
+    suspend fun updateGame(@Path("id") id: Int, @Body gameRequest: GameRequest): Game
 
     @DELETE("/api/v1/games/{id}")
     fun deleteGame(@Path("id") id: Int): Call<Response<Void>>

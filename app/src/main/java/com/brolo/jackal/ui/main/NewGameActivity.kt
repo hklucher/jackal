@@ -1,7 +1,6 @@
 package com.brolo.jackal.ui.main
 
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
@@ -12,16 +11,10 @@ import androidx.lifecycle.ViewModelProviders
 import com.brolo.jackal.R
 import com.brolo.jackal.model.Game
 import com.brolo.jackal.model.GameRequest
-import com.brolo.jackal.model.GameResponse
 import com.brolo.jackal.model.Map
-import com.brolo.jackal.network.ApiDataService
-import com.brolo.jackal.network.ApiInstance
 import com.brolo.jackal.viewmodel.GamesViewModel
 import com.brolo.jackal.viewmodel.MapsViewModel
 import kotlinx.android.synthetic.main.activity_new_game.*
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
 
 // TODO:
 // 1. API Call to create game from form

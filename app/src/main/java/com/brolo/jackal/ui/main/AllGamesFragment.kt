@@ -42,6 +42,7 @@ class AllGamesFragment : Fragment(), GameAdapter.OnGameClickListener {
                 val diffResult = DiffUtil.calculateDiff(GamesDiffUtilCallback(oldList, games))
                 viewAdapter.games = games
                 diffResult.dispatchUpdatesTo(viewAdapter)
+                recyclerView.smoothScrollToPosition(0)
             } else {
                 setupRecyclerView(games, maps)
             }

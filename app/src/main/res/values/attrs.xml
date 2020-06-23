@@ -3,4 +3,9 @@
     <declare-styleable name="DialogHeader">
         <attr name="header_title" format="reference" />
     </declare-styleable>
+
+    <declare-styleable name="ChartLegend">
+        <attr name="legend_title" format="reference" />
+        <attr name="background_color" format="color" />
+    </declare-styleable>
 </resources>

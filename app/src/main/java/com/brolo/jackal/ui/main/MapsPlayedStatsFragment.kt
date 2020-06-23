@@ -6,11 +6,13 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.brolo.jackal.R
+import com.brolo.jackal.databinding.FragmentMapsPlayedStatsBinding
 import com.brolo.jackal.model.Game
 import com.brolo.jackal.model.Map
 import com.brolo.jackal.model.MapStatsItemType
@@ -27,9 +29,17 @@ import kotlinx.android.synthetic.main.fragment_map_stats.*
 import kotlinx.android.synthetic.main.fragment_maps_played_stats.*
 
 class MapsPlayedStatsFragment : Fragment() {
+    companion object {
+        fun getInstance(): MapsPlayedStatsFragment {
+            return MapsPlayedStatsFragment()
+        }
+    }
 
-    private lateinit var gamesViewModel: GamesViewModel
-    private lateinit var mapsViewModel: MapsViewModel
+    private var _binding: FragmentMapsPlayedStatsBinding? = null
+    private val binding get() = _binding!!
+
+    private val gamesViewModel: GamesViewModel by activityViewModels()
+    private val mapsViewModel: MapsViewModel by activityViewModels()
 
     private lateinit var recyclerView: RecyclerView
     private lateinit var viewAdapter: RecyclerView.Adapter<*>
@@ -52,14 +62,13 @@ class MapsPlayedStatsFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.fragment_maps_played_stats, container, false)
+        _binding = FragmentMapsPlayedStatsBinding.inflate(inflater, container, false)
+
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        gamesViewModel = ViewModelProviders.of(this).get(GamesViewModel::class.java)
-        mapsViewModel = ViewModelProviders.of(this).get(MapsViewModel::class.java)
 
         gamesViewModel.allGames.observe(viewLifecycleOwner, gamesObserver)
         mapsViewModel.allMaps.observe(viewLifecycleOwner, mapsObserver)
@@ -83,8 +92,6 @@ class MapsPlayedStatsFragment : Fragment() {
     private fun getListItems(games: List<Game>, maps: List<Map>): List<MapStatsListItem> {
         val items = mutableListOf<MapStatsListItem>()
 
-        items.add(MapStatsListItem(MapStatsItemType.Chart))
-
         maps.forEach {
             val wonCount = games.fold(0) { sum, game ->
                 if (game.didWin() && game.mapId == it.id) {
@@ -102,16 +109,9 @@ class MapsPlayedStatsFragment : Fragment() {
                 }
             }
 
-            items.add(MapStatsListItem(MapStatsItemType.MapOverview, it, wonCount, lostCount))
+            items.add(MapStatsListItem(it, wonCount, lostCount))
         }
 
         return items
     }
-
-    companion object {
-        fun getInstance(): MapsPlayedStatsFragment {
-            return MapsPlayedStatsFragment()
-        }
-    }
-
 }

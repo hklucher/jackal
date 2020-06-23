@@ -6,4 +6,9 @@
     <dimen name="spacing_4">32dp</dimen>
     <dimen name="spacing_5">48dp</dimen>
     <dimen name="spacing_6">64dp</dimen>
+
+    <dimen name="corner_radius_sm">4dp</dimen>
+    <dimen name="corner_radius_md">8dp</dimen>
+
+    <dimen name="chart">250dp</dimen>
 </resources>

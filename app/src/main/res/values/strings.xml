@@ -66,6 +66,12 @@
     <string name="edit_email">Edit Email</string>
     <string name="bullet">\u2022</string>
     <string name="options">Game Options</string>
+    <string name="lost">Lost</string>
+    <string name="won">Won</string>
+    <string name="games_empty_msg">You haven\'t logged any games yet.</string>
+    <string name="games_empty_sub_msg">
+        You can get started by pressing the big red button down below!
+    </string>
 
     <plurals name="total_games">
         <item quantity="one">You have recorded %d games</item>
@@ -82,3 +88,4 @@
         <item quantity="other">%d games lost</item>
     </plurals>
 </resources>
+

@@ -11,27 +11,29 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:cardCornerRadius="8dp"
-        android:layout_margin="14dp"
+        android:layout_margin="@dimen/spacing_3"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        app:cardCornerRadius="@dimen/corner_radius_md">
 
-        <LinearLayout
-            android:id="@+id/win_loss_chart_container"
-            android:orientation="vertical"
-            android:layout_marginRight="14dp"
-            android:layout_marginLeft="14dp"
-            android:padding="14dp"
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="300dp"
-            android:animateLayoutChanges="true">
+            android:layout_marginHorizontal="@dimen/spacing_3">
 
-            <com.github.mikephil.charting.charts.PieChart
-                android:id="@+id/team_pie_chart"
+            <androidx.fragment.app.FragmentContainerView
+                android:id="@+id/teamPieFragmentContainer"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent" />
+                android:layout_height="match_parent"
+                android:name="com.brolo.jackal.ui.main.TeamStatsPieChartFragment"
+                android:tag="team_stats_pie_fragment" />
 
-        </LinearLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
     </androidx.cardview.widget.CardView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

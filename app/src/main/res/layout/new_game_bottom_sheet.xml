@@ -93,7 +93,7 @@
             android:layout_marginTop="@dimen/spacing_3"
             android:layout_marginHorizontal="@dimen/spacing_3"
             android:text="@string/submit"
-            android:enabled="@{viewModel.mapId != null &amp;&amp; viewModel.startTeam != null}"
+            android:enabled="@{viewModel.mapId != null &amp;&amp; viewModel.startTeam != null &amp;&amp; !viewModel.submitting}"
             style="@style/Widget.Jackal.Button"
         />
 

@@ -14,10 +14,16 @@ import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.brolo.jackal.R
+import com.brolo.jackal.databinding.ActivityAuthenticatedBinding
 import com.brolo.jackal.utils.AuthUtils
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
-class AuthenticatedActivity  : AppCompatActivity() {
+class AuthenticatedActivity : AppCompatActivity() {
+    companion object {
+        val TAG = AuthenticatedActivity::class.java.simpleName
+    }
+
+    private lateinit var binding: ActivityAuthenticatedBinding
 
     private val logoutReceiver = object : BroadcastReceiver() {
         override fun onReceive(context: Context?, intent: Intent?) {
@@ -31,7 +37,8 @@ class AuthenticatedActivity  : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_authenticated)
+        binding = ActivityAuthenticatedBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
         val host = supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
         val navController = host.navController
@@ -74,9 +81,4 @@ class AuthenticatedActivity  : AppCompatActivity() {
         AuthUtils.deleteJWT(this)
         AuthUtils.deleteUserId(this)
     }
-
-    companion object {
-        val TAG = AuthenticatedActivity::class.java.simpleName
-    }
-
 }

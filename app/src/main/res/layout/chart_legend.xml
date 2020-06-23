@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="@dimen/spacing_2">
+
+    <View
+        android:id="@+id/chartLegendBox"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:background="@drawable/chart_legend_background"
+    />
+
+    <TextView
+        android:id="@+id/chartLegendTitle"
+        app:layout_constraintLeft_toRightOf="@id/chartLegendBox"
+        app:layout_constraintTop_toTopOf="@id/chartLegendBox"
+        app:layout_constraintBottom_toBottomOf="@id/chartLegendBox"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/spacing_2"
+        style="@style/BodyText1"
+        tools:text="Attack"
+    />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

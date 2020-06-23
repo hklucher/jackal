@@ -94,8 +94,12 @@ class NewGameBottomSheet : BottomSheetDialogFragment() {
 
     private fun initSubmitButton() {
         binding.newGameSubmit.setOnClickListener {
+            newGameViewModel.submitting.value = true
+
             getGameRequestFromViewModel()?.let {
                 gamesViewModel.createGame(it).observe(viewLifecycleOwner, Observer {
+                    newGameViewModel.submitting.value = false
+
                     dismiss()
                 })
             }

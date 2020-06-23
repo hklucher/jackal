@@ -19,14 +19,17 @@
         <com.google.android.material.tabs.TabLayout
             android:id="@+id/dashboard_tab_layout"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:elevation="4dp"
+        />
 
     </androidx.viewpager.widget.ViewPager>
 
     <FrameLayout
         android:id="@+id/latest_games_frag_container"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+    />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/new_game_fab"
@@ -34,6 +37,7 @@
         android:layout_height="wrap_content"
         app:borderWidth="0dp"
         app:srcCompat="@drawable/ic_log"
-        style="@style/Widget.Jackal.FAB" />
+        style="@style/Widget.Jackal.FAB"
+    />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

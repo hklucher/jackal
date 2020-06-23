@@ -1,81 +1,92 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
+<layout xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <com.google.android.material.textview.MaterialTextView
-        android:id="@+id/header_win_loss"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:padding="14dp"
-        android:textColor="@android:color/black"
-        android:fontFamily="@font/roboto"
-        android:textSize="16sp"
-        android:text="@string/win_loss_overall" />
+    <data>
+        <import type="android.view.View" />
+        <import type="com.brolo.jackal.viewmodel.ChartMode" />
 
-    <androidx.cardview.widget.CardView
-        android:id="@+id/win_loss_chart_card"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:cardCornerRadius="8dp"
-        android:layout_margin="14dp"
+        <variable name="viewModel" type="com.brolo.jackal.viewmodel.WinLossStatsViewModel" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="match_parent">
 
-        <LinearLayout
-            android:id="@+id/win_loss_chart_container"
-            android:orientation="vertical"
-            android:layout_marginRight="14dp"
-            android:layout_marginLeft="14dp"
-            android:padding="14dp"
+        <androidx.cardview.widget.CardView
+            android:id="@+id/win_loss_chart_card"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            android:layout_margin="@dimen/spacing_3"
             android:layout_width="match_parent"
-            android:layout_height="300dp"
-            android:animateLayoutChanges="true">
+            android:layout_height="wrap_content"
+            app:cardCornerRadius="@dimen/corner_radius_md">
 
-            <com.github.mikephil.charting.charts.PieChart
-                android:id="@+id/pie_chart_win_loss"
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/win_loss_chart_container"
+                android:orientation="vertical"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent" />
+                android:layout_height="300dp"
+                android:layout_marginHorizontal="@dimen/spacing_3">
 
-            <com.github.mikephil.charting.charts.LineChart
-                android:id="@+id/line_chart_win_loss"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:visibility="gone" />
+                <androidx.fragment.app.FragmentContainerView
+                    android:id="@+id/winLossPieFragmentContainer"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:name="com.brolo.jackal.ui.main.WinLossPieChartFragment"
+                    android:visibility="@{viewModel.chartDisplay == ChartMode.PieChart ? View.VISIBLE : View.GONE}"
+                    android:tag="win_loss_pie_fragment"
+                />
 
-        </LinearLayout>
-    </androidx.cardview.widget.CardView>
+                <androidx.fragment.app.FragmentContainerView
+                    android:id="@+id/winLossLineFragmentContainer"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:name="com.brolo.jackal.ui.main.WinLossLineChartFragment"
+                    android:visibility="@{viewModel.chartDisplay == ChartMode.LineChart ? View.VISIBLE : View.GONE}"
+                    android:tag="win_loss_line_fragment"
+                />
 
-    <com.google.android.material.chip.ChipGroup
-        android:id="@+id/win_loss_chart_chips"
-        app:layout_constraintTop_toBottomOf="@id/win_loss_chart_card"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:singleSelection="true"
-        app:checkedChip="@id/win_loss_pie_chip"
-        android:layout_margin="14dp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.cardview.widget.CardView>
 
-        <com.google.android.material.chip.Chip
-            android:id="@+id/win_loss_pie_chip"
-            style="@style/Widget.MaterialComponents.Chip.Filter"
-            android:text="@string/overall"
+        <com.google.android.material.chip.ChipGroup
+            android:id="@+id/win_loss_chart_chips"
+            app:layout_constraintTop_toBottomOf="@id/win_loss_chart_card"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:singleSelection="true"
+            app:checkedChip="@id/win_loss_pie_chip"
+            android:layout_margin="14dp"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content">
 
-        <com.google.android.material.chip.Chip
-            android:id="@+id/win_loss_line_chip"
-            style="@style/Widget.MaterialComponents.Chip.Filter"
-            android:text="@string/past_7_days"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            <com.google.android.material.chip.Chip
+                android:id="@+id/win_loss_pie_chip"
+                style="@style/Widget.MaterialComponents.Chip.Filter"
+                android:text="@string/overall"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+            />
 
-    </com.google.android.material.chip.ChipGroup>
+            <com.google.android.material.chip.Chip
+                android:id="@+id/win_loss_line_chip"
+                style="@style/Widget.MaterialComponents.Chip.Filter"
+                android:text="@string/past_7_days"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+            />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+        </com.google.android.material.chip.ChipGroup>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

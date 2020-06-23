@@ -1,10 +1,7 @@
 package com.brolo.jackal.viewmodel
 
 import android.app.Application
-import androidx.lifecycle.AndroidViewModel
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.liveData
-import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.*
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import com.brolo.jackal.model.Game
@@ -33,7 +30,7 @@ class GamesViewModel(application: Application)
         repository = GamesRepository(gamesDao)
         allGames = repository.games
 
-        // TODO: Need to find a way to not hydrate from api when we don't need to.
+        // TODO: This should be done on app load
         hydrateFromApi()
     }
 
@@ -100,7 +97,7 @@ class GamesViewModel(application: Application)
         }
     }
 
-    fun deleteGame(game: Game): LiveData<Unit> {
+    fun deleteGame(game: Game): LiveData<Response<Unit>> {
         return liveData(Dispatchers.IO) {
             val response = apiRepository.deleteGame(game)
 

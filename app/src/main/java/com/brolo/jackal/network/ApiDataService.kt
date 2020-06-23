@@ -25,6 +25,6 @@ interface ApiDataService {
     suspend fun updateGame(@Path("id") id: Int, @Body gameRequest: GameRequest): Game
 
     @DELETE("/api/v1/games/{id}")
-    fun deleteGame(@Path("id") id: Int): Call<Response<Void>>
+    suspend fun deleteGame(@Path("id") id: Int): Response<Unit>
 
 }

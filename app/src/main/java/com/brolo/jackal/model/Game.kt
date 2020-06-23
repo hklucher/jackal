@@ -10,6 +10,9 @@ import com.google.gson.annotations.SerializedName
 import java.io.Serializable
 import org.joda.time.DateTime
 import org.joda.time.LocalDate
+import org.joda.time.LocalDateTime
+import org.joda.time.format.DateTimeFormat
+import org.joda.time.format.DateTimeFormatter
 import java.util.*
 
 @Entity(
@@ -69,12 +72,14 @@ data class Game(
     fun isComplete(): Boolean = status != "in_progress"
 
     fun createdAtTimestamp(): LocalDate? {
-        if (this.createdAt == null) {
-            return null
-        }
+        val createdAt = this.createdAt ?: return null
 
         return try {
-            DateTime(this.createdAt).toLocalDate()
+            // TODO: Issue is that blueprinter sends diff strings?
+            val formatter = DateTimeFormat.forPattern("yyyy-MM-dd HH:mm:ss")
+            val dt = formatter.parseDateTime(createdAt.replace(" UTC", ""))
+
+            dt.toLocalDate()
         } catch (e: Throwable) {
             null
         }
